@@ -578,10 +578,10 @@
 
                     <div id="two-column-menu">
                     </div>
-                    <ul class="navbar-nav" id="navbar-nav">
+                    <ul class="navbar-nav d-flex justify-content-evenly" id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link" href="{{ route('dashboard') }}">
                                 <i class="ri-dashboard-2-line"></i>Dashboard
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarDashboards">
@@ -596,7 +596,7 @@
                             </div>
                         </li> <!-- end Dashboard Menu -->
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
+                            <a class="nav-link menu-link" href="{{route("store")}}">
                                 <i class="ri-apps-2-line"></i> Stores
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarApps">

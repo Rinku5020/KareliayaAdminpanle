@@ -12,7 +12,7 @@ class DigitalController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard');
     }
 
     /**
@@ -64,6 +64,10 @@ class DigitalController extends Controller
     }
 
     public function showStore(){
-        return view('digital.store');
+        return view('store');
+    }
+
+    public function showDisplay(){
+        return view('display');
     }
 }

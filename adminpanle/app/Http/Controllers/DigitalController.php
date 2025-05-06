@@ -62,4 +62,8 @@ class DigitalController extends Controller
     {
         //
     }
+
+    public function showStore(){
+        return view('digital.store');
+    }
 }

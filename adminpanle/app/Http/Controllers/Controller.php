@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
-abstract class Controller
+class Controller
 {
-    //
+    public function showLogin(){
+        return view('auth.login');
+    }
+
+    public function login(){
+        return "hello";
+    }
 }

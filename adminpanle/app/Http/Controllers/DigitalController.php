@@ -77,8 +77,18 @@ class DigitalController extends Controller
         return view('layout');
     }
 
+<<<<<<< HEAD
   
 
 
     
+=======
+    public function showGraphicsAndVideos(){
+        return view ('graphics');
+    }
+
+    public function addNewStore(){
+        return view('components.addstore');
+    }
+>>>>>>> 3ffe67db28d35aa201cb087a1564a8bef12cc8ee
 }

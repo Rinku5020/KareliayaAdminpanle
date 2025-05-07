@@ -70,6 +70,12 @@ class DigitalController extends Controller
     public function showDisplay(){
         return view('display');
     }
+    public function showTemplate(){
+        return view('template');
+    }
+    public function showLayout(){
+        return view('layout');
+    }
 
     public function showGraphicsAndVideos(){
         return view ('graphics');

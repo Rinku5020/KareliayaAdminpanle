@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DigitalController::class, 'index'])->name('dashboard');
 
 Route::get('/store', [DigitalController::class, 'showStore'])->name('store');
+Route::get('/template', [DigitalController::class, 'showTemplate'])->name('template');
+Route::get('/layout', [DigitalController::class, 'showLayout'])->name('layout');
 
 Route::get('/display',[DigitalController::class,'showDisplay'])->name('display');
 Route::get('/graphics',[DigitalController::class,'showGraphicsAndVideos'])->name('graphics');

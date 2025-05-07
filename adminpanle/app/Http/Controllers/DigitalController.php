@@ -80,4 +80,8 @@ class DigitalController extends Controller
     public function showGraphicsAndVideos(){
         return view ('graphics');
     }
+
+    public function addNewStore(){
+        return view('components.addstore');
+    }
 }

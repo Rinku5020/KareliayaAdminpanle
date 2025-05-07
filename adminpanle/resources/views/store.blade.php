@@ -1027,7 +1027,7 @@
                                 <div class="card-header d-flex align-items-center">
                                     <h5 class="card-title mb-0 flex-grow-1">Stores</h5>
                                     <div>
-                                        <button id="addRow" class="btn btn-primary">Add Store</button>
+                                        <a href="{{route('newStore')}}" class="btn btn-secondary">Add Store</a>
                                     </div>
                                 </div>
                                 <div class="card-body">

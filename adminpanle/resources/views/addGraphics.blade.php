@@ -989,46 +989,113 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1">Graphics & Videos</h5>
+                                    <h5 class="card-title mb-0 flex-grow-1">Add Graphics And Videos</h5>
                                     <div>
-                                        <button id="addRow" class="btn btn-primary">Add Graphics & Videos</button>
+                                        <a href="graphics" class="btn btn-primary">
+                                            <x-codicon-arrow-small-left style="width: 20px;" />
+                                            Back
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="card-body">
 
-                                    <div class="table-responsive">
-                                        <table id="add-rows" class="table table-nowrap  table-bordered display" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Column 1</th>
-                                                    <th>Column 2</th>
-                                                    <th>Column 3</th>
-                                                    
-                                                </tr>
-                                            </thead>
-                                            <tbody >
-                                                <tr>
-                                                    <td class="w-25">Row 1 Data 1</td>   
-                                                    <td class="w-25">Row 1 Data 2</td>
-                                                    <td class="w-25 text-center">
-                                                      
-                                                            <video class="embed-responsive-item" controls>
-                                                                <source src="https://www.youtube.com/watch?v=2_yTzCAQSxI&list=RD2_yTzCAQSxI&start_radio=1" type="video/mp4">
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                
-                                                    </td>
-                                                </tr>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <form action="{{ route('CreateGraphics') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row container justify-content-between">
+                                            <div class="col-md-5">
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">Name</label>
+                                                    <input type="text" name="name" class="form-control" placeholder="Enter Name">
+                                                    @error('name')
+                                                    <span style="color: red">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                               
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">Select Type</label>
+                                                    <select id="fileType" name="type" class="form-select" aria-label="Default select example">
+                                                        <option selected disabled>Open this select type</option>
+                                                        <option name="type" value="image">Image</option>
+                                                        <option name="type" value="video">Video</option>
+                                                    </select>
+                                                    @error('type')
+                                                    <span style="color: red">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                    
+                                            <div class="col-md-5">
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">Upload Video or Image</label>
+                                                    <input type="file" name="media_id" class="form-control" id="fileInput" accept="image/*,video/*">
+                                                </div>
+                                                @error('media_id')
+                                                <span style="color: red">{{ $message }}</span>
+                                                @enderror
+                                                <div class="container mt-4">
+                                                    <p class="fw-bold">Upload Image/Video</p>
+                                                    <div id="previewBox" class="border p-3" style="width: 200px; height: 200px; background-color: #f2f2f2; overflow: hidden;">
+                                                        
+                                                        <div id="previewContent">
+                                                            <img src="https://www.discountflooringsupplies.com.au/wp-content/uploads/blank-img.jpg" alt="Preview" class="img-fluid" style="max-width: 100%; max-height: 100%;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                    
+                                    <!-- Preview Box -->
+                                   
+                                    <script>
+                                        const fileInput = document.getElementById('fileInput');
+                                        const fileType = document.getElementById('fileType');
+                                        const previewBox = document.getElementById('previewBox');
+                                        const previewContent = document.getElementById('previewContent');
+                                    
+                                        fileInput.addEventListener('change', function () {
+                                            const file = this.files[0];
+                                            const selectedType = fileType.value;
+                                    
+                                            if (!file || !selectedType) return;
+                                    
+                                            previewContent.innerHTML = ''; // Clear previous preview
+                                    
+                                            const fileURL = URL.createObjectURL(file);
+                                    
+                                            if (selectedType === 'image' && file.type.startsWith('image/')) {
+                                                const img = document.createElement('img');
+                                                img.src = fileURL;
+                                                img.className = 'img-fluid';
+                                                img.style.maxHeight = '100px';
+                                                previewContent.appendChild(img);
+                                                previewBox.style.display = 'block';
+                                            } else if (selectedType === 'video' && file.type.startsWith('video/')) {
+                                                const video = document.createElement('video');
+                                                video.src = fileURL;
+                                                video.controls = true;
+                                                video.style.maxWidth = '100%';
+                                                video.style.maxHeight = '100px';
+                                                previewContent.appendChild(video);
+                                                previewBox.style.display = 'block';
+                                            } else {
+                                                previewBox.style.display = 'none';
+                                            }
+                                        });
+                                    </script>
+                                    
+                                    
+
                                 </div>
                             </div>
                         </div><!--end col-->
                     </div><!--end row-->
 
-                    
+
 
 
 
@@ -1129,6 +1196,7 @@
     <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
+
 </body>
 
 </html>

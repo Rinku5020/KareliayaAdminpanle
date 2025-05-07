@@ -77,7 +77,8 @@ class DigitalController extends Controller
         return view('layout');
     }
 
-    public function showGraphicsAndVideos(){
-        return view ('graphics');
-    }
+  
+
+
+    
 }

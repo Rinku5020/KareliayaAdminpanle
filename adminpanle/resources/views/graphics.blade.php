@@ -991,18 +991,19 @@
                                 <div class="card-header d-flex align-items-center">
                                     <h5 class="card-title mb-0 flex-grow-1">Graphics & Videos</h5>
                                     <div>
-                                        <button id="addRow" class="btn btn-primary">Add Graphics & Videos</button>
+                                        <a href="addGraphics" class="btn btn-primary">Add Graphics & Videos</a>
                                     </div>
                                 </div>
                                 <div class="card-body">
+
 
                                     <div class="table-responsive">
                                         <table id="add-rows" class="table table-nowrap  table-bordered display" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th>Column 1</th>
-                                                    <th>Column 2</th>
-                                                    <th>Column 3</th>
+                                                    <th>Name</th>
+                                                    <th>Type</th>
+                                                    <th>Media</th>
                                                     
                                                 </tr>
                                             </thead>
@@ -1028,7 +1029,7 @@
                         </div><!--end col-->
                     </div><!--end row-->
 
-                    
+
 
 
 

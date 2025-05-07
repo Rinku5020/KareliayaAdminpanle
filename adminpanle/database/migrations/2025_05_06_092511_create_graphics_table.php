@@ -14,16 +14,12 @@ return new class extends Migration
         Schema::create('graphics', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['image', 'video']);
-            $table->unsignedBigInteger('media_id');
-            $table->unsignedBigInteger('account_id');
-            $table->boolean('status')->default(true);
+            $table->string('media_id');
             $table->string('name');
-            $table->timestamps();
-            $table->softDeletes();
+            $table->timestamp('created_date')->nullable();
+            $table->timestamp('updated_date')->nullable();
+
             
-            // Foreign keys
-            $table->foreign('media_id')->references('id')->on('media');
-            $table->foreign('account_id')->references('id')->on('accounts');
         });
     }
 

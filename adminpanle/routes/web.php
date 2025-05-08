@@ -3,6 +3,8 @@
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DigitalController;
 use App\Http\Controllers\GraphicsController;
+use App\Mail\OtpMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,7 +25,16 @@ Route::post('/createGraphics',[GraphicsController::class,'createGraphics'])->nam
 Route::get('/login',[Controller::class, 'showLogin'])->name('showLogin');
 Route::post('/login-success',[Controller::class, 'loginValidateUser'])->name('loginValidateUser');
 Route::get('/register',[Controller::class, 'userRegister'])->name('register');
+Route::post('/register',[Controller::class, 'registerValidateUser'])->name('registerValidateUser');
+Route::get('/email',[Controller::class, 'EmailVerify'])->name('emailVerify');
+Route::post('/email',[Controller::class, 'Verification'])->name('Verification');
+Route::get('/otp',[Controller::class, 'otp'])->name('otp');
+Route::post('/sendOtp', [Controller::class, 'sendVerification'])->name('sendOtp');
 
 
 
+// Route::get('/test-mail', function () {
+//     Mail::to('rinku4kareliya@gmail.com')->send(new OtpMail('123456'));
+//     return 'Mail sent!';
+// });
 

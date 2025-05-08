@@ -137,7 +137,7 @@
                                                 <label class="form-check-label" for="auth-remember-check">Remember
                                                     me</label>
                                             </div>
-                                            <a href="#" class="text-decoration-none">Forgot Password?</a>
+                                            <a href="{{ route('emailVerify') }}" class="text-decoration-none">Forgot Password?</a>
                                         </div>
 
                                         <div class="mt-4">

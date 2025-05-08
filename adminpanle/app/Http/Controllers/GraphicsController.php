@@ -46,7 +46,10 @@ class GraphicsController extends Controller
 
 
     public function showGraphicsAndVideos(){
-        return view ('graphics');
+        $TableGraphics = Graphic::all();
+        return view('graphics', [
+            'TableGraphics' => $TableGraphics,
+        ]);
     }
     public function addGraphicsAndVideos(){
 
@@ -55,16 +58,6 @@ class GraphicsController extends Controller
     public function createGraphics ()
     {
          return $this->validateAndUploadMedia(request());   
-    }
-   
-    public function tableGraphics($id)
-    {
-        $graphics = Graphic::find($id);
-        if ($graphics) {
-            return view('tableGraphics', ['graphics' => $graphics]);
-        } else {
-            return redirect()->route('graphics')->with('error', 'Graphic not found');
-        }
     }
     
     

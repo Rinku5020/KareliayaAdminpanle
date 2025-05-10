@@ -15,53 +15,6 @@ class DigitalController extends Controller
         return view('dashboard');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(digital $digital)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(digital $digital)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, digital $digital)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(digital $digital)
-    {
-        //
-    }
 
     public function showStore(){
         return view('store');
@@ -73,11 +26,14 @@ class DigitalController extends Controller
     public function showTemplate(){
         return view('template');
     }
-    public function showLayout(){
-        return view('layout');
-    }
-
+   
     public function addNewStore(){
         return view('components.addstore');
+    }
+     public function showLayout(){
+        return view('layout.layout');
+    }
+    public function AddLayout(){
+        return view('layout.addlayout');
     }
 }

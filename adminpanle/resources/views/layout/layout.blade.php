@@ -1030,7 +1030,8 @@
                                 <div class="card-header d-flex align-items-center">
                                     <h5 class="card-title mb-0 flex-grow-1">Layout</h5>
                                     <div>
-                                        <button id="addRow" class="btn btn-secondary">Add Layout</button>
+                                        <a href="{{ route('addlayout') }}" class="btn btn-primary">Add Layout</a>
+                                    
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -1043,7 +1044,7 @@
                                                 <th>S1. No.</th>
                                                 <th>Unique Code</th>
                                                 <th>Playlist</th>
-                                                <th>Status</th>
+                                                <th>Assigned Display</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -1056,11 +1057,11 @@
                                                     Display 1
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-secondary">
+                                                    <button class="btn btn-sm btn-primary">
                                                         <i class="bi bi-pencil-square fs-6"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-light">
-                                                        <i class="bi bi-trash fs-6"></i>
+                                                    <button class="btn btn-sm btn-danger">
+                                                        <i class="bi bi-ban  fs-6"></i>
                                                     </button>
                                                 </td>
                                             </tr>

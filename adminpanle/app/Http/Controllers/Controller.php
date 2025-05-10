@@ -111,12 +111,33 @@ class Controller
         if (!$user) {
             return redirect()->back()->with('error', 'User not found');
         }
+
     
-        $token = $user->createToken('OTP Access Token');
+        return redirect()->route('resetpassword')->with('success', 'OTP verified successfully');
+    }
+
+    public function resetpassword(Request $request)
+    {
+        return view('auth.resetpass');
+    }
+
+    public function resetPasswordUpdate(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|regex:/[a-zA-Z]/|regex:/[0-9]/',
+            'confirm_password' => 'required|same:password',
+        ]);
     
-        session()->forget(['otp', 'otp_email']);
+        $user = User::where('email', session('otp_email'))->first();
     
-        return redirect()->route('dashboard')->with(['success', 'OTP verified successfully', 'token' => $token]);
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found');
+        }
+    
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+    
+        return redirect()->route('showLogin')->with('success', 'Password reset successfully');
     }
 }
   

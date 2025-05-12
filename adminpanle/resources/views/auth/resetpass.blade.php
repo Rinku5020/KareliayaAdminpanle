@@ -1,11 +1,10 @@
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
-    data-sidebar-image="none">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
 
 <head>
 
     <meta charset="utf-8" />
-    <title>Sign In | Velzon - Admin & Dashboard Template</title>
+    <title>Create New Password | Velzon - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -42,10 +41,8 @@
         margin-left: 10px;
     }
 </style>
-
 <body>
-
-    @if (Session::has('success'))
+@if (Session::has('success'))
         <script>
             Swal.fire({
                 toast: true,
@@ -92,6 +89,7 @@
         <!-- auth page content -->
         <div class="auth-page-content">
             <div class="container">
+                
 
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6 col-xl-5">
@@ -99,50 +97,57 @@
 
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
-                                    <h5 class="text-primary">Sign In</h5>
+                                    <h5 class="text-primary">Create new password</h5>
+                                    <p class="text-muted">Your new password must be different from previous used password.</p>
                                 </div>
-                                <div class="p-2 mt-4">
-                                    <form action="{{ route('loginValidateUser') }}" method="POST">
-                                        @csrf
 
+                                <div class="p-2">
+                                    <form action="{{ route('password.update') }}" method="POST">
+                                        @csrf
                                         <div class="mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" name="email" class="form-control" id="username"
-                                                placeholder="Enter email">
-                                            @error('email')
-                                                <span style="color:red">{{ $message }}</span>
-                                            @enderror
+                                            <label class="form-label" for="password-input">Password</label>
+                                            <div class="position-relative auth-pass-inputgroup">
+                                                <input type="password"  name="password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" >
+                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                                @error('password')
+                                                    <span style="color: red">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div id="passwordInput" class="form-text">Must be at least 8 characters.</div>
                                         </div>
 
                                         <div class="mb-3">
-                                          
-                                            <label class="form-label" for="password-input">Password</label>
+                                            <label class="form-label" for="confirm-password-input">Confirm Password</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input type="password" name="password" class="form-control pe-5"
-                                                    placeholder="Enter password" id="password-input">
-                                                <button
-                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                    type="button" id="password-addon"><i
-                                                        class="ri-eye-fill align-middle"></i></button>
-                                                @error('password')
-                                                    <span style="color:red">{{ $message }}</span>
+                                                <input type="password" name="confirm_password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Confirm password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" >
+                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="confirm-password-input"><i class="ri-eye-fill align-middle"></i></button>
+                                                @error('confirm_password')
+                                                    <span style="color: red">
+                                                        {{ $message }}
+                                                    </span>
                                                 @enderror
                                             </div>
                                         </div>
 
-                                        <div class="form-check d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input" type="checkbox" value=""
-                                                    id="auth-remember-check">
-                                                <label class="form-check-label" for="auth-remember-check">Remember
-                                                    me</label>
-                                            </div>
-                                            <a href="{{ route('emailVerify') }}" class="text-decoration-none">Forgot Password?</a>
+                                        <div id="password-contain" class="p-3 bg-light mb-2 rounded">
+                                            <h5 class="fs-13">Password must contain:</h5>
+                                            <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>8 characters</b></p>
+                                            <p id="pass-lower" class="invalid fs-12 mb-2">At <b>lowercase</b> letter (a-z)</p>
+                                            <p id="pass-upper" class="invalid fs-12 mb-2">At least <b>uppercase</b> letter (A-Z)</p>
+                                            <p id="pass-number" class="invalid fs-12 mb-0">A least <b>number</b> (0-9)</p>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
+                                            <label class="form-check-label" for="auth-remember-check">Remember me</label>
                                         </div>
 
                                         <div class="mt-4">
-                                            <button class="btn btn-success w-100" type="submit">Sign In</button>
+                                            <button class="btn btn-success w-100" type="submit">Reset Password</button>
                                         </div>
+
                                     </form>
                                 </div>
                             </div>
@@ -151,11 +156,8 @@
                         <!-- end card -->
 
                         <div class="mt-4 text-center">
-                            <p class="mb-0">Don't have an account ? <a href={{ route('register') }}
-                                    class="fw-semibold text-primary text-decoration-underline"> Sign Up </a> </p>
-
+                            <p class="mb-0">Wait, I remember my password... <a href="{{route('showLogin')}}" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
                         </div>
-
 
                     </div>
                 </div>
@@ -172,10 +174,7 @@
                     <div class="col-lg-12">
                         <div class="text-center">
                             <p class="mb-0 text-muted">&copy;
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i>
-                                by Themesbrand
+                                <script>document.write(new Date().getFullYear())</script> Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
                             </p>
                         </div>
                     </div>
@@ -196,22 +195,12 @@
 
     <!-- particles js -->
     <script src="assets/libs/particles.js/particles.js"></script>
+
     <!-- particles app js -->
     <script src="assets/js/pages/particles.app.js"></script>
-    <!-- password-addon init -->
-    <script src="assets/js/pages/password-addon.init.js"></script>
-    <script>
-        const toggleBtn = document.getElementById('password-addon');
-        const passwordInput = document.getElementById('password-input');
-        const icon = document.getElementById('toggle-password-icon');
 
-        toggleBtn.addEventListener('click', function() {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            icon.classList.toggle('ri-eye-fill');
-            icon.classList.toggle('ri-eye-off-fill');
-        });
-    </script>
+    <!-- password-addon init -->
+    <script src="assets/js/pages/passowrd-create.init.js"></script>
 </body>
 
 </html>

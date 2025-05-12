@@ -102,7 +102,7 @@
                                     <h5 class="text-primary">Sign up</h5>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    <form action="" >
+                                    <form action="{{ route('registerValidateUser') }}" method="POST" >
                                         @csrf
 
                                         <div class="mb-3">
@@ -131,25 +131,33 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            
                                             <label class="form-label" for="password-input">Password</label>
-                                            <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input type="password" name="password" class="form-control pe-5"
-                                                    placeholder="Enter password" id="password-input">
-                                                <button
-                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                    type="button" id="password-addon"><i
-                                                        class="ri-eye-fill align-middle"></i></button>
-                                                @error('password')
-                                                    <span style="color:red">{{ $message }}</span>
-                                                @enderror
+                                            <div class="position-relative auth-pass-inputgroup">
+                                                <input type="password" name="password"  class="form-control pe-5 password-input" onpaste="return false" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" >
+                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                                <div class="invalid-feedback">
+                                                    Please enter password
+                                                </div>
                                             </div>
+                                            @error('password')
+                                                <span style="color:red">{{ $message }}</span>
+                                            @enderror
                                         </div>
 
+                            
+
+                                        <div id="password-contain" class="p-3 bg-light mb-2 rounded">
+                                            <h5 class="fs-13">Password must contain:</h5>
+                                            <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>8 characters</b></p>
+                                            <p id="pass-lower" class="invalid fs-12 mb-2">At <b>lowercase</b> letter (a-z)</p>
+                                            <p id="pass-upper" class="invalid fs-12 mb-2">At least <b>uppercase</b> letter (A-Z)</p>
+                                            <p id="pass-number" class="invalid fs-12 mb-0">A least <b>number</b> (0-9)</p>
+                                        </div>
 
                                         <div class="mt-4">
-                                            <button class="btn btn-success w-100" type="submit">Sign </button>
+                                            <button class="btn btn-success w-100" type="submit">Sign Up</button>
                                         </div>
+
                                     </form>
                                 </div>
                             </div>
@@ -201,24 +209,15 @@
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
 
-    <!-- particles js -->
-    <script src="assets/libs/particles.js/particles.js"></script>
-    <!-- particles app js -->
-    <script src="assets/js/pages/particles.app.js"></script>
-    <!-- password-addon init -->
-    <script src="assets/js/pages/password-addon.init.js"></script>
-    <script>
-        const toggleBtn = document.getElementById('password-addon');
-        const passwordInput = document.getElementById('password-input');
-        const icon = document.getElementById('toggle-password-icon');
-
-        toggleBtn.addEventListener('click', function() {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            icon.classList.toggle('ri-eye-fill');
-            icon.classList.toggle('ri-eye-off-fill');
-        });
-    </script>
+   <!-- particles js -->
+   <script src="assets/libs/particles.js/particles.js"></script>
+   <!-- particles app js -->
+   <script src="assets/js/pages/particles.app.js"></script>
+   <!-- validation init -->
+   <script src="assets/js/pages/form-validation.init.js"></script>
+   <!-- password create init -->
+   <script src="assets/js/pages/passowrd-create.init.js"></script>
+ 
 </body>
 
 </html>

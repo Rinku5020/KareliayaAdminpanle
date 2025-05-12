@@ -3,12 +3,13 @@
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DigitalController;
 use App\Http\Controllers\GraphicsController;
+use App\Mail\OtpMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [DigitalController::class, 'index'])->name('dashboard');
 Route::get('/template', [DigitalController::class, 'showTemplate'])->name('template');
-Route::get('/layout', [DigitalController::class, 'showLayout'])->name('layout');
 Route::get('/display',[DigitalController::class,'showDisplay'])->name('display');
 Route::get('/graphics',[DigitalController::class,'showGraphicsAndVideos'])->name('graphics');
 
@@ -30,3 +31,25 @@ Route::post('/createGraphics',[GraphicsController::class,'createGraphics'])->nam
 Route::get('/login',[Controller::class, 'showLogin'])->name('showLogin');
 Route::post('/login-success',[Controller::class, 'loginValidateUser'])->name('loginValidateUser');
 Route::get('/register',[Controller::class, 'userRegister'])->name('register');
+<<<<<<< HEAD
+=======
+Route::post('/register',[Controller::class, 'registerValidateUser'])->name('registerValidateUser');
+Route::get('/email',[Controller::class, 'EmailVerify'])->name('emailVerify');
+Route::post('/email',[Controller::class, 'Verification'])->name('Verification');
+Route::get('/otp',[Controller::class, 'otp'])->name('otp');
+Route::post('/sendOtp', [Controller::class, 'sendVerification'])->name('sendOtp');
+Route::get('/resetpassword', [Controller::class, 'resetpassword'])->name('resetpassword');
+Route::post('/resetpassword', [Controller::class, 'resetPasswordUpdate'])->name('password.update');
+
+// Layout 
+Route::get('/layout', [DigitalController::class, 'showLayout'])->name('layout');
+Route::get('/addlayout', [DigitalController::class, 'AddLayout'])->name('addlayout');
+
+
+
+// Route::get('/test-mail', function () {
+//     Mail::to('rinku4kareliya@gmail.com')->send(new OtpMail('123456'));
+//     return 'Mail sent!';
+// });
+
+>>>>>>> 90f66bbaca7d241969a25c6b60b52ed4474eeef0

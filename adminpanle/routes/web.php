@@ -31,8 +31,6 @@ Route::post('/createGraphics',[GraphicsController::class,'createGraphics'])->nam
 Route::get('/login',[Controller::class, 'showLogin'])->name('showLogin');
 Route::post('/login-success',[Controller::class, 'loginValidateUser'])->name('loginValidateUser');
 Route::get('/register',[Controller::class, 'userRegister'])->name('register');
-<<<<<<< HEAD
-=======
 Route::post('/register',[Controller::class, 'registerValidateUser'])->name('registerValidateUser');
 Route::get('/email',[Controller::class, 'EmailVerify'])->name('emailVerify');
 Route::post('/email',[Controller::class, 'Verification'])->name('Verification');
@@ -52,4 +50,3 @@ Route::get('/addlayout', [DigitalController::class, 'AddLayout'])->name('addlayo
 //     return 'Mail sent!';
 // });
 
->>>>>>> 90f66bbaca7d241969a25c6b60b52ed4474eeef0

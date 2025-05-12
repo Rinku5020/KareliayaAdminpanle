@@ -16,7 +16,6 @@ class DigitalController extends Controller
         return view('dashboard');
     }
 
-<<<<<<< HEAD
     /**
      * Show the form for creating a new resource.
      */
@@ -58,8 +57,6 @@ class DigitalController extends Controller
     {
         //
     }
-=======
->>>>>>> 90f66bbaca7d241969a25c6b60b52ed4474eeef0
 
     public function showStore()
     {
@@ -75,7 +72,6 @@ class DigitalController extends Controller
     {
         return view('template');
     }
-<<<<<<< HEAD
     public function showLayout()
     {
         return view('layout');
@@ -236,11 +232,9 @@ class DigitalController extends Controller
         $store->save();
 
         return redirect()->route('store')->with('success', 'Store status updated successfully!');
-=======
    
-    public function addNewStore(){
+    }    public function addNewStore(){
         return view('components.addstore');
->>>>>>> 90f66bbaca7d241969a25c6b60b52ed4474eeef0
     }
      public function showLayout(){
         return view('layout.layout');

@@ -236,10 +236,5 @@ class DigitalController extends Controller
     }    public function addNewStore(){
         return view('components.addstore');
     }
-     public function showLayout(){
-        return view('layout.layout');
-    }
-    public function AddLayout(){
-        return view('layout.addlayout');
-    }
+   
 }

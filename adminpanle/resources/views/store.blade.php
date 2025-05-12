@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
     <!-- Bootstrap Css -->
@@ -30,10 +32,31 @@
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
 
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 
 <body>
-
+    @if (Session::has('success'))
+    <script>
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            text: "{{ Session::get('success') }}",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            width: 'auto',
+            padding: '0.5rem',
+            customClass: {
+                container: 'swal2-toast-container',
+                popup: 'swal2-toast'
+            }
+        });
+    </script>
+@endif
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -1020,36 +1043,70 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card bg-white">
-                                <div class="card-header d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1">Stores</h5>
-                                    <div>
-                                        <a href="{{route('newStore')}}" class="btn btn-secondary">Add Store</a>
-                                    </div>
+                            <div class="card shadow-sm rounded-3 border-0">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
+                                    <h5 class="card-title mb-0 fw-semibold">Stores</h5>
+                                    <a href="{{ route('newStore') }}" class="btn btn-secondary">
+                                        <i class="bi bi-plus-circle me-1"></i> Add Store
+                                    </a>
                                 </div>
                                 <div class="card-body">
-
-                                    <table id="add-rows"
-                                        class="table table-nowrap dt-responsive table-bordered display"
-                                        style="width:100%">
-                                        <thead class="bg-light">
-                                            <tr>
-                                                <th>Store Name</th>
-                                                <th>Store Id</th>
-                                                <th>Location</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table id="add-rows" class="table table-hover table-bordered align-middle text-center" style="width: 100%;">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Store Name</th>
+                                                    <th>Store ID</th>
+                                                    <th>Location</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($store as $storeCollection)
+                                                    <tr>
+                                                        <td class="fw-medium">{{ $storeCollection->name }}</td>
+                                                        <td>{{ $storeCollection->storeId }}</td>
+                                                        <td>{{ $storeCollection->state }}</td>
+                                                        <td>
+                                                            @if ($storeCollection->status)
+                                                                <span class="badge bg-success border-success text-light fw-semibold">Active</span>
+                                                            @else
+                                                                <span class="badge bg-danger border-danger text-light fw-semibold">Inactive</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                                <a href="{{ route('editStore', $storeCollection->storeId) }}" class="btn btn-sm btn-outline-secondary me-1" title="Edit">
+                                                                    <i class="bi bi-pencil"></i>
+                                                                </a>
+                                                            <form action="{{ route('deleteStore', $storeCollection->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-sm btn-outline-danger me-1 delete-store-btn"
+                                                                    onclick="return confirm('Are you sure you want to delete this store?\nThis action cannot be undone.')" title="Delete">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                            <form action="{{ route('status', $storeCollection->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-sm btn-outline-dark" title="{{ $storeCollection->status ? 'Disable' : 'Enable' }}">
+                                                                    <i class="bi {{ $storeCollection->status ? 'bi-slash-circle' : 'bi-check-circle' }}"></i>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div><!--end col-->
+                </div>
+                <!--end col-->
             </div>
 
         </div>
@@ -1066,6 +1123,7 @@
         <i class="ri-arrow-up-line"></i>
     </button>
     <!--end back-to-top-->
+
 
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

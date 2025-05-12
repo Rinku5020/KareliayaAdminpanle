@@ -2,7 +2,7 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-
+    <base href="/public">
     <meta charset="utf-8" />
     <title>Datatables | Velzon - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +10,6 @@
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-
 
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
@@ -28,25 +26,24 @@
 
 <body>
     @if (Session::has('success'))
-        <script>
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                title: "{{ Session::get('success') }}",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                width: 'auto',
-                padding: '0.5rem',
-                customClass: {
-                    container: 'swal2-toast-container',
-                    popup: 'swal2-toast'
-                }
-            });
-        </script>
-    @endif
-
+    <script>
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: "{{ Session::get('success') }}",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            width: 'auto',
+            padding: '0.5rem',
+            customClass: {
+                container: 'swal2-toast-container',
+                popup: 'swal2-toast'
+            }
+        });
+    </script>
+@endif
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -1041,26 +1038,29 @@
                                     <a href="{{ route('store') }}" class="text-decoration-none me-2">
                                         <i class="ri-arrow-left-line"></i>
                                     </a>
-                                    Add Store
+                                    Update Store
                                 </h2>
                             </div>
 
                             <div class="card-body">
                                 <div class="live-preview">
                                     <div class="container-fluid mt-4">
-                                        <form action="{{ route('storeAdd') }}" method="post"
-                                            enctype="multipart/form-data" class="row g-4 justify-content-between">
+                                        
+                                        <form method="POST" action="{{ route('updateStore', $store->id ?? '') }}" enctype="multipart/form-data"
+                                            class="row g-4 justify-content-between">
                                             @csrf
+                                                @method('PUT')
+                                            <input type="hidden" name="storeId" value="{{ $store->storeId }}">
                                             <!-- Left Form Section -->
                                             <div class="col-md-5">
+                                                <!-- Store ID -->
                                                 <div class="mb-5 mt-2">
-                                                    <label for="storeId" class="form-label">
-                                                        <span class="text-danger fs-4">*</span> Store Id
-                                                    </label>
+                                                    <label for="storeId" class="form-label"><span
+                                                            class="text-danger fs-4">*</span> Store Id</label>
                                                     <input type="text" id="storeId" name="storeId"
                                                         class="form-control {{ $errors->first('storeId') ? 'input-error' : '' }}"
-                                                        value="{{ old('storeId', $storeId ?? '') }}"
-                                                        placeholder="Enter Store Id" readonly>
+                                                        value="{{ old('storeId', $store->storeId ?? '') }}"
+                                                        placeholder="Enter Store Id" disabled>
                                                     <span class="text-danger">
                                                         @error('storeId')
                                                             {{ $message }}
@@ -1068,36 +1068,43 @@
                                                     </span>
                                                 </div>
 
+                                                <!-- Name -->
                                                 <div class="mb-5 mt-2">
                                                     <label class="form-label"><span class="text-danger fs-4">*</span>
                                                         Name</label>
                                                     <input type="text" name="name"
                                                         class="form-control {{ $errors->first('name') ? 'input-error' : '' }}"
-                                                        value="{{ old('name') }}" placeholder="Enter Store Name">
+                                                        value="{{ old('name', $store->name ?? '') }}"
+                                                        placeholder="Enter Store Name">
                                                     <span class="text-danger">
                                                         @error('name')
                                                             {{ $message }}
                                                         @enderror
                                                     </span>
                                                 </div>
+
+                                                <!-- Phone -->
                                                 <div class="mb-5 mt-2">
                                                     <label class="form-label"><span class="text-danger fs-4">*</span>
                                                         Phone</label>
                                                     <input type="tel" name="phone"
                                                         class="form-control {{ $errors->first('phone') ? 'input-error' : '' }}"
-                                                        value="{{ old('phone') }}" placeholder="+91 XXXXXXXXXX"
-                                                        title="Enter a valid phone number">
+                                                        value="{{ old('phone', $store->phone ?? '') }}"
+                                                        placeholder="+91 XXXXXXXXXX">
                                                     <span class="text-danger">
                                                         @error('phone')
                                                             {{ $message }}
                                                         @enderror
                                                     </span>
                                                 </div>
+
+                                                <!-- Email -->
                                                 <div class="mb-5 mt-2">
                                                     <label class="form-label"><span
                                                             class="text-danger fs-4">*</span>Email</label>
-                                                    <input type="email" name="email" value="{{ old('email') }}"
+                                                    <input type="email" name="email"
                                                         class="form-control {{ $errors->first('email') ? 'input-error' : '' }}"
+                                                        value="{{ old('email', $store->email ?? '') }}"
                                                         placeholder="Enter Your Email">
                                                     <span class="text-danger">
                                                         @error('email')
@@ -1105,24 +1112,26 @@
                                                         @enderror
                                                     </span>
                                                 </div>
+
+                                                <!-- Country -->
                                                 <div class="mb-5 mt-2">
-                                                    <label class="form-label" for="country">
-                                                        <span class="text-danger fs-4">*</span>Select Country
-                                                    </label>
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        Country</label>
                                                     <select
                                                         class="form-select {{ $errors->has('country') ? 'input-error' : '' }}"
-                                                        id="country" name="country">
-                                                        <option disabled {{ old('country') ? '' : 'selected' }}>Choose
-                                                            Country...</option>
+                                                        name="country">
+                                                        <option disabled
+                                                            {{ old('country', $store->country ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose Country...</option>
                                                         <option value="India"
-                                                            {{ old('country') == 'India' ? 'selected' : '' }}>India
-                                                        </option>
+                                                            {{ old('country', $store->country ?? '') == 1 ? 'selected' : '' }}>
+                                                            India</option>
                                                         <option value="USA"
-                                                            {{ old('country') == 'USA' ? 'selected' : '' }}>USA
-                                                        </option>
+                                                            {{ old('country', $store->country ?? '') == 2 ? 'selected' : '' }}>
+                                                            USA</option>
                                                         <option value="Germany"
-                                                            {{ old('country') == 'Germany' ? 'selected' : '' }}>Germany
-                                                        </option>
+                                                            {{ old('country', $store->country ?? '') == 3 ? 'selected' : '' }}>
+                                                            Germany</option>
                                                     </select>
                                                     <span class="text-danger">
                                                         @error('country')
@@ -1131,23 +1140,25 @@
                                                     </span>
                                                 </div>
 
+                                                <!-- State -->
                                                 <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Select State</label>
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        State</label>
                                                     <select
                                                         class="form-select {{ $errors->has('state') ? 'input-error' : '' }}"
-                                                        id="state" name="state">
-                                                        <option disabled {{ old('state') ? '' : 'selected' }}>Choose
-                                                            State...</option>
+                                                        name="state">
+                                                        <option disabled
+                                                            {{ old('state', $store->state ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose State...</option>
                                                         <option value="Gujrat"
-                                                            {{ old('state') == 'Surat' ? 'selected' : '' }}>Gujrat
-                                                        </option>
+                                                            {{ old('state', $store->state ?? '') == 1 ? 'selected' : '' }}>
+                                                            Gujrat</option>
                                                         <option value="California"
-                                                            {{ old('state') == 'California' ? 'selected' : '' }}>
+                                                            {{ old('state', $store->state ?? '') == 2 ? 'selected' : '' }}>
                                                             California</option>
                                                         <option value="Hessen"
-                                                            {{ old('state') == 'Hessen' ? 'selected' : '' }}>Hessen
-                                                        </option>
+                                                            {{ old('state', $store->state ?? '') == 3 ? 'selected' : '' }}>
+                                                            Hessen</option>
                                                     </select>
                                                     <span class="text-danger">
                                                         @error('state')
@@ -1155,23 +1166,26 @@
                                                         @enderror
                                                     </span>
                                                 </div>
+
+                                                <!-- City -->
                                                 <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Select City</label>
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        City</label>
                                                     <select
                                                         class="form-select {{ $errors->has('city') ? 'input-error' : '' }}"
-                                                        id="city" name="city">
-                                                        <option disabled {{ old('city') ? '' : 'selected' }}>Choose
-                                                            City...</option>
+                                                        name="city">
+                                                        <option disabled
+                                                            {{ old('city', $store->city ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose City...</option>
                                                         <option value="Surat"
-                                                            {{ old('city') == 'Surat' ? 'selected' : '' }}>Surat
-                                                        </option>
+                                                            {{ old('city', $store->city ?? '') == 1 ? 'selected' : '' }}>
+                                                            Surat</option>
                                                         <option value="Fresno"
-                                                            {{ old('city') == 'Fresno' ? 'selected' : '' }}>Fresno
-                                                        </option>
+                                                            {{ old('city', $store->city ?? '') == 2 ? 'selected' : '' }}>
+                                                            Fresno</option>
                                                         <option value="Marburg"
-                                                            {{ old('city') == 'Marburg' ? 'selected' : '' }}>Marburg
-                                                        </option>
+                                                            {{ old('city', $store->city ?? '') == 3 ? 'selected' : '' }}>
+                                                            Marburg</option>
                                                     </select>
                                                     <span class="text-danger">
                                                         @error('city')
@@ -1179,11 +1193,13 @@
                                                         @enderror
                                                     </span>
                                                 </div>
+
+                                                <!-- Pincode -->
                                                 <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Zip</label>
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        Zip</label>
                                                     <input type="text" name="pincode"
-                                                        value="{{ old('pincode') }}"
+                                                        value="{{ old('pincode', $store->pincode ?? '') }}"
                                                         class="form-control {{ $errors->first('pincode') ? 'input-error' : '' }}"
                                                         placeholder="Zip code">
                                                     <span class="text-danger">
@@ -1192,11 +1208,13 @@
                                                         @enderror
                                                     </span>
                                                 </div>
+
+                                                <!-- Address -->
                                                 <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Store Address</label>
-                                                    <textarea class="form-control  {{ $errors->first('address') ? 'input-error' : '' }}" name="address" rows="3"
-                                                        placeholder="Enter Store Address">{{ old('address') }}</textarea>
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        Store Address</label>
+                                                    <textarea name="address" class="form-control {{ $errors->first('address') ? 'input-error' : '' }}" rows="3"
+                                                        placeholder="Enter Store Address">{{ old('address', $store->address ?? '') }}</textarea>
                                                     <span class="text-danger">
                                                         @error('address')
                                                             {{ $message }}
@@ -1207,27 +1225,22 @@
 
                                             <!-- Right Image Section -->
                                             <div class="col-md-5 mt-5">
+                                                <!-- Image Preview -->
                                                 <div class="mb-5">
                                                     <div class="mb-2">
                                                         <img id="storeImagePreview"
-                                                            src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?20210521171500"
+                                                            src="{{ isset($store->logo) && file_exists(public_path('uploads/store/' . $store->logo)) ? asset('uploads/store/' . $store->logo) : 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?20210521171500' }}"
                                                             alt="Store Image Preview" width="320" height="320"
                                                             style="object-fit: contain; cursor: pointer;"
                                                             onclick="document.getElementById('storeImageInput').click()">
                                                     </div>
-
-                                                    <!-- Trigger text -->
                                                     <div class="text-secondary fw-semibold mb-2"
                                                         style="cursor: pointer;"
                                                         onclick="document.getElementById('storeImageInput').click()">
-                                                        Upload Store Logo
-                                                    </div>
-
-                                                    <!-- Hidden file input with name -->
+                                                        Upload Store Logo</div>
                                                     <input type="file" name="logo" class="d-none"
                                                         id="storeImageInput" accept="image/*"
                                                         onchange="previewStoreImage(event)">
-
                                                     <span class="text-danger">
                                                         @error('logo')
                                                             {{ $message }}
@@ -1235,8 +1248,7 @@
                                                     </span>
                                                 </div>
 
-
-
+                                                <!-- Map Embed -->
                                                 <div class="mb-3">
                                                     <iframe
                                                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709451063!2d72.73988483609048!3d21.15934029880327!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1746616876309!5m2!1sen!2sin"
@@ -1248,12 +1260,37 @@
 
                                             <!-- Submit Button -->
                                             <div class="col-12 text-end">
-                                                <button type="submit" class="btn btn-primary mt-3">Add Store</button>
+                                                <button type="submit" class="btn btn-primary mt-3">
+                                                    {{ isset($store) ? 'Update Store' : 'Add Store' }}
+                                                </button>
                                             </div>
                                         </form>
-                                    </div>
 
+                                        <!-- JS for preview -->
+                                        {{-- <script>
+                                          function previewStoreImage(event) {
+                                              const file = event.target.files[0];
+                                              if (file && file.type.startsWith('image/')) {
+                                                  const reader = new FileReader();
+                                                  reader.onload = function (e) {
+                                                      document.getElementById('storeImagePreview').src = e.target.result;
+                                                  };
+                                                  reader.readAsDataURL(file);
+                                              }
+                                          }
+                                      </script>
+                                       --}}
+                                    </div>
                                     <script>
+                                        function previewStoreImage(event) {
+                                            const reader = new FileReader();
+                                            reader.onload = function(){
+                                                document.getElementById('storeImagePreview').src = reader.result;
+                                            };
+                                            reader.readAsDataURL(event.target.files[0]);
+                                        }
+                                    </script>
+                                    {{-- <script>
                                         function previewStoreImage(event) {
                                             const file = event.target.files[0];
                                             if (file && file.type.startsWith('image/')) {
@@ -1265,7 +1302,7 @@
                                                 reader.readAsDataURL(file);
                                             }
                                         }
-                                    </script>
+                                    </script> --}}
                                 </div>
                             </div>
                         </div>

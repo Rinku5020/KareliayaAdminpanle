@@ -1,28 +1,28 @@
 <?php
-
 namespace App\Http\Controllers;
-
+use App\Models\Graphic;
 use App\Models\layout;
+use App\Models\Store;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+
 
 class LayoutController extends Controller
 {
     use ValidatesRequests;
-
     public function showLayout()
     {
-        return view('layout.layout');
+        $layouts = Layout::all();
+        return view('layout.layout', compact('layouts'));
     }
-    public function AddLayout()
+    public function AddLayout(Request $request)
     {
-        return view('layout.addlayout');
+        $store_id = Store::all();
+        $graphics = Graphic::all();
+        return view('layout.addlayout', compact('store_id', 'graphics'));
     }
-
-
     public function layoutStore(Request $request)
     {
-
         $rules = [
             'layoutName' => 'required',
             'store_id' => 'required',
@@ -31,7 +31,6 @@ class LayoutController extends Controller
             'address' => 'required',
             'logo' => 'required',
             'select_zone' => 'required',
-
         ];
         $massages = [
             'layoutName.required' => 'Layout Name is required',
@@ -44,16 +43,25 @@ class LayoutController extends Controller
         ];
         $this->validate($request, $rules, $massages);
         $layout = new layout();
+        // Check if the logo file is present in the request
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/layout'), $fileName);
+            $layout->logo  = $fileName;
+        }
+        // Generate a unique ID for the layout
+        do {
+            $uniqueId = 'L-' . rand(100000, 999999);
+        } while (Layout::where('unique_id', $uniqueId)->exists());
+        $layout->unique_id = $uniqueId;
         $layout->layoutName = $request->input('layoutName');
         $layout->store_id = $request->input('store_id');
         $layout->displayMode = $request->input('displayMode');
         $layout->playlistName = $request->input('playlistName');
         $layout->address = $request->input('address');
-        $layout->logo = $request->input('logo');
-        $layout->select_zone = $request->input('Select_zone');
+        $layout->select_zone = $request->input('select_zone');
         $layout->save();
-
-
-        return redirect()->route('layout.showLayout')->with('success', 'Layout added successfully.');
+        return redirect()->route('layout')->with('success', 'Layout added successfully.');
     }
 }

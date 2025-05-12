@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
-
 <head>
     <meta charset="utf-8" />
     <title>Datatables | Velzon - Admin & Dashboard Template</title>
@@ -28,7 +27,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/css/layout.css" rel="stylesheet" />
 </head>
-
 <body>
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -945,86 +943,60 @@
                                     style="font-size: 25px"></a>
                                 <h4 class="card-title mb-0 fw-semibold">Add Playlist</h4>
                             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             <!-- end card header -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <div class="card-body form-steps">
-                                <form action="{{route('layoutStore')}}" method="POST">
+                                <form action="{{ route('layoutStore') }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div class="step-arrow-nav mb-4">
                                         <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
@@ -1053,87 +1025,98 @@
                                                         <h4 for="" class="form-label">Display Type</h4>
                                                     </div>
                                                     <div class="layout-selector">
+                                                        
                                                         <!-- Layout 1 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
-                                                                class="form-check-input" >
+                                                                class="form-check-input" value="Layout 1"
+                                                                {{ old('layoutName') == 'Layout 1' ? 'checked' : '' }}>
                                                             <span>Layout 1</span>
                                                             <div class="layout-box"></div>
                                                         </label>
                                                         <!-- Layout 2 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
-                                                                class="form-check-input">
+                                                                class="form-check-input" value="Layout 2"
+                                                                {{ old('layoutName') == 'Layout 2' ? 'checked' : '' }}>
                                                             <span>Layout 2</span>
                                                             <div class="layout-box vertical-line"></div>
                                                         </label>
                                                         <!-- Layout 3 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
-                                                                class="form-check-input">
+                                                                class="form-check-input" value="Layout 3"
+                                                                {{ old('layoutName') == 'Layout 3' ? 'checked' : '' }}>
                                                             <span>Layout 3</span>
                                                             <div class="layout-box cross-lines"></div>
                                                         </label>
                                                         <!-- Layout 4 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
-                                                                class="form-check-input">
+                                                                class="form-check-input" value="Layout 4"
+                                                                {{ old('layoutName') == 'Layout 4' ? 'checked' : '' }}>
                                                             <span>Layout 4</span>
                                                             <div class="layout-box bottom-line"></div>
                                                         </label>
                                                         <!-- Layout 5 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
-                                                                class="form-check-input">
+                                                                class="form-check-input" value="Layout 5"
+                                                                {{ old('layoutName') == 'Layout 5' ? 'checked' : '' }}>
                                                             <span>Layout 5</span>
                                                             <div class="layout-box tall horizontal-line"></div>
                                                         </label>
                                                     </div>
                                                     @error('layoutName')
-                                                        
                                                         <span style="color: red"> {{ $message }} </span>
-                                                        
                                                     @enderror
                                                 </div>
                                                 <div class="row mt-5 ">
                                                     <div class="mb-3 col-md-4">
                                                         <label for="display-type" class="form-label">Select
                                                             Store</label>
-                                                        <select name="store_id" class="form-control" required >
+                                                        <select name="store_id" class="form-control" required>
                                                             <option class="text-muted" disabled selected>Select Store</option>
+                                                                
                                                             
-                                                            <option>Store 1</option>
-                                                            <option>Store 2</option>
-                                                            <option>Store 3</option>
+                                                            
+                                                            @foreach ($store_id as $store)
+                                                                <option value="{{ $store->storeId }}"
+                                                                    {{ old('store_id') == $store->storeId ? 'selected' : '' }}>
+                                                                    {{ $store->storeId }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
-                                                    @error('store_id')
-                                                        
-                                                        <span style="color: red"> {{ $message }} </span>
-                                                        
-                                                    @enderror
+                                                        @error('store_id')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
                                                     </div>
                                                     <div class="mb-3 col-md-4 text-center ">
-                                                        <p for="display-type" class="form-label fw-semibold">Display Type</p>
-                                                            
-                                                        <input type="radio" name="displayMode" class="form-check-input" required >
-                                                        <label for=""> Portrait</label>
-                                                        <input type="radio" name="displayMode" class="form-check-input" required>
-                                                        <label for="">Landscape</label>
+                                                        <p for="display-type" class="form-label fw-semibold">Display
+                                                            Type</p>
+                                                        <label class="form-check-label">
+                                                            <input type="radio" name="displayMode"
+                                                                class="form-check-input" required value="Portrait"
+                                                                {{ old('displayMode') == 'Portrait' ? 'checked' : '' }}>
+                                                            Portrait</label>
+                                                        <label class="form-check-label">
+                                                            <input type="radio" name="displayMode"
+                                                                class="form-check-input" required value="Landscape"
+                                                                {{ old('displayMode') == 'Landscape' ? 'checked' : '' }}>
+                                                            Landscape
+                                                        </label>
                                                         @error('displayMode')
-                                                        
-                                                        <span style="color: red"> {{ $message }} </span>
-                                                            
+                                                            <span style="color: red"> {{ $message }} </span>
                                                         @enderror
-                                                        
                                                     </div>
                                                     <div class="mb-3 col-md-4">
                                                         <label for="">Playlist Name</label>
-                                                        <input type="text"  class="form-control" name="playlistName" id="layout-name" required>
+                                                        <input type="text" class="form-control"
+                                                            name="playlistName" id="layout-name" required
+                                                            value={{ old('playlistName') }}>
                                                         @error('playlistName')
-                                                        
-                                                        <span style="color: red"> {{ $message }} </span>
-                                                        
-                                                    @enderror 
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="selection-container">
@@ -1179,47 +1162,34 @@
                                                 </button>
                                             </div>
                                         </div>
-
                                         <!-- Step 2 -->
                                         <div class="tab-pane fade" id="steparrow-description-info" role="tabpanel"
                                             aria-labelledby="steparrow-description-info-tab">
-
                                             <div class="container">
                                                 <div class="row gy-4 justify-content-between">
                                                     <!-- Left Column -->
                                                     <div class="col-12 col-md-6 col-lg-4">
                                                         <label for="" class="form-label">Address</label>
-                                                        <textarea name="address" class="form-control"></textarea>
+                                                        <textarea name="address" class="form-control">{{ old('address') }}</textarea>
                                                         @error('address')
-                                                        
-                                                        <span style="color: red"> {{ $message }} </span>
-                                                            
+                                                            <span style="color: red"> {{ $message }} </span>
                                                         @enderror
-
-
                                                         <div class="mt-3">
                                                             <label>Logo</label>
-                                                            <div class="logoBOX">
-                                                                <!-- Hidden file input -->
-                                                                <input type="file" name="logo" id="logoInput" accept="image/*"
-                                                                    style="display: none;">
+                                                           <div class="logoBOX">
+                                                                <input type="file" name="logo" id="logoInput" accept="image/*" style="display: none;" onchange="previewLogo(event)">
 
-                                                                <!-- Label acting as image wrapper -->
+                                                                <!-- Label acts as clickable image -->
                                                                 <label for="logoInput" style="cursor: pointer;">
-                                                                    <img src="assets/images/small/blank-img.webp"
+                                                                    <img id="logoPreview" src="{{ asset('assets/images/small/blank-img.webp') }}"
                                                                         class="img-fluid" alt="Click to upload logo">
                                                                 </label>
-                                                                
                                                             </div>
                                                             @error('logo')
-                                                                    
                                                                 <span style="color: red"> {{ $message }} </span>
-                                                                    
-                                                                @enderror
+                                                            @enderror
                                                         </div>
-
                                                     </div>
-
                                                     <!-- Table Column -->
                                                     <div class="col-12 col-md-6 col-lg-4">
                                                         <table class="table table-bordered">
@@ -1237,26 +1207,21 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-
                                                     <!-- Bottom Two Columns -->
                                                     <div class="col-12 col-md-6 col-lg-7 selection-box mt-3">
-                                                        <select name="select_zone" class="form-select w-25" id="">
-                                                            <option disabled class="text-muted ">Select Zone</option>
-                                                            <option value="Zone1">Zone 1</option>
-                                                            <option value="Zone2">Zone 2</option>
-                                                            <option value="Zone3">Zone 3</option>
-                                                            <option value="Zone4">Zone 4</option>
-                                                            <option value="Zone5">Zone 5</option>
-
+                                                        <select name="select_zone" class="form-select w-25"
+                                                            id="">
+                                                            <option disabled class="text-muted " selected>Select Zone
+                                                            </option>
+                                                            <option value="Zone1" {{ old('select_zone') == 'Zone1' ? 'selected' : '' }}>Zone 1</option>
+                                                            <option value="Zone2" {{ old('select_zone') == 'Zone2' ? 'selected' : '' }}>Zone 2</option>
+                                                            <option value="Zone3" {{ old('select_zone') == 'Zone3' ? 'selected' : '' }}>Zone 3</option>
+                                                            <option value="Zone4" {{ old('select_zone') == 'Zone4' ? 'selected' : '' }}>Zone 4</option>
+                                                            <option value="Zone5" {{ old('select_zone') == 'Zone5' ? 'selected' : '' }}>Zone 5</option>
                                                         </select>
-                                                          @error('select_zone')
-                                                            
-                                                        <span style="color: red"> {{ $message }} </span>
-                                                            
+                                                        @error('select_zone')
+                                                            <span style="color: red"> {{ $message }} </span>
                                                         @enderror
-
-
-                                                            
                                                         <hr>
                                                         <table class="table table-bordered">
                                                             <thead class="bg-light">
@@ -1276,16 +1241,11 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-
-                                                      
-
                                                     </div>
                                                     <div class="col-12 col-md-6 col-lg-4 selection-box mt-3">
                                                         <div class="col-xxl-6">
-
                                                             <div class="card">
                                                                 <div class="card-body">
-
                                                                     <ul class="nav nav-pills arrow-navtabs nav-success bg-light mb-3 justify-content-between"
                                                                         role="tablist">
                                                                         <li class="nav-item">
@@ -1328,31 +1288,25 @@
                                                                                     <div class="card">
                                                                                         <img src="assets/images/small/blank-img.webp"
                                                                                             alt="">
-                                                                                            
                                                                                     </div>
-                                                                                    
-                                                                                </div>
-                                                                                
-                                                                                
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-
                                                                                 </div>
                                                                                 <div class="col-3">
                                                                                     <div class="card">
                                                                                         <img src="assets/images/small/blank-img.webp"
                                                                                             alt="">
                                                                                     </div>
-
+                                                                                </div>
+                                                                                <div class="col-3">
+                                                                                    <div class="card">
+                                                                                        <img src="assets/images/small/blank-img.webp"
+                                                                                            alt="">
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="tab-pane" id="arrow-profile"
                                                                             role="tabpanel">
-                                                                               <h4 class="text-center">Video</h4>
+                                                                            <h4 class="text-center">Video</h4>
                                                                             <hr>
                                                                             <div class="row justify-content-between">
                                                                                 <div class="col-3">
@@ -1366,21 +1320,18 @@
                                                                                         <img src="assets/images/small/blank-img.webp"
                                                                                             alt="">
                                                                                     </div>
-
                                                                                 </div>
                                                                                 <div class="col-3">
                                                                                     <div class="card">
                                                                                         <img src="assets/images/small/blank-img.webp"
                                                                                             alt="">
                                                                                     </div>
-
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="tab-pane" id="arrow-contact"
                                                                             role="tabpanel">
-
-                                                                               <h4 class="text-center">Template</h4>
+                                                                            <h4 class="text-center">Template</h4>
                                                                             <hr>
                                                                             <div class="row justify-content-between">
                                                                                 <div class="col-3">
@@ -1394,14 +1345,12 @@
                                                                                         <img src="assets/images/small/blank-img.webp"
                                                                                             alt="">
                                                                                     </div>
-
                                                                                 </div>
                                                                                 <div class="col-3">
                                                                                     <div class="card">
                                                                                         <img src="assets/images/small/blank-img.webp"
                                                                                             alt="">
                                                                                     </div>
-
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1412,10 +1361,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
-
                                             <div class="d-flex align-items-start gap-3 mt-4">
                                                 <button type="button" class="btn btn-light btn-label previestab"
                                                     data-previous="steparrow-gen-info-tab"><i
@@ -1431,9 +1376,6 @@
                                 </form>
                             </div>
                             <!-- end card body -->
-
-
-
 
 
 
@@ -1516,76 +1458,80 @@
     <!-- Include SweetAlert and Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const nextButton = document.getElementById('next-to-step2');
-    const zoneTabButton = document.getElementById('steparrow-description-info-tab');
+    <script>
+        const nextButton = document.getElementById('next-to-step2');
+        const zoneTabButton = document.getElementById('steparrow-description-info-tab');
+        // Improved validation function
+        const validateForm = () => {
+            let invalidFields = [];
+            // 1. Validate Playlist Name (text input)
+            const playlistName = document.getElementById('layout-name');
+            if (!playlistName.value.trim()) {
+                invalidFields.push('Playlist Name');
+            }
+            // 2. Validate Store selection (dropdown)
+            const storeSelect = document.querySelector('#steparrow-gen-info select');
+            if (!storeSelect.value || storeSelect.options[storeSelect.selectedIndex].disabled) {
+                invalidFields.push('Store');
+            }
+            // 3. Validate Display Type (radio buttons)
+            const displayTypeSelected = document.querySelector('input[name="displayMode"]:checked');
+            if (!displayTypeSelected) {
+                invalidFields.push('displayMode');
+            }
+            // 4. Validate Layout selection (radio buttons)
+            const layoutSelected = document.querySelector('input[name="layoutName"]:checked');
+            if (!layoutSelected) {
+                invalidFields.push('layoutName');
+            }
+            // 5. Validate Display selection (check if any displays are selected)
+            // Add this if you have display selection logic
+            return invalidFields;
+        };
+        nextButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const invalidFields = validateForm();
+            if (invalidFields.length > 0) {
+                Swal.fire({
+                    title: 'Incomplete Form',
+                    text: `Please fill in: ${invalidFields.join(', ')}`,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Focus on first missing field
+                    if (invalidFields.includes('Playlist Name')) {
+                        document.getElementById('layout-name').focus();
+                    } else if (invalidFields.includes('Store')) {
+                        document.querySelector('#steparrow-gen-info select').focus();
+                    } else if (invalidFields.includes('displayMode')) {
+                        document.querySelector('input[name="display-type"]').focus();
+                    } else if (invalidFields.includes('layoutName')) {
+                        document.querySelector('input[name="layoutName"]').focus();
+                    }
+                });
+                return;
+            }
+            // If all valid, proceed to next tab
+            if (zoneTabButton) {
+                new bootstrap.Tab(zoneTabButton).show();
+            }
+        });
+    </script>
+    <script>
+    function previewLogo(event) {
+        const input = event.target;
+        const preview = document.getElementById('logoPreview');
 
-    // Improved validation function
-    const validateForm = () => {
-        let invalidFields = [];
-        
-        // 1. Validate Playlist Name (text input)
-        const playlistName = document.getElementById('layout-name');
-        if (!playlistName.value.trim()) {
-            invalidFields.push('Playlist Name');
-        }
-        
-        // 2. Validate Store selection (dropdown)
-        const storeSelect = document.querySelector('#steparrow-gen-info select');
-        if (!storeSelect.value || storeSelect.options[storeSelect.selectedIndex].disabled) {
-            invalidFields.push('Store');
-        }
-        
-        // 3. Validate Display Type (radio buttons)
-        const displayTypeSelected = document.querySelector('input[name="displayMode"]:checked');
-        if (!displayTypeSelected) {
-            invalidFields.push('displayMode');
-        }
-        
-        // 4. Validate Layout selection (radio buttons)
-        const layoutSelected = document.querySelector('input[name="layoutName"]:checked');
-        if (!layoutSelected) {
-            invalidFields.push('layoutName');
-        }
-        
-        // 5. Validate Display selection (check if any displays are selected)
-        // Add this if you have display selection logic
-        
-        return invalidFields;
-    };
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
 
-    nextButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const invalidFields = validateForm();
-        
-        if (invalidFields.length > 0) {
-            Swal.fire({
-                title: 'Incomplete Form',
-                text: `Please fill in: ${invalidFields.join(', ')}`,
-                icon: 'error',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                // Focus on first missing field
-                if (invalidFields.includes('Playlist Name')) {
-                    document.getElementById('layout-name').focus();
-                } else if (invalidFields.includes('Store')) {
-                    document.querySelector('#steparrow-gen-info select').focus();
-                } else if (invalidFields.includes('displayMode')) {
-                    document.querySelector('input[name="display-type"]').focus();
-                } else if (invalidFields.includes('layoutName')) {
-                    document.querySelector('input[name="layoutName"]').focus();
-                }
-            });
-            return;
-        }
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            }
 
-        // If all valid, proceed to next tab
-        if (zoneTabButton) {
-            new bootstrap.Tab(zoneTabButton).show();
+            reader.readAsDataURL(input.files[0]);
         }
-    });
+    }
 </script>
 </body>
-
 </html>

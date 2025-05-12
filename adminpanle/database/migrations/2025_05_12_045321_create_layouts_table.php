@@ -6,14 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    
     public function up(): void
     {
         Schema::create('layouts', function (Blueprint $table) {
             $table->id();
-            $table->string('layoutName')->unique();
+            $table->string('unique_id')->unique();
+            $table->string('layoutName');
             $table->string('store_id');
             $table->string('displayMode');
             $table->string('playlistName');

@@ -2,17 +2,14 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-
+    <base href="/public">
     <meta charset="utf-8" />
-    <title>Horizontal Layout | Velzon - Admin & Dashboard Template</title>
+    <title>Datatables | Velzon - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-    <!-- plugin css -->
-    <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
@@ -24,18 +21,29 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-
 
 </head>
 
 <body>
-
+    @if (Session::has('success'))
+    <script>
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: "{{ Session::get('success') }}",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            width: 'auto',
+            padding: '0.5rem',
+            customClass: {
+                container: 'swal2-toast-container',
+                popup: 'swal2-toast'
+            }
+        });
+    </script>
+@endif
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -914,8 +922,7 @@
                     <ul class="navbar-nav " id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="" role="button"
-                                aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link" href="{{ route('dashboard') }}">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
@@ -926,8 +933,7 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse"
-                                role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+                            <a class="nav-link menu-link" href="{{ route('store') }}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
@@ -954,8 +960,7 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse"
-                                role="button" aria-expanded="false" aria-controls="sidebarPages">
+                            <a class="nav-link menu-link" href="{{ route('display') }}">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">Display</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarPages">
@@ -985,8 +990,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse"
-                                role="button" aria-expanded="false" aria-controls="sidebarLanding">
+                            <a class="nav-link menu-link" href="{{ route('graphics') }}">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Graphics And Video</span>
                             </a>
 
@@ -995,15 +999,14 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
-                                role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
+                            <a class="nav-link menu-link" href="{{ route('template') }}">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
 
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="widgets.html">
+                            <a class="nav-link menu-link" href="{{ route('layout') }}">
                                 <i class="ri-honour-line"></i> <span data-key="t-widgets">Layout</span>
                             </a>
                         </li>
@@ -1022,182 +1025,301 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
+
         <div class="main-content">
 
             <div class="page-content">
                 <div class="container-fluid">
 
-                    <!-- start page title -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Dashboard</h4>
-
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Layouts</a></li>
-                                        <li class="breadcrumb-item active">Dashboard</li>
-                                    </ol>
-                                </div>
-
+                    <div class="col-xxl-12">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h2 class="card-title mb-0 flex-grow-1">
+                                    <a href="{{ route('store') }}" class="text-decoration-none me-2">
+                                        <i class="ri-arrow-left-line"></i>
+                                    </a>
+                                    Update Store
+                                </h2>
                             </div>
-                        </div>
-                    </div>
-                    <!-- end page title -->
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1">Add Graphics And Videos</h5>
-                                    <div>
-                                        <a href="graphics" class="btn btn-primary">
-                                            <x-codicon-arrow-small-left style="width: 20px;" />
-                                            Back
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-
-                                    <form action="{{ route('CreateGraphics') }}" method="POST"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="row container justify-content-between">
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <div class="container-fluid mt-4">
+                                        
+                                        <form method="POST" action="{{ route('updateStore', $store->id ?? '') }}" enctype="multipart/form-data"
+                                            class="row g-4 justify-content-between">
+                                            @csrf
+                                                @method('PUT')
+                                            <input type="hidden" name="storeId" value="{{ $store->storeId }}">
+                                            <!-- Left Form Section -->
                                             <div class="col-md-5">
-                                                <div class="mb-3">
-                                                    <label class="form-label fw-bold">Name</label>
-                                                    <input type="text" name="name" class="form-control"
-                                                        placeholder="Enter Name">
-                                                    @error('name')
-                                                        <span style="color: red">{{ $message }}</span>
-                                                    @enderror
+                                                <!-- Store ID -->
+                                                <div class="mb-5 mt-2">
+                                                    <label for="storeId" class="form-label"><span
+                                                            class="text-danger fs-4">*</span> Store Id</label>
+                                                    <input type="text" id="storeId" name="storeId"
+                                                        class="form-control {{ $errors->first('storeId') ? 'input-error' : '' }}"
+                                                        value="{{ old('storeId', $store->storeId ?? '') }}"
+                                                        placeholder="Enter Store Id" disabled>
+                                                    <span class="text-danger">
+                                                        @error('storeId')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label class="form-label fw-bold">Select Type</label>
-                                                    <select id="fileType" name="type" class="form-select"
-                                                        aria-label="Default select example">
-                                                        <option selected disabled>Open this select type</option>
-                                                        <option name="type" value="image">Image</option>
-                                                        <option name="type" value="video">Video</option>
+                                                <!-- Name -->
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        Name</label>
+                                                    <input type="text" name="name"
+                                                        class="form-control {{ $errors->first('name') ? 'input-error' : '' }}"
+                                                        value="{{ old('name', $store->name ?? '') }}"
+                                                        placeholder="Enter Store Name">
+                                                    <span class="text-danger">
+                                                        @error('name')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <!-- Phone -->
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        Phone</label>
+                                                    <input type="tel" name="phone"
+                                                        class="form-control {{ $errors->first('phone') ? 'input-error' : '' }}"
+                                                        value="{{ old('phone', $store->phone ?? '') }}"
+                                                        placeholder="+91 XXXXXXXXXX">
+                                                    <span class="text-danger">
+                                                        @error('phone')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <!-- Email -->
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label"><span
+                                                            class="text-danger fs-4">*</span>Email</label>
+                                                    <input type="email" name="email"
+                                                        class="form-control {{ $errors->first('email') ? 'input-error' : '' }}"
+                                                        value="{{ old('email', $store->email ?? '') }}"
+                                                        placeholder="Enter Your Email">
+                                                    <span class="text-danger">
+                                                        @error('email')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <!-- Country -->
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        Country</label>
+                                                    <select
+                                                        class="form-select {{ $errors->has('country') ? 'input-error' : '' }}"
+                                                        name="country">
+                                                        <option disabled
+                                                            {{ old('country', $store->country ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose Country...</option>
+                                                        <option value="India"
+                                                            {{ old('country', $store->country ?? '') == 1 ? 'selected' : '' }}>
+                                                            India</option>
+                                                        <option value="USA"
+                                                            {{ old('country', $store->country ?? '') == 2 ? 'selected' : '' }}>
+                                                            USA</option>
+                                                        <option value="Germany"
+                                                            {{ old('country', $store->country ?? '') == 3 ? 'selected' : '' }}>
+                                                            Germany</option>
                                                     </select>
-                                                    @error('type')
-                                                        <span style="color: red">{{ $message }}</span>
-                                                    @enderror
+                                                    <span class="text-danger">
+                                                        @error('country')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <!-- State -->
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        State</label>
+                                                    <select
+                                                        class="form-select {{ $errors->has('state') ? 'input-error' : '' }}"
+                                                        name="state">
+                                                        <option disabled
+                                                            {{ old('state', $store->state ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose State...</option>
+                                                        <option value="Gujrat"
+                                                            {{ old('state', $store->state ?? '') == 1 ? 'selected' : '' }}>
+                                                            Gujrat</option>
+                                                        <option value="California"
+                                                            {{ old('state', $store->state ?? '') == 2 ? 'selected' : '' }}>
+                                                            California</option>
+                                                        <option value="Hessen"
+                                                            {{ old('state', $store->state ?? '') == 3 ? 'selected' : '' }}>
+                                                            Hessen</option>
+                                                    </select>
+                                                    <span class="text-danger">
+                                                        @error('state')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <!-- City -->
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        City</label>
+                                                    <select
+                                                        class="form-select {{ $errors->has('city') ? 'input-error' : '' }}"
+                                                        name="city">
+                                                        <option disabled
+                                                            {{ old('city', $store->city ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose City...</option>
+                                                        <option value="Surat"
+                                                            {{ old('city', $store->city ?? '') == 1 ? 'selected' : '' }}>
+                                                            Surat</option>
+                                                        <option value="Fresno"
+                                                            {{ old('city', $store->city ?? '') == 2 ? 'selected' : '' }}>
+                                                            Fresno</option>
+                                                        <option value="Marburg"
+                                                            {{ old('city', $store->city ?? '') == 3 ? 'selected' : '' }}>
+                                                            Marburg</option>
+                                                    </select>
+                                                    <span class="text-danger">
+                                                        @error('city')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <!-- Pincode -->
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        Zip</label>
+                                                    <input type="text" name="pincode"
+                                                        value="{{ old('pincode', $store->pincode ?? '') }}"
+                                                        class="form-control {{ $errors->first('pincode') ? 'input-error' : '' }}"
+                                                        placeholder="Zip code">
+                                                    <span class="text-danger">
+                                                        @error('pincode')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <!-- Address -->
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        Store Address</label>
+                                                    <textarea name="address" class="form-control {{ $errors->first('address') ? 'input-error' : '' }}" rows="3"
+                                                        placeholder="Enter Store Address">{{ old('address', $store->address ?? '') }}</textarea>
+                                                    <span class="text-danger">
+                                                        @error('address')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-5">
-                                                <div class="mb-3">
-                                                    <label class="form-label fw-bold">Upload Video or Image</label>
-                                                    <input type="file" name="media_id" class="form-control"
-                                                        id="fileInput" accept="image/*,video/*">
-                                                </div>
-                                                @error('media_id')
-                                                    <span style="color: red">{{ $message }}</span>
-                                                @enderror
-                                                <div class="container mt-4">
-                                                    <p class="fw-bold">Upload Image/Video</p>
-                                                    <div id="previewBox" class="border p-3"
-                                                        style="width: 200px; height: 200px; background-color: #f2f2f2; overflow: hidden;">
-
-                                                        <div id="previewContent">
-                                                            <img src="https://www.discountflooringsupplies.com.au/wp-content/uploads/blank-img.jpg"
-                                                                alt="Preview" class="img-fluid"
-                                                                style="max-width: 100%; max-height: 100%;">
-                                                        </div>
+                                            <!-- Right Image Section -->
+                                            <div class="col-md-5 mt-5">
+                                                <!-- Image Preview -->
+                                                <div class="mb-5">
+                                                    <div class="mb-2">
+                                                        <img id="storeImagePreview"
+                                                            src="{{ isset($store->logo) && file_exists(public_path('uploads/store/' . $store->logo)) ? asset('uploads/store/' . $store->logo) : 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?20210521171500' }}"
+                                                            alt="Store Image Preview" width="320" height="320"
+                                                            style="object-fit: contain; cursor: pointer;"
+                                                            onclick="document.getElementById('storeImageInput').click()">
                                                     </div>
+                                                    <div class="text-secondary fw-semibold mb-2"
+                                                        style="cursor: pointer;"
+                                                        onclick="document.getElementById('storeImageInput').click()">
+                                                        Upload Store Logo</div>
+                                                    <input type="file" name="logo" class="d-none"
+                                                        id="storeImageInput" accept="image/*"
+                                                        onchange="previewStoreImage(event)">
+                                                    <span class="text-danger">
+                                                        @error('logo')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
                                                 </div>
 
+                                                <!-- Map Embed -->
+                                                <div class="mb-3">
+                                                    <iframe
+                                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709451063!2d72.73988483609048!3d21.15934029880327!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1746616876309!5m2!1sen!2sin"
+                                                        width="500" height="450" style="border:0;"
+                                                        allowfullscreen="" loading="lazy"
+                                                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </form>
 
-                                    <!-- Preview Box -->
+                                            <!-- Submit Button -->
+                                            <div class="col-12 text-end">
+                                                <button type="submit" class="btn btn-primary mt-3">
+                                                    {{ isset($store) ? 'Update Store' : 'Add Store' }}
+                                                </button>
+                                            </div>
+                                        </form>
 
-
-
-
+                                        <!-- JS for preview -->
+                                        {{-- <script>
+                                          function previewStoreImage(event) {
+                                              const file = event.target.files[0];
+                                              if (file && file.type.startsWith('image/')) {
+                                                  const reader = new FileReader();
+                                                  reader.onload = function (e) {
+                                                      document.getElementById('storeImagePreview').src = e.target.result;
+                                                  };
+                                                  reader.readAsDataURL(file);
+                                              }
+                                          }
+                                      </script>
+                                       --}}
+                                    </div>
+                                    <script>
+                                        function previewStoreImage(event) {
+                                            const reader = new FileReader();
+                                            reader.onload = function(){
+                                                document.getElementById('storeImagePreview').src = reader.result;
+                                            };
+                                            reader.readAsDataURL(event.target.files[0]);
+                                        }
+                                    </script>
+                                    {{-- <script>
+                                        function previewStoreImage(event) {
+                                            const file = event.target.files[0];
+                                            if (file && file.type.startsWith('image/')) {
+                                                const reader = new FileReader();
+                                                reader.onload = function(e) {
+                                                    const img = document.getElementById('storeImagePreview');
+                                                    img.src = e.target.result; // Replace default with uploaded image
+                                                };
+                                                reader.readAsDataURL(file);
+                                            }
+                                        }
+                                    </script> --}}
                                 </div>
-                            </div>
-                        </div><!--end col-->
-                    </div><!--end row-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </div>
-                <!-- container-fluid -->
-            </div>
-            <!-- End Page-content -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script> © Velzon.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Themesbrand
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- end col -->
                 </div>
-            </footer>
+            </div><!--end col-->
         </div>
-        <!-- end main content-->
+
+    </div>
+
+    <!-- end main content-->
 
     </div>
     <!-- END layout-wrapper -->
-
-
 
     <!--start back-to-top-->
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
@@ -1215,59 +1337,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-    <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-    <script>
-        const fileInput = document.getElementById('fileInput');
-        const fileType = document.getElementById('fileType');
-        const previewBox = document.getElementById('previewBox');
-        const previewContent = document.getElementById('previewContent');
-
-        fileInput.addEventListener('change', function() {
-            const file = this.files[0];
-            const selectedType = fileType.value;
-
-            if (!file || !selectedType) return;
-
-            previewContent.innerHTML = ''; // Clear previous preview
-
-            const fileURL = URL.createObjectURL(file);
-
-            if (selectedType === 'image' && file.type.startsWith('image/')) {
-                const img = document.createElement('img');
-                img.src = fileURL;
-                img.className = 'img-fluid';
-                img.style.maxHeight = '100px';
-                previewContent.appendChild(img);
-                previewBox.style.display = 'block';
-            } else if (selectedType === 'video' && file.type.startsWith('video/')) {
-                const video = document.createElement('video');
-                video.src = fileURL;
-                video.controls = true;
-                video.style.maxWidth = '100%';
-                video.style.maxHeight = '100px';
-                previewContent.appendChild(video);
-                previewBox.style.display = 'block';
-            } else {
-                previewBox.style.display = 'none';
-            }
-        });
-    </script>
-
-
 </body>
 
 </html>

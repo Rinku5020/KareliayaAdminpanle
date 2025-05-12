@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DigitalController;
 use App\Http\Controllers\GraphicsController;
+use App\Http\Controllers\LayoutController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -33,13 +34,11 @@ Route::get('/resetpassword', [Controller::class, 'resetpassword'])->name('resetp
 Route::post('/resetpassword', [Controller::class, 'resetPasswordUpdate'])->name('password.update');
 
 // Layout 
-Route::get('/layout', [DigitalController::class, 'showLayout'])->name('layout');
-Route::get('/addlayout', [DigitalController::class, 'AddLayout'])->name('addlayout');
+Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
+Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
+Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
 
 
 
-// Route::get('/test-mail', function () {
-//     Mail::to('rinku4kareliya@gmail.com')->send(new OtpMail('123456'));
-//     return 'Mail sent!';
-// });
+
 

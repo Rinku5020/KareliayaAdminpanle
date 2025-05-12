@@ -945,9 +945,87 @@
                                     style="font-size: 25px"></a>
                                 <h4 class="card-title mb-0 fw-semibold">Add Playlist</h4>
                             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <!-- end card header -->
                             <div class="card-body form-steps">
-                                <form action="#">
+                                <form action="{{route('layoutStore')}}" method="POST">
+                                    @csrf
                                     <div class="step-arrow-nav mb-4">
                                         <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
                                             <li class="nav-item" role="presentation">
@@ -977,67 +1055,85 @@
                                                     <div class="layout-selector">
                                                         <!-- Layout 1 -->
                                                         <label class="layout-option">
-                                                            <input type="radio" name="layout"
-                                                                class="form-check-input">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" >
                                                             <span>Layout 1</span>
                                                             <div class="layout-box"></div>
                                                         </label>
                                                         <!-- Layout 2 -->
                                                         <label class="layout-option">
-                                                            <input type="radio" name="layout"
+                                                            <input type="radio" name="layoutName"
                                                                 class="form-check-input">
                                                             <span>Layout 2</span>
                                                             <div class="layout-box vertical-line"></div>
                                                         </label>
                                                         <!-- Layout 3 -->
                                                         <label class="layout-option">
-                                                            <input type="radio" name="layout"
+                                                            <input type="radio" name="layoutName"
                                                                 class="form-check-input">
                                                             <span>Layout 3</span>
                                                             <div class="layout-box cross-lines"></div>
                                                         </label>
                                                         <!-- Layout 4 -->
                                                         <label class="layout-option">
-                                                            <input type="radio" name="layout"
+                                                            <input type="radio" name="layoutName"
                                                                 class="form-check-input">
                                                             <span>Layout 4</span>
                                                             <div class="layout-box bottom-line"></div>
                                                         </label>
                                                         <!-- Layout 5 -->
                                                         <label class="layout-option">
-                                                            <input type="radio" name="layout"
+                                                            <input type="radio" name="layoutName"
                                                                 class="form-check-input">
                                                             <span>Layout 5</span>
                                                             <div class="layout-box tall horizontal-line"></div>
                                                         </label>
                                                     </div>
+                                                    @error('layoutName')
+                                                        
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                        
+                                                    @enderror
                                                 </div>
                                                 <div class="row mt-5 ">
                                                     <div class="mb-3 col-md-4">
                                                         <label for="display-type" class="form-label">Select
                                                             Store</label>
-                                                        <select class="form-control">
-                                                            <option class="text-muted" disabled selected>Select Store
-                                                            </option>
+                                                        <select name="store_id" class="form-control" required >
+                                                            <option class="text-muted" disabled selected>Select Store</option>
+                                                            
                                                             <option>Store 1</option>
                                                             <option>Store 2</option>
                                                             <option>Store 3</option>
                                                         </select>
+                                                    @error('store_id')
+                                                        
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                        
+                                                    @enderror
                                                     </div>
                                                     <div class="mb-3 col-md-4 text-center ">
-                                                        <p for="display-type" class="form-label fw-semibold">Display
-                                                            Type</p>
-                                                        <input type="radio" class="form-check-input">
+                                                        <p for="display-type" class="form-label fw-semibold">Display Type</p>
+                                                            
+                                                        <input type="radio" name="displayMode" class="form-check-input" required >
                                                         <label for=""> Portrait</label>
-                                                        <input type="radio" class="form-check-input">
-                                                        <label for="">
-                                                            Landscape
-                                                        </label>
+                                                        <input type="radio" name="displayMode" class="form-check-input" required>
+                                                        <label for="">Landscape</label>
+                                                        @error('displayMode')
+                                                        
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                            
+                                                        @enderror
+                                                        
                                                     </div>
                                                     <div class="mb-3 col-md-4">
                                                         <label for="">Playlist Name</label>
-                                                        <input type="text" value="addd" class="form-control"
-                                                            id="display-type" required>
+                                                        <input type="text"  class="form-control" name="playlistName" id="layout-name" required>
+                                                        @error('playlistName')
+                                                        
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                        
+                                                    @enderror 
                                                     </div>
                                                 </div>
                                                 <div class="selection-container">
@@ -1093,13 +1189,19 @@
                                                     <!-- Left Column -->
                                                     <div class="col-12 col-md-6 col-lg-4">
                                                         <label for="" class="form-label">Address</label>
-                                                        <textarea name="" class="form-control"></textarea>
+                                                        <textarea name="address" class="form-control"></textarea>
+                                                        @error('address')
+                                                        
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                            
+                                                        @enderror
+
 
                                                         <div class="mt-3">
                                                             <label>Logo</label>
                                                             <div class="logoBOX">
                                                                 <!-- Hidden file input -->
-                                                                <input type="file" id="logoInput" accept="image/*"
+                                                                <input type="file" name="logo" id="logoInput" accept="image/*"
                                                                     style="display: none;">
 
                                                                 <!-- Label acting as image wrapper -->
@@ -1107,8 +1209,15 @@
                                                                     <img src="assets/images/small/blank-img.webp"
                                                                         class="img-fluid" alt="Click to upload logo">
                                                                 </label>
+                                                                
                                                             </div>
+                                                            @error('logo')
+                                                                    
+                                                                <span style="color: red"> {{ $message }} </span>
+                                                                    
+                                                                @enderror
                                                         </div>
+
                                                     </div>
 
                                                     <!-- Table Column -->
@@ -1131,8 +1240,23 @@
 
                                                     <!-- Bottom Two Columns -->
                                                     <div class="col-12 col-md-6 col-lg-7 selection-box mt-3">
-                                                        <label for=""
-                                                            class="text-primary fw-semibold">Zone1</label>
+                                                        <select name="select_zone" class="form-select w-25" id="">
+                                                            <option disabled class="text-muted ">Select Zone</option>
+                                                            <option value="Zone1">Zone 1</option>
+                                                            <option value="Zone2">Zone 2</option>
+                                                            <option value="Zone3">Zone 3</option>
+                                                            <option value="Zone4">Zone 4</option>
+                                                            <option value="Zone5">Zone 5</option>
+
+                                                        </select>
+                                                          @error('select_zone')
+                                                            
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                            
+                                                        @enderror
+
+
+                                                            
                                                         <hr>
                                                         <table class="table table-bordered">
                                                             <thead class="bg-light">
@@ -1152,6 +1276,8 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
+
+                                                      
 
                                                     </div>
                                                     <div class="col-12 col-md-6 col-lg-4 selection-box mt-3">
@@ -1295,7 +1421,7 @@
                                                     data-previous="steparrow-gen-info-tab"><i
                                                         class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                                     Back to General</button>
-                                                <button type="button"
+                                                <button type="submit"
                                                     class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                                     data-nexttab="pills-experience-tab"><i
                                                         class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit
@@ -1305,6 +1431,63 @@
                                 </form>
                             </div>
                             <!-- end card body -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         </div>
                         <!-- end card -->
                     </div>
@@ -1333,35 +1516,76 @@
     <!-- Include SweetAlert and Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const displayTypeInput = document.getElementById('display-type');
-        const nextButton = document.getElementById('next-to-step2');
-        const zoneTabButton = document.getElementById('steparrow-description-info-tab');
-        // Real-time validation to enable/disable Zone tab
-        displayTypeInput.addEventListener('input', function() {
-            const isValid = this.value.trim() !== '';
-            zoneTabButton.disabled = !isValid;
-            zoneTabButton.classList.toggle('disabled', !isValid);
-        });
-        // Continue button click handler
-        nextButton.addEventListener('click', function() {
-            if (displayTypeInput.value.trim() === '') {
-                Swal.fire({
-                    title: 'Incomplete Form',
-                    text: 'Please fill in Display Type before proceeding',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    // Keep focus on the required field
-                    displayTypeInput.focus();
-                });
-                return;
-            }
-            // Only proceed if validation passes
-            const tab = new bootstrap.Tab(zoneTabButton);
-            tab.show();
-        });
-    </script>
+<script>
+    const nextButton = document.getElementById('next-to-step2');
+    const zoneTabButton = document.getElementById('steparrow-description-info-tab');
+
+    // Improved validation function
+    const validateForm = () => {
+        let invalidFields = [];
+        
+        // 1. Validate Playlist Name (text input)
+        const playlistName = document.getElementById('layout-name');
+        if (!playlistName.value.trim()) {
+            invalidFields.push('Playlist Name');
+        }
+        
+        // 2. Validate Store selection (dropdown)
+        const storeSelect = document.querySelector('#steparrow-gen-info select');
+        if (!storeSelect.value || storeSelect.options[storeSelect.selectedIndex].disabled) {
+            invalidFields.push('Store');
+        }
+        
+        // 3. Validate Display Type (radio buttons)
+        const displayTypeSelected = document.querySelector('input[name="displayMode"]:checked');
+        if (!displayTypeSelected) {
+            invalidFields.push('displayMode');
+        }
+        
+        // 4. Validate Layout selection (radio buttons)
+        const layoutSelected = document.querySelector('input[name="layoutName"]:checked');
+        if (!layoutSelected) {
+            invalidFields.push('layoutName');
+        }
+        
+        // 5. Validate Display selection (check if any displays are selected)
+        // Add this if you have display selection logic
+        
+        return invalidFields;
+    };
+
+    nextButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const invalidFields = validateForm();
+        
+        if (invalidFields.length > 0) {
+            Swal.fire({
+                title: 'Incomplete Form',
+                text: `Please fill in: ${invalidFields.join(', ')}`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Focus on first missing field
+                if (invalidFields.includes('Playlist Name')) {
+                    document.getElementById('layout-name').focus();
+                } else if (invalidFields.includes('Store')) {
+                    document.querySelector('#steparrow-gen-info select').focus();
+                } else if (invalidFields.includes('displayMode')) {
+                    document.querySelector('input[name="display-type"]').focus();
+                } else if (invalidFields.includes('layoutName')) {
+                    document.querySelector('input[name="layoutName"]').focus();
+                }
+            });
+            return;
+        }
+
+        // If all valid, proceed to next tab
+        if (zoneTabButton) {
+            new bootstrap.Tab(zoneTabButton).show();
+        }
+    });
+</script>
 </body>
 
 </html>

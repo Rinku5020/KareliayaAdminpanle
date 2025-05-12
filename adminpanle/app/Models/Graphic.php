@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Graphic extends Model
 {
-    public $timestamps = false;
+
     // use HasFactory, SoftDeletes;
 
     // protected $fillable = [

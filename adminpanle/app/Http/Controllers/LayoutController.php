@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Graphic;
 use App\Models\layout;
+use App\Models\Media;
 use App\Models\Store;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -62,6 +63,46 @@ class LayoutController extends Controller
         $layout->address = $request->input('address');
         $layout->select_zone = $request->input('select_zone');
         $layout->save();
+        // Save the media items
+         $mediaItems = json_decode($request->input('media'), true);
+
+            if ($mediaItems) {
+                foreach ($mediaItems as $item) {
+                    Media::create([
+                        'layout_unique_id' => $layout->unique_id,
+                        'media_name' => $item['name'],
+                        'media_type' => $item['type'],
+                        'duration' => $item['duration']
+                    ]);
+                }
+            }
+
         return redirect()->route('layout')->with('success', 'Layout added successfully.');
     }
+
+
+
+// API Controller
+
+  public function getAllData($id)
+{
+    $layout = Layout::where('unique_id', $id)->first();
+
+  
+
+
+    if (!$layout) {
+        return response()->json(['error' => 'Layout not found'], 404);
+    }
+       $media = Media::where('layout_unique_id', $layout->unique_id)->get();
+   
+    return response()->json([
+        'layout' => $layout,
+        'media' => $media
+    ]);
 }
+
+}
+  
+
+

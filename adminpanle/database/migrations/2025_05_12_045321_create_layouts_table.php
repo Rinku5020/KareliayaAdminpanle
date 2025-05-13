@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('logo');
             $table->string('select_zone');
+            $table->string('status')->default(true);
             $table->timestamps();
         });
     }

@@ -944,58 +944,8 @@
                                 <h4 class="card-title mb-0 fw-semibold">Add Playlist</h4>
                             </div>
                             <!-- end card header -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             <div class="card-body form-steps">
-                                <form action="{{ route('layoutStore') }}" method="POST"
+                                <form id="layoutForm" action="{{ route('layoutStore') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="step-arrow-nav mb-4">
@@ -1025,7 +975,6 @@
                                                         <h4 for="" class="form-label">Display Type</h4>
                                                     </div>
                                                     <div class="layout-selector">
-                                                        
                                                         <!-- Layout 1 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
@@ -1076,10 +1025,8 @@
                                                         <label for="display-type" class="form-label">Select
                                                             Store</label>
                                                         <select name="store_id" class="form-control" required>
-                                                            <option class="text-muted" disabled selected>Select Store</option>
-                                                                
-                                                            
-                                                            
+                                                            <option class="text-muted" disabled selected>Select Store
+                                                            </option>
                                                             @foreach ($store_id as $store)
                                                                 <option value="{{ $store->storeId }}"
                                                                     {{ old('store_id') == $store->storeId ? 'selected' : '' }}>
@@ -1176,12 +1123,14 @@
                                                         @enderror
                                                         <div class="mt-3">
                                                             <label>Logo</label>
-                                                           <div class="logoBOX">
-                                                                <input type="file" name="logo" id="logoInput" accept="image/*" style="display: none;" onchange="previewLogo(event)">
-
+                                                            <div class="logoBOX">
+                                                                <input type="file" name="logo" id="logoInput"
+                                                                    accept="image/*" style="display: none;"
+                                                                    onchange="previewLogo(event)">
                                                                 <!-- Label acts as clickable image -->
                                                                 <label for="logoInput" style="cursor: pointer;">
-                                                                    <img id="logoPreview" src="{{ asset('assets/images/small/blank-img.webp') }}"
+                                                                    <img id="logoPreview"
+                                                                        src="{{ asset('assets/images/small/blank-img.webp') }}"
                                                                         class="img-fluid" alt="Click to upload logo">
                                                                 </label>
                                                             </div>
@@ -1213,11 +1162,21 @@
                                                             id="">
                                                             <option disabled class="text-muted " selected>Select Zone
                                                             </option>
-                                                            <option value="Zone1" {{ old('select_zone') == 'Zone1' ? 'selected' : '' }}>Zone 1</option>
-                                                            <option value="Zone2" {{ old('select_zone') == 'Zone2' ? 'selected' : '' }}>Zone 2</option>
-                                                            <option value="Zone3" {{ old('select_zone') == 'Zone3' ? 'selected' : '' }}>Zone 3</option>
-                                                            <option value="Zone4" {{ old('select_zone') == 'Zone4' ? 'selected' : '' }}>Zone 4</option>
-                                                            <option value="Zone5" {{ old('select_zone') == 'Zone5' ? 'selected' : '' }}>Zone 5</option>
+                                                            <option value="Zone1"
+                                                                {{ old('select_zone') == 'Zone1' ? 'selected' : '' }}>
+                                                                Zone 1</option>
+                                                            <option value="Zone2"
+                                                                {{ old('select_zone') == 'Zone2' ? 'selected' : '' }}>
+                                                                Zone 2</option>
+                                                            <option value="Zone3"
+                                                                {{ old('select_zone') == 'Zone3' ? 'selected' : '' }}>
+                                                                Zone 3</option>
+                                                            <option value="Zone4"
+                                                                {{ old('select_zone') == 'Zone4' ? 'selected' : '' }}>
+                                                                Zone 4</option>
+                                                            <option value="Zone5"
+                                                                {{ old('select_zone') == 'Zone5' ? 'selected' : '' }}>
+                                                                Zone 5</option>
                                                         </select>
                                                         @error('select_zone')
                                                             <span style="color: red"> {{ $message }} </span>
@@ -1232,13 +1191,7 @@
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>demo1</td>
-                                                                    <td>demo2</td>
-                                                                    <td>demo3</td>
-                                                                    <td>demo4</td>
-                                                                </tr>
+                                                            <tbody id="media-table-body">
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -1284,49 +1237,67 @@
                                                                             <h4 class="text-center">Image</h4>
                                                                             <hr>
                                                                             <div class="row justify-content-between">
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
+                                                                                @foreach ($graphics as $image)
+                                                                                    @php
+                                                                                        $ext = pathinfo(
+                                                                                            $image->media_id,
+                                                                                            PATHINFO_EXTENSION,
+                                                                                        );
+                                                                                    @endphp
+                                                                                    @if (in_array(strtolower($ext), ['jpg', 'png', 'jpeg', 'svg']))
+                                                                                        <div class="col-6 mb-3 ">
+                                                                                            <a href="javascript:void(0);"
+                                                                                                class="card text-center select-media bg-light"
+                                                                                                data-name="{{ $image->media_id }}"
+                                                                                                data-type="Image"
+                                                                                                data-duration="N/A">
+                                                                                                <img src="{{ asset('uploads/media/' . $image->media_id) }}"
+                                                                                                    alt=""
+                                                                                                    class="img-fluid card-img-top">
+                                                                                                <div
+                                                                                                    class="card-body">
+                                                                                                    <strong>{{ $image->media_id }}</strong>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
                                                                             </div>
                                                                         </div>
                                                                         <div class="tab-pane" id="arrow-profile"
                                                                             role="tabpanel">
-                                                                            <h4 class="text-center">Video</h4>
+                                                                            <h4 class="text-center">Videos</h4>
                                                                             <hr>
                                                                             <div class="row justify-content-between">
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
+                                                                                @foreach ($graphics as $item)
+                                                                                    @php
+                                                                                        $ext = pathinfo(
+                                                                                            $item->media_id,
+                                                                                            PATHINFO_EXTENSION,
+                                                                                        );
+                                                                                    @endphp
+                                                                                    @if (strtolower($ext) === 'mp4')
+                                                                                        <div class="col-6 mb-3">
+                                                                                            <a class="card bg-light select-media text-decoration-none border-0"
+                                                                                                style="display: block;"
+                                                                                                data-name="{{ $item->media_id }}"
+                                                                                                data-type="Video"
+                                                                                                data-duration="00:00">
+                                                                                                <video controls
+                                                                                                    width="100%"
+                                                                                                    poster="{{ asset('assets/images/small/blank-img.webp') }}"
+                                                                                                    class="card-img-top">
+                                                                                                    <source
+                                                                                                        src="{{ asset('uploads/media/' . $item->media_id) }}"
+                                                                                                        type="video/mp4">
+                                                                                                    Your browser does
+                                                                                                    not support the
+                                                                                                    video tag.
+                                                                                                </video>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
                                                                             </div>
                                                                         </div>
                                                                         <div class="tab-pane" id="arrow-contact"
@@ -1366,6 +1337,7 @@
                                                     data-previous="steparrow-gen-info-tab"><i
                                                         class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                                     Back to General</button>
+                                                <input type="hidden" name="media" id="mediaInput">
                                                 <button type="submit"
                                                     class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                                     data-nexttab="pills-experience-tab"><i
@@ -1376,60 +1348,6 @@
                                 </form>
                             </div>
                             <!-- end card body -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         </div>
                         <!-- end card -->
                     </div>
@@ -1458,80 +1376,7 @@
     <!-- Include SweetAlert and Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const nextButton = document.getElementById('next-to-step2');
-        const zoneTabButton = document.getElementById('steparrow-description-info-tab');
-        // Improved validation function
-        const validateForm = () => {
-            let invalidFields = [];
-            // 1. Validate Playlist Name (text input)
-            const playlistName = document.getElementById('layout-name');
-            if (!playlistName.value.trim()) {
-                invalidFields.push('Playlist Name');
-            }
-            // 2. Validate Store selection (dropdown)
-            const storeSelect = document.querySelector('#steparrow-gen-info select');
-            if (!storeSelect.value || storeSelect.options[storeSelect.selectedIndex].disabled) {
-                invalidFields.push('Store');
-            }
-            // 3. Validate Display Type (radio buttons)
-            const displayTypeSelected = document.querySelector('input[name="displayMode"]:checked');
-            if (!displayTypeSelected) {
-                invalidFields.push('displayMode');
-            }
-            // 4. Validate Layout selection (radio buttons)
-            const layoutSelected = document.querySelector('input[name="layoutName"]:checked');
-            if (!layoutSelected) {
-                invalidFields.push('layoutName');
-            }
-            // 5. Validate Display selection (check if any displays are selected)
-            // Add this if you have display selection logic
-            return invalidFields;
-        };
-        nextButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            const invalidFields = validateForm();
-            if (invalidFields.length > 0) {
-                Swal.fire({
-                    title: 'Incomplete Form',
-                    text: `Please fill in: ${invalidFields.join(', ')}`,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    // Focus on first missing field
-                    if (invalidFields.includes('Playlist Name')) {
-                        document.getElementById('layout-name').focus();
-                    } else if (invalidFields.includes('Store')) {
-                        document.querySelector('#steparrow-gen-info select').focus();
-                    } else if (invalidFields.includes('displayMode')) {
-                        document.querySelector('input[name="display-type"]').focus();
-                    } else if (invalidFields.includes('layoutName')) {
-                        document.querySelector('input[name="layoutName"]').focus();
-                    }
-                });
-                return;
-            }
-            // If all valid, proceed to next tab
-            if (zoneTabButton) {
-                new bootstrap.Tab(zoneTabButton).show();
-            }
-        });
-    </script>
-    <script>
-    function previewLogo(event) {
-        const input = event.target;
-        const preview = document.getElementById('logoPreview');
-
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
+    {{-- add layout js --}}
+    <script src="assets/js/addlayout.js"></script>
 </body>
 </html>

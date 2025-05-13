@@ -42,6 +42,7 @@ Route::post('/resetpassword', [Controller::class, 'resetPasswordUpdate'])->name(
 Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
 Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
 Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
+Route::get('/getAllData/{id}', [LayoutController::class, 'getAllData'])->name('getAllData');
 
 
 

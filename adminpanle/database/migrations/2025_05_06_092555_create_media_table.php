@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
-            $table->string('type')->nullable(); // 'image' or 'video'
+            $table->string('layout_unique_id');
+            $table->string('media_name');
+            $table->string('media_type');
+            $table->string('duration')->nullable();
             $table->timestamps();
         });
     }

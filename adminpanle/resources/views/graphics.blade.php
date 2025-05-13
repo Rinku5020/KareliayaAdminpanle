@@ -914,7 +914,7 @@
                     <ul class="navbar-nav " id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/" data-bs-toggle="" role="button"
+                            <a class="nav-link menu-link" href="{{ route('dashboard') }}" data-bs-toggle="" role="button"
                                 aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
@@ -926,7 +926,7 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/store">
+                            <a class="nav-link menu-link" href="{{ route('store') }}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
@@ -983,11 +983,9 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse"
-                                role="button" aria-expanded="false" aria-controls="sidebarLanding">
+                            <a class="nav-link menu-link" href="{{ route('graphics') }}">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Graphics And Video</span>
                             </a>
-
                         </li>
 
 

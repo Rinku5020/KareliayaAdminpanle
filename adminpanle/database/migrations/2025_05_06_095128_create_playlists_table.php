@@ -16,11 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('theme_id');
             $table->string('playlist_name');
-            $table->string('display_mode'); // landscape/portrait
-            $table->string('display_size')->default('layout1');
+            $table->string('display_mode'); 
+            $table->string('display_size');
             $table->boolean('display_status')->default(true);
             $table->string('static_address')->nullable();
-            $table->string('schedule_type'); // fixed/recurring
+            $table->string('schedule_type'); 
             $table->boolean('status')->default(true);
             $table->integer('unique_code')->unique();
             $table->unsignedBigInteger('logo_id')->nullable();

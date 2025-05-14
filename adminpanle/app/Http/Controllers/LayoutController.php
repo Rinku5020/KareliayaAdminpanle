@@ -14,6 +14,9 @@ class LayoutController extends Controller
     public function showLayout()
     {
         $layouts = Layout::all();
+        $status =[true, false];
+       
+        
         return view('layout.layout', compact('layouts'));
     }
     public function AddLayout(Request $request)

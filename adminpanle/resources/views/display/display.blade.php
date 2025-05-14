@@ -11,8 +11,16 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
 
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <!--datatable responsive css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
     <!-- Bootstrap Css -->
@@ -24,29 +32,31 @@
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
 
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 
 <body>
     @if (Session::has('success'))
-        <script>
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                title: "{{ Session::get('success') }}",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                width: 'auto',
-                padding: '0.5rem',
-                customClass: {
-                    container: 'swal2-toast-container',
-                    popup: 'swal2-toast'
-                }
-            });
-        </script>
-    @endif
-
+    <script>
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            text: "{{ Session::get('success') }}",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            width: 'auto',
+            padding: '0.5rem',
+            customClass: {
+                container: 'swal2-toast-container',
+                popup: 'swal2-toast'
+            }
+        });
+    </script>
+@endif
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -1033,262 +1043,91 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-
-                    <div class="col-xxl-12">
-                        <div class="card">
-                            <div class="card-header align-items-center d-flex">
-                                <h2 class="card-title mb-0 flex-grow-1">
-                                    <a href="{{ route('store') }}" class="text-decoration-none me-2">
-                                        <i class="ri-arrow-left-line"></i>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card shadow-sm rounded-3 border-0">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
+                                    <h5 class="card-title mb-0 fw-semibold">Displays</h5>
+                                    <a href="{{ route('addDisplay') }}" class="btn btn-secondary">
+                                        <i class="bi bi-plus-circle me-1"></i> Add Display
                                     </a>
-                                    Add Store
-                                </h2>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="live-preview">
-                                    <div class="container-fluid mt-4">
-                                        <form action="{{ route('storeAdd') }}" method="post"
-                                            enctype="multipart/form-data" class="row g-4 justify-content-between">
-                                            @csrf
-                                            <!-- Left Form Section -->
-                                            <div class="col-md-5">
-                                                <div class="mb-5 mt-2">
-                                                    <label for="storeId" class="form-label">
-                                                        <span class="text-danger fs-4">*</span> Store Id
-                                                    </label>
-                                                    <input type="text" id="storeId" name="storeId"
-                                                        class="form-control {{ $errors->first('storeId') ? 'input-error' : '' }}"
-                                                        value="{{ old('storeId', $storeId ?? '') }}"
-                                                        placeholder="Enter Store Id" readonly>
-                                                    <span class="text-danger">
-                                                        @error('storeId')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-
-                                                <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
-                                                        Name</label>
-                                                    <input type="text" name="name"
-                                                        class="form-control {{ $errors->first('name') ? 'input-error' : '' }}"
-                                                        value="{{ old('name') }}" placeholder="Enter Store Name">
-                                                    <span class="text-danger">
-                                                        @error('name')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-                                                <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
-                                                        Phone</label>
-                                                    <input type="tel" name="phone"
-                                                        class="form-control {{ $errors->first('phone') ? 'input-error' : '' }}"
-                                                        value="{{ old('phone') }}" placeholder="+91 XXXXXXXXXX"
-                                                        title="Enter a valid phone number">
-                                                    <span class="text-danger">
-                                                        @error('phone')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-                                                <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Email</label>
-                                                    <input type="email" name="email" value="{{ old('email') }}"
-                                                        class="form-control {{ $errors->first('email') ? 'input-error' : '' }}"
-                                                        placeholder="Enter Your Email">
-                                                    <span class="text-danger">
-                                                        @error('email')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-                                                <div class="mb-5 mt-2">
-                                                    <label class="form-label" for="country">
-                                                        <span class="text-danger fs-4">*</span>Select Country
-                                                    </label>
-                                                    <select
-                                                        class="form-select {{ $errors->has('country') ? 'input-error' : '' }}"
-                                                        id="country" name="country">
-                                                        <option disabled {{ old('country') ? '' : 'selected' }}>Choose
-                                                            Country...</option>
-                                                        <option value="India"
-                                                            {{ old('country') == 'India' ? 'selected' : '' }}>India
-                                                        </option>
-                                                        <option value="USA"
-                                                            {{ old('country') == 'USA' ? 'selected' : '' }}>USA
-                                                        </option>
-                                                        <option value="Germany"
-                                                            {{ old('country') == 'Germany' ? 'selected' : '' }}>Germany
-                                                        </option>
-                                                    </select>
-                                                    <span class="text-danger">
-                                                        @error('country')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-
-                                                <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Select State</label>
-                                                    <select
-                                                        class="form-select {{ $errors->has('state') ? 'input-error' : '' }}"
-                                                        id="state" name="state">
-                                                        <option disabled {{ old('state') ? '' : 'selected' }}>Choose
-                                                            State...</option>
-                                                        <option value="Gujrat"
-                                                            {{ old('state') == 'Surat' ? 'selected' : '' }}>Gujrat
-                                                        </option>
-                                                        <option value="California"
-                                                            {{ old('state') == 'California' ? 'selected' : '' }}>
-                                                            California</option>
-                                                        <option value="Hessen"
-                                                            {{ old('state') == 'Hessen' ? 'selected' : '' }}>Hessen
-                                                        </option>
-                                                    </select>
-                                                    <span class="text-danger">
-                                                        @error('state')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-                                                <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Select City</label>
-                                                    <select
-                                                        class="form-select {{ $errors->has('city') ? 'input-error' : '' }}"
-                                                        id="city" name="city">
-                                                        <option disabled {{ old('city') ? '' : 'selected' }}>Choose
-                                                            City...</option>
-                                                        <option value="Surat"
-                                                            {{ old('city') == 'Surat' ? 'selected' : '' }}>Surat
-                                                        </option>
-                                                        <option value="Fresno"
-                                                            {{ old('city') == 'Fresno' ? 'selected' : '' }}>Fresno
-                                                        </option>
-                                                        <option value="Marburg"
-                                                            {{ old('city') == 'Marburg' ? 'selected' : '' }}>Marburg
-                                                        </option>
-                                                    </select>
-                                                    <span class="text-danger">
-                                                        @error('city')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-                                                <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Zip</label>
-                                                    <input type="text" name="pincode"
-                                                        value="{{ old('pincode') }}"
-                                                        class="form-control {{ $errors->first('pincode') ? 'input-error' : '' }}"
-                                                        placeholder="Zip code">
-                                                    <span class="text-danger">
-                                                        @error('pincode')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-                                                <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Store Address</label>
-                                                    <textarea class="form-control  {{ $errors->first('address') ? 'input-error' : '' }}" name="address" rows="3"
-                                                        placeholder="Enter Store Address">{{ old('address') }}</textarea>
-                                                    <span class="text-danger">
-                                                        @error('address')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <!-- Right Image Section -->
-                                            <div class="col-md-5 mt-5">
-                                                <div class="mb-5">
-                                                    <div class="mb-2">
-                                                        <img id="storeImagePreview"
-                                                            src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?20210521171500"
-                                                            alt="Store Image Preview" width="320" height="320"
-                                                            style="object-fit: contain; cursor: pointer;"
-                                                            onclick="document.getElementById('storeImageInput').click()">
-                                                    </div>
-
-                                                    <!-- Trigger text -->
-                                                    <div class="text-secondary fw-semibold mb-2"
-                                                        style="cursor: pointer;"
-                                                        onclick="document.getElementById('storeImageInput').click()">
-                                                        Upload Store Logo
-                                                    </div>
-
-                                                    <!-- Hidden file input with name -->
-                                                    <input type="file" name="logo" class="d-none"
-                                                        id="storeImageInput" accept="image/*"
-                                                        onchange="previewStoreImage(event)">
-
-                                                    <span class="text-danger">
-                                                        @error('logo')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </span>
-                                                </div>
-
-
-
-                                                <div class="mb-3">
-                                                    <iframe
-                                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709451063!2d72.73988483609048!3d21.15934029880327!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1746616876309!5m2!1sen!2sin"
-                                                        width="500" height="450" style="border:0;"
-                                                        allowfullscreen="" loading="lazy"
-                                                        referrerpolicy="no-referrer-when-downgrade"></iframe>
-                                                </div>
-                                            </div>
-
-                                            <!-- Submit Button -->
-                                            <div class="col-12 text-end">
-                                                <button type="submit" class="btn btn-primary mt-3">Add Store</button>
-                                            </div>
-                                        </form>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="add-rows" class="table table-hover table-bordered align-middle text-center" style="width: 100%;">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Display Name</th>
+                                                    <th>Store</th>
+                                                    <th>Device Id</th>
+                                                    <th>Location</th>
+                                                    <th>City</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($display as $displayCollection)
+                                                    <tr>
+                                                        <td class="fw-medium">{{ $displayCollection->displayName }}</td>
+                                                        <td>{{ $displayCollection->store }}</td>
+                                                        <td>{{ $displayCollection->deviceId }}</td>
+                                                        <td>{{ $displayCollection->country }}</td>
+                                                        <td>{{ $displayCollection->city }}</td>
+                                                        <td>
+                                                            @if ($displayCollection->status)
+                                                                <span class="badge bg-success border-success text-light fw-semibold">Active</span>
+                                                            @else
+                                                                <span class="badge bg-danger border-danger text-light fw-semibold">Inactive</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                                <a href="{{ route('editStore', $displayCollection->storeId) }}" class="btn btn-sm btn-outline-secondary me-1" title="Edit">
+                                                                    <i class="bi bi-pencil"></i>
+                                                                </a>
+                                                            <form action="{{ route('deleteStore', $displayCollection->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-sm btn-outline-danger me-1 delete-store-btn"
+                                                                    onclick="return confirm('Are you sure you want to delete this store?\nThis action cannot be undone.')" title="Delete">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                            <form action="{{ route('status', $displayCollection->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-sm btn-outline-dark" title="{{ $displayCollection->status ? 'Disable' : 'Enable' }}">
+                                                                    <i class="bi {{ $displayCollection->status ? 'bi-slash-circle' : 'bi-check-circle' }}"></i>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
-
-                                    <script>
-                                        function previewStoreImage(event) {
-                                            const file = event.target.files[0];
-                                            if (file && file.type.startsWith('image/')) {
-                                                const reader = new FileReader();
-                                                reader.onload = function(e) {
-                                                    const img = document.getElementById('storeImagePreview');
-                                                    img.src = e.target.result; // Replace default with uploaded image
-                                                };
-                                                reader.readAsDataURL(file);
-                                            }
-                                        }
-                                    </script>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- end col -->
                 </div>
-            </div><!--end col-->
+                <!--end col-->
+            </div>
+
         </div>
 
-    </div>
-
-    <!-- end main content-->
+        <!-- end main content-->
 
     </div>
     <!-- END layout-wrapper -->
+
+
 
     <!--start back-to-top-->
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
     </button>
     <!--end back-to-top-->
+
 
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -1300,6 +1139,19 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!--datatable js-->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+    <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
 </body>

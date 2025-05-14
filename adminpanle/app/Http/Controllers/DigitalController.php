@@ -16,58 +16,12 @@ class DigitalController extends Controller
         return view('dashboard');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(digital $digital)
-    {
-        //
-    }
-
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, digital $digital)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(digital $digital)
-    {
-        //
-    }
-
     public function showStore()
     {
         $store = Store::all();
-        return view('store', ['store' => $store]);
+        return view('store.store', ['store' => $store]);
     }
 
-    public function showDisplay()
-    {
-        return view('display');
-    }
     public function showTemplate()
     {
         return view('template');
@@ -82,8 +36,9 @@ class DigitalController extends Controller
         do {
             $storeId = 'S-' . rand(100000, 999999);
         } while (Store::where('storeId', $storeId)->exists());
-        return view('components.addstore', compact('storeId'));
+        return view('store.addstore', compact('storeId'));
     }
+    
     public function createStore(Request $request)
     {
         // Validate inputs (including the generated storeId)
@@ -146,7 +101,7 @@ class DigitalController extends Controller
     public function editStore($storeId)
     {
         $store = Store::where('storeId', $storeId)->firstOrFail();
-        return view('components.editStore', compact('store'));
+        return view('store.editStore', compact('store'));
     }
 
 
@@ -233,8 +188,6 @@ class DigitalController extends Controller
 
         return redirect()->route('store')->with('success', 'Store status updated successfully!');
    
-    }    public function addNewStore(){
-        return view('components.addstore');
-    }
+    }   
    
 }

@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('displays', function (Blueprint $table) {
             $table->id(); 
-            $table->string('name'); 
-            $table->string('displayMode'); 
-            $table->string('timeZone');
-            $table->json('tags'); 
-            $table->boolean('status'); 
             $table->string('displayId'); 
-            $table->foreignId('store_id')->constrained('stores'); 
-            $table->foreignId('account_id')->constrained('accounts'); 
+            $table->string('displayName'); 
+            $table->string('tags');
+            $table->string('store'); 
+            $table->boolean('status')->default(true);
+            $table->string('timeZone'); 
+            $table->string('display'); 
+            $table->string('country'); 
+            $table->string('state'); 
+            $table->string('city'); 
+            $table->string('address'); 
             $table->timestamps(); 
         });
     }

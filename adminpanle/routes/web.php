@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DigitalController;
+use App\Http\Controllers\DisplayController;
 use App\Http\Controllers\GraphicsController;
 use App\Http\Controllers\LayoutController;
 use Illuminate\Support\Facades\Route;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DigitalController::class, 'index'])->name('dashboard');
 Route::get('/template', [DigitalController::class, 'showTemplate'])->name('template');
-Route::get('/display',[DigitalController::class,'showDisplay'])->name('display');
+
 Route::get('/graphics',[DigitalController::class,'showGraphicsAndVideos'])->name('graphics');
 
 // Store Routes
@@ -43,7 +44,8 @@ Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
 Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
 Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
 
-
-
-
+// Display Routes
+Route::get('/display',[DisplayController::class,'showDisplay'])->name('display');
+Route::get('/add-display',[DisplayController::class,'addDisplay'])->name('addDisplay');
+Route::post('/display-create',[DisplayController::class,'createDisplay'])->name('createDisplay');
 

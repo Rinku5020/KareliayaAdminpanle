@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('logo')->nullable();
             $table->boolean('status')->default(true);
-            $table->string('storeId')->nullable(); // foreign key or nullable
+            $table->string('storeId')->nullable(); 
             $table->string('name');
             $table->string('email');
             $table->string('phone');

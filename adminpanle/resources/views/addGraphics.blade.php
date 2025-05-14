@@ -852,13 +852,13 @@
                     <ul class="navbar-nav " id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="" role="button"
+                            <a class="nav-link menu-link" href="{{ route('dashboard') }}" data-bs-toggle="" role="button"
                                 aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse"
+                            <a class="nav-link menu-link" href="{{ route('store') }}" data-bs-toggle="collapse"
                                 role="button" aria-expanded="false" aria-controls="sidebarLayouts">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
@@ -880,7 +880,7 @@
                             </div>
                         </li> <!-- end Dashboard Menu -->
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse"
+                            <a class="nav-link menu-link" href="{{ route('dashboard') }}" data-bs-toggle="collapse"
                                 role="button" aria-expanded="false" aria-controls="sidebarPages">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">Display</span>
                             </a>
@@ -908,20 +908,19 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse"
-                                role="button" aria-expanded="false" aria-controls="sidebarLanding">
+                       <li class="nav-item">
+                            <a class="nav-link menu-link" href="{{ route('graphics') }}">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Graphics And Video</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
+                            <a class="nav-link menu-link" href="{{ route('template') }}" data-bs-toggle="collapse"
                                 role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="widgets.html">
+                            <a class="nav-link menu-link" href="{{ route('layout') }}">
                                 <i class="ri-honour-line"></i> <span data-key="t-widgets">Layout</span>
                             </a>
                         </li>

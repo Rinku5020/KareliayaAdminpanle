@@ -6,5 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model
 {
-    protected $fillable = ['owner_id', 'name'];
+    protected $fillable = [
+        'logo',
+        'status',
+        'storeId',
+        'name',
+        'email',
+        'phone',
+        'country',
+        'state',
+        'city',
+        'pincode',
+        'address',
+    ];
 }

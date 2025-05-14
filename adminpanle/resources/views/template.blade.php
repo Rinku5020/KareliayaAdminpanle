@@ -983,11 +983,9 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse"
-                                role="button" aria-expanded="false" aria-controls="sidebarLanding">
+                            <a class="nav-link menu-link" href="{{ route('graphics') }}">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Graphics And Video</span>
                             </a>
-
                         </li>
 
 

@@ -16,6 +16,51 @@ class DigitalController extends Controller
         return view('dashboard');
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(digital $digital)
+    {
+        //
+    }
+
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, digital $digital)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(digital $digital)
+    {
+        //
+    }
+
+>>>>>>> 709b0303234e79b408aeaa5bcdca29e8a0cf6411
     public function showStore()
     {
         $store = Store::all();
@@ -188,6 +233,11 @@ class DigitalController extends Controller
 
         return redirect()->route('store')->with('success', 'Store status updated successfully!');
    
+<<<<<<< HEAD
     }   
    
+=======
+    
+    }
+>>>>>>> 709b0303234e79b408aeaa5bcdca29e8a0cf6411
 }

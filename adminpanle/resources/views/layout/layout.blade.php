@@ -2,7 +2,6 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-
     <meta charset="utf-8" />
     <title>Datatables | Velzon - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,15 +9,11 @@
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
-
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-
-
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
     <!-- Bootstrap Css -->
@@ -29,17 +24,72 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+<style>
+    .swal-toast-popup {
+        align-items: center;
+    }
+
+    .swal-toast-title {
+        margin: 0;
+        flex-grow: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .swal-toast-close {
+        position: static;
+        margin-left: 10px;
+    }
+</style>
 
 <body>
-
+    @if (Session::has('success'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                text: '{{ Session::get('success') }}',
+                showConfirmButton: false,
+                timer: 1500,
+                width: '400px',
+                padding: '0.5em 1em',
+                customClass: {
+                    container: 'swal-toast-container',
+                    popup: 'swal-toast-popup',
+                    title: 'swal-toast-title',
+                    closeButton: 'swal-toast-close'
+                }
+            });
+        </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                text: '{{ Session::get('error') }}',
+                showConfirmButton: false,
+                timer: 1500,
+                width: '400px',
+                padding: '0.5em 1em',
+                customClass: {
+                    container: 'swal-toast-container',
+                    popup: 'swal-toast-popup',
+                    title: 'swal-toast-title',
+                    closeButton: 'swal-toast-close'
+                }
+            });
+        </script>
+    @endif
     <!-- Begin page -->
     <div id="layout-wrapper">
-
         <header id="page-topbar">
             <div class="layout-width">
                 <div class="navbar-header">
@@ -54,7 +104,6 @@
                                     <img src="assets/images/logo-dark.png" alt="" height="17">
                                 </span>
                             </a>
-
                             <a href="index.html" class="logo logo-light">
                                 <span class="logo-sm">
                                     <img src="assets/images/logo-sm.png" alt="" height="22">
@@ -64,7 +113,6 @@
                                 </span>
                             </a>
                         </div>
-
                         <button type="button"
                             class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
                             id="topnav-hamburger-icon">
@@ -74,7 +122,6 @@
                                 <span></span>
                             </span>
                         </button>
-
                         <!-- App Search-->
                         <form class="app-search d-none d-md-block">
                             <div class="position-relative">
@@ -90,7 +137,6 @@
                                     <div class="dropdown-header">
                                         <h6 class="text-overflow text-muted mb-0 text-uppercase">Recent Searches</h6>
                                     </div>
-
                                     <div class="dropdown-item bg-transparent text-wrap">
                                         <a href="index.html" class="btn btn-soft-secondary btn-sm btn-rounded">how to
                                             setup <i class="mdi mdi-magnify ms-1"></i></a>
@@ -101,30 +147,25 @@
                                     <div class="dropdown-header mt-2">
                                         <h6 class="text-overflow text-muted mb-1 text-uppercase">Pages</h6>
                                     </div>
-
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="ri-bubble-chart-line align-middle fs-18 text-muted me-2"></i>
                                         <span>Analytics Dashboard</span>
                                     </a>
-
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="ri-lifebuoy-line align-middle fs-18 text-muted me-2"></i>
                                         <span>Help Center</span>
                                     </a>
-
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="ri-user-settings-line align-middle fs-18 text-muted me-2"></i>
                                         <span>My account settings</span>
                                     </a>
-
                                     <!-- item-->
                                     <div class="dropdown-header mt-2">
                                         <h6 class="text-overflow text-muted mb-2 text-uppercase">Members</h6>
                                     </div>
-
                                     <div class="notification-list">
                                         <!-- item -->
                                         <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
@@ -161,7 +202,6 @@
                                         </a>
                                     </div>
                                 </div>
-
                                 <div class="text-center pt-3 pb-1">
                                     <a href="pages-search-results.html" class="btn btn-primary btn-sm">View All
                                         Results <i class="ri-arrow-right-line ms-1"></i></a>
@@ -169,9 +209,7 @@
                             </div>
                         </form>
                     </div>
-
                     <div class="d-flex align-items-center">
-
                         <div class="dropdown d-md-none topbar-head-dropdown header-item">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -192,11 +230,8 @@
                                 </form>
                             </div>
                         </div>
-
                         <div class="dropdown ms-1 topbar-head-dropdown header-item">
-
                             <div class="dropdown-menu dropdown-menu-end">
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language py-2"
                                     data-lang="en" title="English">
@@ -204,7 +239,6 @@
                                         height="18">
                                     <span class="align-middle">English</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="sp" title="Spanish">
@@ -212,14 +246,12 @@
                                         height="18">
                                     <span class="align-middle">Española</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="gr" title="German">
                                     <img src="assets/images/flags/germany.svg" alt="user-image" class="me-2 rounded"
                                         height="18"> <span class="align-middle">Deutsche</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="it" title="Italian">
@@ -227,7 +259,6 @@
                                         height="18">
                                     <span class="align-middle">Italiana</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="ru" title="Russian">
@@ -235,7 +266,6 @@
                                         height="18">
                                     <span class="align-middle">русский</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="ch" title="Chinese">
@@ -243,7 +273,6 @@
                                         height="18">
                                     <span class="align-middle">中国人</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="fr" title="French">
@@ -253,9 +282,7 @@
                                 </a>
                             </div>
                         </div>
-
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
-
                             <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
                                 <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
                                     <div class="row align-items-center">
@@ -268,7 +295,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="p-2">
                                     <div class="row g-0">
                                         <div class="col">
@@ -290,7 +316,6 @@
                                             </a>
                                         </div>
                                     </div>
-
                                     <div class="row g-0">
                                         <div class="col">
                                             <a class="dropdown-icon-item" href="#!">
@@ -314,9 +339,7 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
-
                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 dropdown-menu-cart"
                                 aria-labelledby="page-header-cart-dropdown">
                                 <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -368,7 +391,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-2.png"
@@ -393,7 +415,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-3.png"
@@ -419,7 +440,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-6.png"
@@ -445,7 +465,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-5.png"
@@ -480,28 +499,24 @@
                                             <h5 class="m-0" id="cart-item-total">$1258.58</h5>
                                         </div>
                                     </div>
-
                                     <a href="apps-ecommerce-checkout.html" class="btn btn-success text-center w-100">
                                         Checkout
                                     </a>
                                 </div>
                             </div>
                         </div>
-
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 data-toggle="fullscreen">
                                 <i class='bx bx-fullscreen fs-22'></i>
                             </button>
                         </div>
-
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
                                 <i class='bx bx-moon fs-22'></i>
                             </button>
                         </div>
-
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
@@ -513,7 +528,6 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                                 aria-labelledby="page-header-notifications-dropdown">
-
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
                                     <div class="p-3">
                                         <div class="row align-items-center">
@@ -525,7 +539,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="px-2 pt-2">
                                         <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom"
                                             data-dropdown-tabs="true" id="notificationItemsTab" role="tablist">
@@ -549,9 +562,7 @@
                                             </li>
                                         </ul>
                                     </div>
-
                                 </div>
-
                                 <div class="tab-content" id="notificationItemsTabContent">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab"
                                         role="tabpanel">
@@ -589,7 +600,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative active">
                                                 <div class="d-flex">
@@ -619,7 +629,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative">
                                                 <div class="d-flex">
@@ -651,7 +660,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative">
                                                 <div class="d-flex">
@@ -680,7 +688,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="my-3 text-center">
                                                 <button type="button"
                                                     class="btn btn-soft-success waves-effect waves-light">View
@@ -688,9 +695,7 @@
                                                         class="ri-arrow-right-line align-middle"></i></button>
                                             </div>
                                         </div>
-
                                     </div>
-
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
                                         aria-labelledby="messages-tab">
                                         <div data-simplebar style="max-height: 300px;" class="pe-2">
@@ -721,7 +726,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="assets/images/users/avatar-2.jpg"
@@ -750,7 +754,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="assets/images/users/avatar-6.jpg"
@@ -779,7 +782,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="assets/images/users/avatar-8.jpg"
@@ -807,7 +809,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="my-3 text-center">
                                                 <button type="button"
                                                     class="btn btn-soft-success waves-effect waves-light">View
@@ -829,7 +830,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="dropdown ms-sm-3 header-item topbar-user">
                             <button type="button" class="btn" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -906,10 +906,8 @@
                     <i class="ri-record-circle-line"></i>
                 </button>
             </div>
-
             <div id="scrollbar">
                 <div class="container-fluid">
-
                     <div id="two-column-menu">
                     </div>
                     <ul class="navbar-nav " id="navbar-nav">
@@ -919,12 +917,6 @@
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
-
-
-
-
-
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('store') }}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
@@ -943,22 +935,15 @@
                                         <a href="" target="_blank" class="nav-link"
                                             data-key="t-horizontal">Demo3</a>
                                     </li>
-
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
-
-
-
-
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('display') }}">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">Display</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarPages">
                                 <ul class="nav nav-sm flex-column">
-
                                     <li class="nav-item">
                                         <a href="#sidebarProfile" class="nav-link" data-bs-toggle="collapse"
                                             role="button" aria-expanded="false" aria-controls="sidebarProfile"
@@ -981,49 +966,36 @@
                                 </ul>
                             </div>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('graphics') }}">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Graphics And Video</span>
                             </a>
-
                         </li>
-
-
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('template') }}">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
-
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('layout') }}">
                                 <i class="ri-honour-line"></i> <span data-key="t-widgets">Layout</span>
                             </a>
                         </li>
-
                     </ul>
                 </div>
                 <!-- Sidebar -->
             </div>
-
             <div class="sidebar-background"></div>
         </div>
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->
         <div class="vertical-overlay"></div>
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-
         <div class="main-content">
-
             <div class="page-content">
                 <div class="container-fluid">
-
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card bg-white">
@@ -1031,17 +1003,16 @@
                                     <h5 class="card-title mb-0 flex-grow-1">Layout</h5>
                                     <div>
                                         <a href="{{ route('addlayout') }}" class="btn btn-primary">Add Layout</a>
-                                    
+
                                     </div>
                                 </div>
                                 <div class="card-body">
-
                                     <table id="add-rows"
                                         class="table table-nowrap dt-responsive table-bordered display"
                                         style="width:100%">
                                         <thead class="bg-light">
                                             <tr>
-                                                <th>S1. No.</th>
+                                                <th>SL. No.</th>
                                                 <th>Unique Code</th>
                                                 <th>Playlist</th>
                                                 <th>Assigned Display</th>
@@ -1049,23 +1020,26 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>A12345</td>
-                                                <td>Playlist 1</td>
-                                                <td>
-                                                    Display 1
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-primary">
-                                                        <i class="bi bi-pencil-square fs-6"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger">
-                                                        <i class="bi bi-ban  fs-6"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            </tr>
+                                            @foreach ($layouts as $layout)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $layout->unique_id }}</td>
+                                                    <td>{{ $layout->playlistName }}</td>
+                                                    <td>{{ $layout->layoutName }}</td>
+
+
+                                                    <td>
+                                                        <button class="btn btn-sm btn-primary">
+                                                            <i class="bi bi-pencil-square fs-6"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-danger">
+                                                            <i class="bi bi-ban  fs-6"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tr>
+                                            @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -1074,22 +1048,15 @@
                     </div>
                 </div><!--end col-->
             </div>
-
         </div>
-
         <!-- end main content-->
-
     </div>
     <!-- END layout-wrapper -->
-
-
-
     <!--start back-to-top-->
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
     </button>
     <!--end back-to-top-->
-
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
@@ -1097,10 +1064,8 @@
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -1111,7 +1076,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
     <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>

@@ -10,7 +10,7 @@ class Display extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'displayName',
         'displayMode',
         'timeZone',
         'tags',

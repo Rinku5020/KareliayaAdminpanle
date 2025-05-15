@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
-
 <head>
     <meta charset="utf-8" />
     <title>Datatables | Velzon - Admin & Dashboard Template</title>
@@ -32,7 +31,6 @@
     .swal-toast-popup {
         align-items: center;
     }
-
     .swal-toast-title {
         margin: 0;
         flex-grow: 1;
@@ -40,13 +38,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-
     .swal-toast-close {
         position: static;
         margin-left: 10px;
     }
 </style>
-
 <body>
     @if (Session::has('success'))
         <script>
@@ -1003,7 +999,6 @@
                                     <h5 class="card-title mb-0 flex-grow-1">Layout</h5>
                                     <div>
                                         <a href="{{ route('addlayout') }}" class="btn btn-primary">Add Layout</a>
-
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive">
@@ -1090,7 +1085,6 @@
                 button.addEventListener('click', function() {
                     const form = this.closest('form');
                     const layoutId = this.getAttribute('data-layout-id');
-
                     Swal.fire({
                         title: 'Are you sure?',
                         text: "You are about to change the status!",
@@ -1109,5 +1103,4 @@
         });
     </script>
 </body>
-
 </html>

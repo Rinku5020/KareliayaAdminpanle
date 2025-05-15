@@ -1079,23 +1079,16 @@
                                                                 <span class="numBox" id="displayCount">0</span>
                                                                 <label for="">: Item Available</label>
                                                                 <hr>
-
-
                                                                 <select id="displaySelect" class="form-control"
                                                                     size="6" multiple>
                                                                     <option class="text-muted" disabled>Select Display
                                                                     </option>
                                                                 </select>
-
                                                                 <button id="addBtn" class="btn btn-success mt-2"
                                                                     disabled>Add Selected</button>
-
                                                                 <div class="no-data mt-2" id="noAvailableData">No Data
                                                                 </div>
-
-
                                                             </div>
-
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="selection-box">
@@ -1185,15 +1178,12 @@
                                                             <a href="#" class="zone-tab fw-bold text-primary"
                                                                 data-zone="zone4">Zone4</a>
                                                         </div>
-
                                                         <hr>
-
                                                         <!-- Zone-wise Tables -->
                                                         <div class="zone-tables">
                                                             <!-- Zone1 -->
                                                             <div class="zone-table" id="table-zone1">
                                                                 <p class="text-danger">Zone:1</p>
-
                                                                 <table class="table table-bordered">
                                                                     <thead class="bg-light">
                                                                         <tr>
@@ -1207,7 +1197,6 @@
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-
                                                             <!-- Zone2 -->
                                                             <div class="zone-table d-none" id="table-zone2">
                                                                 <p class="text-danger">Zone:2</p>
@@ -1224,7 +1213,6 @@
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-
                                                             <!-- Zone3 -->
                                                             <div class="zone-table d-none" id="table-zone3">
                                                                 <p class="text-danger">Zone:3</p>
@@ -1241,7 +1229,6 @@
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-
                                                             <!-- Zone4 -->
                                                             <div class="zone-table d-none" id="table-zone4">
                                                                 <p class="text-danger">Zone:4</p>
@@ -1261,7 +1248,6 @@
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="media" id="mediaInput">
-
                                                     <div class="col-12 col-md-6 col-lg-4 selection-box mt-3">
                                                         <div class="col-xxl-6">
                                                             <div class="card">
@@ -1407,7 +1393,6 @@
                                                     data-previous="steparrow-gen-info-tab"><i
                                                         class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                                     Back to General</button>
-
                                                 <button type="submit"
                                                     class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                                     data-nexttab="pills-experience-tab"><i
@@ -1448,17 +1433,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {{-- add layout js --}}
-
-
     <script>
         window.displayData = {!! json_encode($displays) !!};
     </script>
     <script src="assets/js/addlayout.js"></script>
-
-
-
-
-
 </body>
 
 </html>

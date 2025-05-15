@@ -16,8 +16,6 @@ class DigitalController extends Controller
         return view('dashboard');
     }
 
-<<<<<<< HEAD
-=======
     /**
      * Show the form for creating a new resource.
      */
@@ -60,7 +58,6 @@ class DigitalController extends Controller
         //
     }
 
->>>>>>> 709b0303234e79b408aeaa5bcdca29e8a0cf6411
     public function showStore()
     {
         $store = Store::all();
@@ -233,11 +230,8 @@ class DigitalController extends Controller
 
         return redirect()->route('store')->with('success', 'Store status updated successfully!');
    
-<<<<<<< HEAD
     }   
    
-=======
     
     }
->>>>>>> 709b0303234e79b408aeaa5bcdca29e8a0cf6411
-}
+

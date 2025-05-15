@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
+
 <head>
     <meta charset="utf-8" />
     <title>Datatables | Velzon - Admin & Dashboard Template</title>
@@ -27,6 +28,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/css/layout.css" rel="stylesheet" />
 </head>
+
 <body>
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -1157,44 +1159,94 @@
                                                         </table>
                                                     </div>
                                                     <!-- Bottom Two Columns -->
-                                                    <div class="col-12 col-md-6 col-lg-7 selection-box mt-3">
-                                                        <select name="select_zone" class="form-select w-25"
-                                                            id="">
-                                                            <option disabled class="text-muted " selected>Select Zone
-                                                            </option>
-                                                            <option value="Zone1"
-                                                                {{ old('select_zone') == 'Zone1' ? 'selected' : '' }}>
-                                                                Zone 1</option>
-                                                            <option value="Zone2"
-                                                                {{ old('select_zone') == 'Zone2' ? 'selected' : '' }}>
-                                                                Zone 2</option>
-                                                            <option value="Zone3"
-                                                                {{ old('select_zone') == 'Zone3' ? 'selected' : '' }}>
-                                                                Zone 3</option>
-                                                            <option value="Zone4"
-                                                                {{ old('select_zone') == 'Zone4' ? 'selected' : '' }}>
-                                                                Zone 4</option>
-                                                            <option value="Zone5"
-                                                                {{ old('select_zone') == 'Zone5' ? 'selected' : '' }}>
-                                                                Zone 5</option>
-                                                        </select>
-                                                        @error('select_zone')
-                                                            <span style="color: red"> {{ $message }} </span>
-                                                        @enderror
+                                                    <div class="col-12 col-md-6 col-lg-7 selection-box mt-3 gap-3">
+                                                        <!-- Zone Tabs -->
+                                                        <div class="zone-tabs mb-2 mx-auto">
+                                                            <a href="#"
+                                                                class="zone-tab fw-bold text-primary active"
+                                                                data-zone="zone1">Zone1</a>
+                                                            <a href="#" class="zone-tab fw-bold text-primary"
+                                                                data-zone="zone2">Zone2</a>
+                                                            <a href="#" class="zone-tab fw-bold text-primary"
+                                                                data-zone="zone3">Zone3</a>
+                                                            <a href="#" class="zone-tab fw-bold text-primary"
+                                                                data-zone="zone4">Zone4</a>
+                                                        </div>
+
                                                         <hr>
-                                                        <table class="table table-bordered">
-                                                            <thead class="bg-light">
-                                                                <tr>
-                                                                    <th>Media</th>
-                                                                    <th>Type</th>
-                                                                    <th>Duration</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="media-table-body">
-                                                            </tbody>
-                                                        </table>
+
+                                                        <!-- Zone-wise Tables -->
+                                                        <div class="zone-tables">
+                                                            <!-- Zone1 -->
+                                                            <div class="zone-table" id="table-zone1">
+                                                                <h6 class="fw-bold">Zone1 Media</h6>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone1">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                            <!-- Zone2 -->
+                                                            <div class="zone-table d-none" id="table-zone2">
+                                                                <h6 class="fw-bold">Zone2 Media</h6>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone2">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                            <!-- Zone3 -->
+                                                            <div class="zone-table d-none" id="table-zone3">
+                                                                <h6 class="fw-bold">Zone3 Media</h6>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone3">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                            <!-- Zone4 -->
+                                                            <div class="zone-table d-none" id="table-zone4">
+                                                                <h6 class="fw-bold">Zone4 Media</h6>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone4">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <input type="hidden" name="media" id="mediaInput">
                                                     <div class="col-12 col-md-6 col-lg-4 selection-box mt-3">
                                                         <div class="col-xxl-6">
                                                             <div class="card">
@@ -1204,7 +1256,8 @@
                                                                         <li class="nav-item">
                                                                             <a class="nav-link active"
                                                                                 data-bs-toggle="tab"
-                                                                                href="#arrow-overview" role="tab">
+                                                                                href="#arrow-overview"
+                                                                                role="tab">
                                                                                 <span class="d-block d-sm-none"><i
                                                                                         class="bi bi-card-image"></i></span>
                                                                                 <span
@@ -1213,7 +1266,8 @@
                                                                         </li>
                                                                         <li class="nav-item">
                                                                             <a class="nav-link" data-bs-toggle="tab"
-                                                                                href="#arrow-profile" role="tab">
+                                                                                href="#arrow-profile"
+                                                                                role="tab">
                                                                                 <span class="d-block d-sm-none"><i
                                                                                         class="bi bi-file-earmark-play"></i></span>
                                                                                 <span
@@ -1222,7 +1276,8 @@
                                                                         </li>
                                                                         <li class="nav-item">
                                                                             <a class="nav-link" data-bs-toggle="tab"
-                                                                                href="#arrow-contact" role="tab">
+                                                                                href="#arrow-contact"
+                                                                                role="tab">
                                                                                 <span class="d-block d-sm-none"><i
                                                                                         class="bi bi-file-earmark"></i></span>
                                                                                 <span
@@ -1337,7 +1392,7 @@
                                                     data-previous="steparrow-gen-info-tab"><i
                                                         class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                                     Back to General</button>
-                                                <input type="hidden" name="media" id="mediaInput">
+
                                                 <button type="submit"
                                                     class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                                     data-nexttab="pills-experience-tab"><i
@@ -1364,6 +1419,7 @@
     <!--end back-to-top-->
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
@@ -1378,5 +1434,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {{-- add layout js --}}
     <script src="assets/js/addlayout.js"></script>
+    
+    
+ 
+
+  
+   
+   
+
 </body>
+
 </html>

@@ -82,27 +82,48 @@ function previewLogo(event) {
 
 
 //   show items in table
+
+let currentZone = 'zone1'; // Default
+
 document.addEventListener('DOMContentLoaded', function () {
-    const tableBody = document.getElementById('media-table-body');
-    const layoutForm = document.getElementById('layoutForm');
+    // Zone tab click
+    document.querySelectorAll('.zone-tab').forEach(tab => {
+        tab.addEventListener('click', function (e) {
+            e.preventDefault();
 
-    // Select Media Button
-    document.querySelectorAll('.select-media').forEach(button => {
-        button.addEventListener('click', function () {
-            const name = this.getAttribute('data-name');
-            const type = this.getAttribute('data-type');
-            const duration = this.getAttribute('data-duration');
+            document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
 
-            // Prevent duplicate
-            const isDuplicate = Array.from(tableBody.querySelectorAll('tr')).some(row => {
-                return row.children[0].textContent.trim() === name;
+            // Set active zone
+            currentZone = this.getAttribute('data-zone');
+
+            // Show corresponding table
+            document.querySelectorAll('.zone-table').forEach(table => {
+                table.classList.add('d-none');
             });
+            document.getElementById('table-' + currentZone).classList.remove('d-none');
+        });
+    });
 
+    // Use event delegation for selecting media
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.select-media')) {
+            const el = e.target.closest('.select-media');
+            const name = el.getAttribute('data-name');
+            const type = el.getAttribute('data-type');
+            const duration = el.getAttribute('data-duration');
+            const zone = currentZone;
+
+            // Check for duplicate in the same zone
+            const isDuplicate = Array.from(document.querySelectorAll(`[data-zone="${zone}"] tr`)).some(
+                row => row.children[0].textContent.trim() === name
+            );
             if (isDuplicate) {
                 Swal.fire('Already Selected', 'This media is already in the table.', 'info');
                 return;
             }
 
+            // Add new row
             const newRow = `
                 <tr>
                     <td>${name}</td>
@@ -111,43 +132,37 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td><button class="btn btn-sm btn-danger remove-row">Remove</button></td>
                 </tr>
             `;
-            tableBody.insertAdjacentHTML('beforeend', newRow);
-        });
+            document.querySelector(`tbody[data-zone="${zone}"]`).insertAdjacentHTML('beforeend', newRow);
+        }
     });
 
-    // Remove row handler
+    // Remove row
     document.addEventListener('click', function (e) {
         if (e.target.classList.contains('remove-row')) {
             e.target.closest('tr').remove();
         }
     });
 
-    // Submit Handler with Media Check
-    layoutForm.addEventListener('submit', function (e) {
-        const rows = document.querySelectorAll('#media-table-body tr');
-        if (rows.length === 0) {
-            e.preventDefault(); // stop form
-            Swal.fire({
-                icon: 'warning',
-                title: 'No Media Selected',
-                text: 'Please select at least one media item before submitting.'
-            });
-            return;
-        }
+    // On form submit, serialize zone data
+document.getElementById('layoutForm').addEventListener('submit', function (e) {
+    const mediaList = [];
 
-        // If media selected, build JSON
-        const media = [];
-        rows.forEach(row => {
+    document.querySelectorAll('.media-table-body').forEach(tbody => {
+        const zone = tbody.getAttribute('data-zone');
+
+        tbody.querySelectorAll('tr').forEach(row => {
             const cells = row.querySelectorAll('td');
-            media.push({
-                name: cells[0].textContent.trim(),
-                type: cells[1].textContent.trim(),
-                duration: cells[2].textContent.trim()
-            });
+            if (cells.length >= 3) {
+                mediaList.push({
+                    name: cells[0].textContent.trim(),
+                    type: cells[1].textContent.trim(),
+                    duration: cells[2].textContent.trim(),
+                    zone: zone
+                });
+            }
         });
-
-        document.getElementById('mediaInput').value = JSON.stringify(media);
     });
+
+    document.getElementById('mediaInput').value = JSON.stringify(mediaList);
 });
-
-
+});

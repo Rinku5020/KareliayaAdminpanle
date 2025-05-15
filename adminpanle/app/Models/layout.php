@@ -6,15 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class layout extends Model
 {
-   protected $fillable = [
+    protected $fillable = [
+        'unique_id',
         'layoutName',
         'store_id',
         'displayMode',
         'playlistName',
         'address',
         'logo',
-        'Select_zone'
-    ];
+        'zone1',
+        'zone2',
+        'zone3',
+        'zone4',
+        'status'
 
+    ];
 
 }

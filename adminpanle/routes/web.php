@@ -47,6 +47,7 @@ Route::get('/getAllData/{id}', [LayoutController::class, 'getAllData'])->name('g
 
 // Display Routes
 Route::get('/display',[DisplayController::class,'showDisplay'])->name('display');
+Route::get('/edit-display/{display_id}',[DisplayController::class,'editDisplay'])->name('editDisplay');
 Route::get('/add-display',[DisplayController::class,'addDisplay'])->name('addDisplay');
 Route::post('/display-create',[DisplayController::class,'createDisplay'])->name('createDisplay');
 

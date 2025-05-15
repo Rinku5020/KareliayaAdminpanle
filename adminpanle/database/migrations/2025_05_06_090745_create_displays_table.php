@@ -12,19 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('displays', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('displayId'); 
-            $table->string('displayName'); 
-            $table->string('tags');
-            $table->string('store'); 
+            $table->id();
+            $table->string('tags')->nullable(); // Storing tags as JSON array
+            $table->string('store_id');
+            $table->string('account_id')->nullable();
+            $table->enum('display_mode', ['landscape', 'portrait']);
             $table->boolean('status')->default(true);
-            $table->string('timeZone'); 
-            $table->string('display'); 
-            $table->string('country'); 
-            $table->string('state'); 
-            $table->string('city'); 
-            $table->string('address'); 
+            $table->string('display_id', 20)->unique();
+            $table->string('name');
+            $table->string('country');
+            $table->string('state');
+            $table->string('city');
+            $table->string('time_zone');
+             $table->string('address');
             $table->timestamps(); 
+            
         });
     }
 

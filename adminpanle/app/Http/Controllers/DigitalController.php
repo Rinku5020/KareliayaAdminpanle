@@ -80,7 +80,7 @@ class DigitalController extends Controller
         } while (Store::where('storeId', $storeId)->exists());
         return view('store.addstore', compact('storeId'));
     }
-    
+
     public function createStore(Request $request)
     {
         // Validate inputs (including the generated storeId)
@@ -205,17 +205,17 @@ class DigitalController extends Controller
 
 
     public function deleteStore($id)
-{
-    $store = Store::findOrFail($id);
+    {
+        $store = Store::findOrFail($id);
 
-    if ($store->logo && file_exists(public_path('uploads/store/' . $store->logo))) {
-        unlink(public_path('uploads/store/' . $store->logo));
+        if ($store->logo && file_exists(public_path('uploads/store/' . $store->logo))) {
+            unlink(public_path('uploads/store/' . $store->logo));
+        }
+
+        $store->delete();
+
+        return redirect()->route('store')->with('success', 'Store deleted successfully!');
     }
-
-    $store->delete();
-
-    return redirect()->route('store')->with('success', 'Store deleted successfully!');
-}
 
 
 
@@ -235,3 +235,4 @@ class DigitalController extends Controller
     
     }
 
+ 

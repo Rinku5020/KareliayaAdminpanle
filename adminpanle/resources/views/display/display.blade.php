@@ -1077,8 +1077,6 @@
                                                         <td>{{ $displayCollection->deviceId }}</td>
                                                         <td>{{ $displayCollection->country }}</td>
                                                         <td>{{ $displayCollection->city }}</td>
-                                                        <input type="text"
-                                                            value="{{ $displayCollection->display_id }}">
                                                         <td>
                                                             @if ($displayCollection->status)
                                                                 <span
@@ -1094,7 +1092,7 @@
                                                                 title="Edit">
                                                                 <i class="bi bi-pencil"></i>
                                                             </a>
-                                                            <form action="" method="POST" class="d-inline">
+                                                            <form action="{{ route('deleteDisplay', $displayCollection->id) }}" method="POST" class="d-inline">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit"

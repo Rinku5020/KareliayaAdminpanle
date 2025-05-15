@@ -73,9 +73,76 @@ class DisplayController extends Controller
         }
     }
 
-    public function editDisplay($display_id){
+    public function editDisplay($display_id)
+    {
         $display = Display::where('display_id', $display_id)->firstOrFail();
         $stores = Store::all();
         return view('display.editDisplay', compact('display', 'stores'));
+    }
+
+    public function updateDisplay(Request $request, $display_id)
+    {
+        $display = Display::findOrFail($display_id);
+
+        $request->validate([ 
+            'display_id' => 'required|unique:displays,display_id,' . $display->id,
+            'name' => 'required',
+            'tags' => 'required',
+            'store' => 'required|exists:stores,storeId',
+            'time_zone' => 'required',
+            'display_mode' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+        ], [
+            'name.required' => 'Display name is required',
+            'tags.required' => 'Tags are required',
+            'store.required' => 'Store selection is required',
+            'store.exists' => 'Selected store does not exist',
+            'time_zone.required' => 'Time zone is required',
+            'display_mode.required' => 'Display type is required',
+            'country.required' => 'Country is required',
+            'state.required' => 'State is required',
+            'city.required' => 'City is required',
+            'address.required' => 'Address is required',
+        ]);
+
+        $display->display_id = $request->display_id;
+        $display->name = $request->name;
+        $display->tags = $request->tags;
+        $display->store_id = $request->store;
+        $display->time_zone = $request->time_zone;
+        $display->display_mode = $request->display_mode;
+        $display->country = $request->country;
+        $display->state = $request->state;
+        $display->city = $request->city;
+        $display->address = $request->address;
+        $display->save();   
+
+        return redirect('display')->with('success','Display updated successfully');
+    }
+
+    public function deleteDisplay($id)
+    {
+        $display = Display::findOrFail($id);
+
+        
+
+        $display->delete();
+
+        return redirect()->route('display')->with('success', 'display deleted successfully!');
+    }
+
+    public function status($id)
+    {
+        $display = Display::findOrFail($id);
+
+        // Toggle the status
+        $display->status = $display->status == 1 ? 0 : 1;
+
+        $display->save();
+
+        return redirect()->route('display')->with('success', 'Display status updated successfully!');
     }
 }

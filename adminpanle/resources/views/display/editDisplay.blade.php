@@ -1050,18 +1050,25 @@
                             <div class="card-body">
                                 <div class="live-preview">
                                     <div class="container-fluid mt-4">
-                                        <form action="{{ route('createDisplay') }}" method="post"
-                                            enctype="multipart/form-data" class="row g-4 justify-content-between">
+                                        <form
+                                            action="{{ isset($display) ? route('updateDisplay', $display->id) : route('createDisplay') }}"
+                                            method="POST" enctype="multipart/form-data"
+                                            class="row g-4 justify-content-between">
                                             @csrf
+                                            @if (isset($display))
+                                                @method('PUT')
+                                            @endif
+
                                             <!-- Left Form Section -->
                                             <div class="col-md-5 shadow-lg p-3 mb-5 rounded">
+                                                <!-- Display ID -->
                                                 <div class="mb-5 mt-2">
                                                     <label for="display_id" class="form-label">
                                                         <span class="text-danger fs-4">*</span> Display Id
                                                     </label>
-                                                    <input type="text"  name="display_id"
+                                                    <input type="text" name="display_id"
                                                         class="form-control {{ $errors->first('display_id') ? 'input-error' : '' }}"
-                                                        value="{{ old('display_id', $display_id ?? '') }}"
+                                                        value="{{ old('display_id', $display->display_id ?? ($display_id ?? '')) }}"
                                                         placeholder="Enter Display Id" readonly>
                                                     <span class="text-danger">
                                                         @error('display_id')
@@ -1070,13 +1077,13 @@
                                                     </span>
                                                 </div>
 
+                                                <!-- Display Name -->
                                                 <div class="mb-5 mt-2">
-                                                    <label for="name" class="form-label">
-                                                        <span class="text-danger fs-4">*</span> Display Name
-                                                    </label>
+                                                    <label for="name" class="form-label"><span
+                                                            class="text-danger fs-4">*</span> Display Name</label>
                                                     <input type="text" id="name" name="name"
                                                         class="form-control"
-                                                        value="{{ old('name', $name ?? '') }}"
+                                                        value="{{ old('name', $display->name ?? '') }}"
                                                         placeholder="Enter Display Name">
                                                     <span class="text-danger">
                                                         @error('name')
@@ -1085,12 +1092,13 @@
                                                     </span>
                                                 </div>
 
+                                                <!-- Tags -->
                                                 <div class="mb-5 mt-2">
-                                                    <label for="tags" class="form-label">
-                                                        <span class="text-danger fs-4">*</span> Tags
-                                                    </label>
+                                                    <label for="tags" class="form-label"><span
+                                                            class="text-danger fs-4">*</span> Tags</label>
                                                     <input type="text" id="tags" name="tags"
-                                                        class="form-control" value="{{ old('tags', $tags ?? '') }}"
+                                                        class="form-control"
+                                                        value="{{ old('tags', $display->tags ?? '') }}"
                                                         placeholder="Enter tag name">
                                                     <span class="text-danger">
                                                         @error('tags')
@@ -1099,21 +1107,23 @@
                                                     </span>
                                                 </div>
 
+                                                <!-- Store -->
                                                 <div class="mb-5">
                                                     <label for="store" class="form-label"><span
                                                             class="text-danger">*</span> Select Store</label>
-                                                    <select
-                                                        class="form-select w-100 {{ $errors->has('store') ? 'input-error' : '' }}"
-                                                        id="store" name="store">
-                                                        <option value="" disabled selected>Choose Store...
-                                                        </option>
+                                                    <select class="form-select w-100" name="store_display" disabled>
+                                                        <option value="">Choose Store...</option>
                                                         @foreach ($stores as $store)
-                                                            <option value="{{ $store->storeId }}"
-                                                                {{ old('store') == $store->storeId ? 'selected' : '' }}>
+                                                            <option value="{{ $store->store_id }}"
+                                                                {{ (string) old('store', $display->store ?? '') === (string) $store->store_id ? 'selected' : '' }}>
                                                                 {{ $store->storeId }}
                                                             </option>
                                                         @endforeach
                                                     </select>
+
+                                                    <!-- Actually submitted: hidden field -->
+                                                    <input type="hidden" name="store"
+                                                        value="{{ old('store', $display->store_id ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('store')
                                                             {{ $message }}
@@ -1121,26 +1131,25 @@
                                                     </span>
                                                 </div>
 
-                                                <div class="mb-5 mt-2">
-                                                    <label for="time_zone" class="form-label">
-                                                        <span class="text-danger fs-4">*</span> Time Zone
-                                                    </label>
-                                                    <select id="time_zone" name="time_zone"
-                                                        class="form-select {{ $errors->has('time_zone') ? 'input-error' : '' }}"
-                                                        name="time_zone">>
-                                                        <option disabled {{ old('time_zone') ? '' : 'selected' }}>Select
-                                                            a Time Zone
-                                                        </option>
-                                                        <option
-                                                            {{ old('time_zone') == 'Asia/Kolkata' ? 'selected' : '' }}
-                                                            value="Asia/Kolkata">Asia/Kolkata</option>
-                                                        <option
-                                                            {{ old('time_zone') == 'America/New_York' ? 'selected' : '' }}
-                                                            value="America/New_York">America/New_York</option>
-                                                        <option
-                                                            {{ old('time_zone') == 'Europe/London' ? 'selected' : '' }}
-                                                            value="Europe/London">Europe/London</option>
 
+                                                <!-- Time Zone -->
+                                                <div class="mb-5 mt-2">
+                                                    <label for="time_zone" class="form-label"><span
+                                                            class="text-danger fs-4">*</span> Time Zone</label>
+                                                    <select id="time_zone" name="time_zone"
+                                                        class="form-select {{ $errors->has('time_zone') ? 'input-error' : '' }}">
+                                                        <option disabled
+                                                            {{ old('time_zone', $display->time_zone ?? '') == '' ? 'selected' : '' }}>
+                                                            Select a Time Zone</option>
+                                                        <option value="Asia/Kolkata"
+                                                            {{ old('time_zone', $display->time_zone ?? '') == 'Asia/Kolkata' ? 'selected' : '' }}>
+                                                            Asia/Kolkata</option>
+                                                        <option value="America/New_York"
+                                                            {{ old('time_zone', $display->time_zone ?? '') == 'America/New_York' ? 'selected' : '' }}>
+                                                            America/New_York</option>
+                                                        <option value="Europe/London"
+                                                            {{ old('time_zone', $display->time_zone ?? '') == 'Europe/London' ? 'selected' : '' }}>
+                                                            Europe/London</option>
                                                     </select>
                                                     <span class="text-danger">
                                                         @error('time_zone')
@@ -1149,23 +1158,25 @@
                                                     </span>
                                                 </div>
 
+                                                <!-- Display Type -->
                                                 <div class="mb-5 mt-2">
-                                                    <label class="form-label d-block">
-                                                        <span class="text-danger fs-4">*</span> Display Type
-                                                    </label>
+                                                    <label class="form-label d-block"><span
+                                                            class="text-danger fs-4">*</span> Display Type</label>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="display_mode"
-                                                            value="landscape" name="display_mode"
-                                                            {{ old('display_mode') == 'landscape' ? 'checked' : '' }}>
+                                                        <input class="form-check-input" type="radio"
+                                                            id="display_landscape" value="landscape"
+                                                            name="display_mode"
+                                                            {{ old('display_mode', $display->display_mode ?? '') == 'landscape' ? 'checked' : '' }}>
                                                         <label class="form-check-label"
-                                                            for="landscape">Landscape</label>
+                                                            for="display_landscape">Landscape</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="display_mode"
-                                                            value="portrait" name="display_mode"
-                                                            {{ old('display_mode') == 'portrait' ? 'checked' : '' }}>
+                                                        <input class="form-check-input" type="radio"
+                                                            id="display_portrait" value="portrait"
+                                                            name="display_mode"
+                                                            {{ old('display_mode', $display->display_mode ?? '') == 'portrait' ? 'checked' : '' }}>
                                                         <label class="form-check-label"
-                                                            for="portrait">Portrait</label>
+                                                            for="display_portrait">Portrait</label>
                                                     </div>
                                                     <span class="text-danger d-block">
                                                         @error('display_mode')
@@ -1173,32 +1184,33 @@
                                                         @enderror
                                                     </span>
                                                 </div>
-
                                             </div>
 
-                                            {{-- Right Form Section --}}
-                                            <div class="col-md-5 shadow-lg p-3 mb-5 rounded ">
+                                            <!-- Right Form Section -->
+                                            <div class="col-md-5 shadow-lg p-3 mb-5 rounded">
                                                 <div class="mb-5 mt-2 d-flex justify-content-center">
                                                     <div style="width:100%;height:500px" id="map"></div>
                                                 </div>
 
+                                                <!-- Country -->
                                                 <div class="mb-3">
                                                     <label class="form-label"><span class="text-danger">*</span>
                                                         Select Country</label>
                                                     <select
                                                         class="form-select {{ $errors->has('country') ? 'input-error' : '' }}"
-                                                        id="country" name="country">
-                                                        <option value="" disabled selected>Choose Country...
-                                                        </option>
+                                                        id="country" name="country" readonly>
+                                                        <option value="" disabled
+                                                            {{ old('country', $display->country ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose Country...</option>
                                                         <option value="India"
-                                                            {{ old('country') == 'India' ? 'selected' : '' }}>India
-                                                        </option>
+                                                            {{ old('country', $display->country ?? '') == 'India' ? 'selected' : '' }}>
+                                                            India</option>
                                                         <option value="USA"
-                                                            {{ old('country') == 'USA' ? 'selected' : '' }}>USA
-                                                        </option>
+                                                            {{ old('country', $display->country ?? '') == 'USA' ? 'selected' : '' }}>
+                                                            USA</option>
                                                         <option value="Germany"
-                                                            {{ old('country') == 'Germany' ? 'selected' : '' }}>Germany
-                                                        </option>
+                                                            {{ old('country', $display->country ?? '') == 'Germany' ? 'selected' : '' }}>
+                                                            Germany</option>
                                                     </select>
                                                     <span class="text-danger">
                                                         @error('country')
@@ -1213,18 +1225,19 @@
                                                         Select State</label>
                                                     <select
                                                         class="form-select {{ $errors->has('state') ? 'input-error' : '' }}"
-                                                        id="state" name="state">
-                                                        <option value="" disabled selected>Choose State...
-                                                        </option>
+                                                        id="state" name="state" readonly>
+                                                        <option value="" disabled
+                                                            {{ old('state', $display->state ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose State...</option>
                                                         <option value="Gujrat"
-                                                            {{ old('state') == 'Gujrat' ? 'selected' : '' }}>Gujrat
-                                                        </option>
+                                                            {{ old('state', $display->state ?? '') == 'Gujrat' ? 'selected' : '' }}>
+                                                            Gujrat</option>
                                                         <option value="California"
-                                                            {{ old('state') == 'California' ? 'selected' : '' }}>
+                                                            {{ old('state', $display->state ?? '') == 'California' ? 'selected' : '' }}>
                                                             California</option>
                                                         <option value="Hessen"
-                                                            {{ old('state') == 'Hessen' ? 'selected' : '' }}>Hessen
-                                                        </option>
+                                                            {{ old('state', $display->state ?? '') == 'Hessen' ? 'selected' : '' }}>
+                                                            Hessen</option>
                                                     </select>
                                                     <span class="text-danger">
                                                         @error('state')
@@ -1239,19 +1252,19 @@
                                                         Select City</label>
                                                     <select
                                                         class="form-select {{ $errors->has('city') ? 'input-error' : '' }}"
-                                                        id="city" name="city">
-                                                        <option value="" disabled selected>Choose City...
-                                                        </option>
+                                                        id="city" name="city" readonly>
+                                                        <option value="" disabled
+                                                            {{ old('city', $display->city ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose City...</option>
                                                         <option value="Surat"
-                                                            {{ old('city') == 'Surat' ? 'selected' : '' }}>
-                                                            Surat
-                                                        </option>
+                                                            {{ old('city', $display->city ?? '') == 'Surat' ? 'selected' : '' }}>
+                                                            Surat</option>
                                                         <option value="Fresno"
-                                                            {{ old('city') == 'Fresno' ? 'selected' : '' }}>Fresno
-                                                        </option>
+                                                            {{ old('city', $display->city ?? '') == 'Fresno' ? 'selected' : '' }}>
+                                                            Fresno</option>
                                                         <option value="Marburg"
-                                                            {{ old('city') == 'Marburg' ? 'selected' : '' }}>Marburg
-                                                        </option>
+                                                            {{ old('city', $display->city ?? '') == 'Marburg' ? 'selected' : '' }}>
+                                                            Marburg</option>
                                                     </select>
                                                     <span class="text-danger">
                                                         @error('city')
@@ -1260,12 +1273,12 @@
                                                     </span>
                                                 </div>
 
-
+                                                <!-- Store Address -->
                                                 <div class="mb-5 mt-2">
-                                                    <label class="form-label"><span
-                                                            class="text-danger fs-4">*</span>Store Address</label>
-                                                    <textarea class="form-control  {{ $errors->first('address') ? 'input-error' : '' }}" name="address" rows="3"
-                                                        placeholder="Enter Store Address">{{ old('address') }}</textarea>
+                                                    <label class="form-label"><span class="text-danger fs-4">*</span>
+                                                        Store Address</label>
+                                                    <textarea class="form-control {{ $errors->first('address') ? 'input-error' : '' }}" name="address" rows="3"
+                                                        placeholder="Enter Store Address" readonly> {{ old('address', $display->address ?? '') }}</textarea>
                                                     <span class="text-danger">
                                                         @error('address')
                                                             {{ $message }}
@@ -1276,10 +1289,12 @@
 
                                             <!-- Submit Button -->
                                             <div class="col-12 text-end">
-                                                <button type="submit" class="btn btn-primary mt-3">Add
-                                                    Display</button>
+                                                <button type="submit" class="btn btn-primary mt-3">
+                                                    {{ isset($display) ? 'Update Display' : 'Add Display' }}
+                                                </button>
                                             </div>
                                         </form>
+
                                     </div>
                                 </div>
                             </div>

@@ -166,3 +166,103 @@ document.getElementById('layoutForm').addEventListener('submit', function (e) {
     document.getElementById('mediaInput').value = JSON.stringify(mediaList);
 });
 });
+
+// display add 
+    const allDisplays = window.displayData;
+    const storeSelect = document.getElementById('storeSelect');
+    const displaySelect = document.getElementById('displaySelect');
+    const displayCount = document.getElementById('displayCount');
+    const selectedDisplaysContainer = document.getElementById('selectedDisplays');
+    const selectedCount = document.getElementById('selectedCount');
+    const addBtn = document.getElementById('addBtn');
+    const noAvailableData = document.getElementById('noAvailableData');
+    const noSelectedData = document.getElementById('noSelectedData');
+
+    let selectedItems = [];
+
+    // Enable/disable add button based on selection
+    displaySelect.addEventListener('change', function () {
+        addBtn.disabled = displaySelect.selectedOptions.length === 0;
+    });
+
+    // Filter displays when store changes
+    storeSelect.addEventListener('change', function () {
+        const selectedStore = this.value;
+        const filtered = allDisplays.filter(d => d.store_id === selectedStore);
+
+        // Reset dropdown
+        displaySelect.innerHTML = '';
+        if (filtered.length === 0) {
+            noAvailableData.style.display = 'block';
+        } else {
+            noAvailableData.style.display = 'none';
+        }
+
+        filtered.forEach(display => {
+            const option = document.createElement('option');
+            option.value = display.display_id;
+            option.text = `${display.display_id} - ${display.name}`;
+            displaySelect.appendChild(option);
+        });
+
+        displayCount.textContent = filtered.length;
+        addBtn.disabled = true; // reset add button
+    });
+
+    // Add selected items
+    addBtn.addEventListener('click', function () {
+        const selectedOptions = Array.from(displaySelect.selectedOptions);
+
+        selectedOptions.forEach(option => {
+            const displayId = option.value;
+            if (!selectedItems.some(item => item.display_id == displayId)) {
+                const displayData = allDisplays.find(d => d.display_id == displayId);
+                selectedItems.push(displayData);
+                renderSelectedDisplay(displayData);
+            }
+        });
+
+        updateSelectedCount();
+        addBtn.disabled = true;
+    });
+
+    // Render tag with remove button
+    function renderSelectedDisplay(display) {
+        const tag = document.createElement('span');
+        tag.className = 'display-tag';
+        tag.setAttribute('data-id', display.display_id);
+
+        tag.innerHTML = `
+            <span>${display.display_id} - ${display.name}</span>
+            <button onclick="removeDisplay('${display.display_id}')">&times;</button>
+        `;
+
+        selectedDisplaysContainer.appendChild(tag);
+        noSelectedData.style.display = 'none';
+    }
+
+    // Remove display by ID
+    window.removeDisplay = function (id) {
+        selectedItems = selectedItems.filter(d => d.display_id != id);
+        const tag = selectedDisplaysContainer.querySelector(`[data-id="${id}"]`);
+        if (tag) tag.remove();
+        updateSelectedCount();
+    }
+
+    // Update count
+    function updateSelectedCount() {
+        selectedCount.textContent = selectedItems.length;
+        noSelectedData.style.display = selectedItems.length === 0 ? 'block' : 'none';
+    }
+
+    
+   document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('layoutForm');
+    const hiddenInput = document.getElementById('selectedDisplaysInput');
+
+    form.addEventListener('submit', function () {
+        const displayIds = selectedItems.map(item => item.display_id);
+        hiddenInput.value = JSON.stringify(displayIds);
+        console.log("Submitting displays:", hiddenInput.value);
+    });
+});

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DigitalController::class, 'index'])->name('dashboard');
 Route::get('/template', [DigitalController::class, 'showTemplate'])->name('template');
 
-Route::get('/graphics',[DigitalController::class,'showGraphicsAndVideos'])->name('graphics');
+
 
 // Store Routes
 Route::get('/store', [DigitalController::class, 'showStore'])->name('store');
@@ -43,7 +43,7 @@ Route::post('/resetpassword', [Controller::class, 'resetPasswordUpdate'])->name(
 Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
 Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
 Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
-Route::get('/getAllData/{id}', [LayoutController::class, 'getAllData'])->name('getAllData');
+Route::get('api/display/{id}', [LayoutController::class, 'getAllData'])->name('getAllData');
 
 // Display Routes
 Route::get('/display',[DisplayController::class,'showDisplay'])->name('display');

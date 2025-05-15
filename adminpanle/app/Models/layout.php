@@ -18,7 +18,8 @@ class layout extends Model
         'zone2',
         'zone3',
         'zone4',
-        'status'
+        'status',
+        'selectedDisplays'
 
     ];
 

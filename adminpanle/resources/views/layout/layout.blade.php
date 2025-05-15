@@ -1006,9 +1006,8 @@
 
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <table id="add-rows"
-                                        class="table table-nowrap dt-responsive table-bordered display"
+                                <div class="card-body table-responsive">
+                                    <table id="add-rows" class="table table-striped table-bordered nowrap display"
                                         style="width:100%">
                                         <thead class="bg-light">
                                             <tr>
@@ -1025,21 +1024,21 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $layout->unique_id }}</td>
                                                     <td>{{ $layout->playlistName }}</td>
-                                                    <td>{{ $layout->layoutName }}</td>
-
-
+                                                    <td>
+                                                        {{ is_array(json_decode($layout->selectedDisplays))
+                                                            ? implode(', ', json_decode($layout->selectedDisplays))
+                                                            : $layout->selectedDisplays }}
+                                                    </td>
                                                     <td>
                                                         <button class="btn btn-sm btn-primary">
                                                             <i class="bi bi-pencil-square fs-6"></i>
                                                         </button>
-                                                        <button class="btn btn-sm btn-danger">
-                                                            <i class="bi bi-ban  fs-6"></i>
+                                                        <button class="btn btn-sm bg-light">
+                                                            <i class="bi bi-ban fs-6"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
-                                                </tr>
                                             @endforeach
-
                                         </tbody>
                                     </table>
                                 </div>

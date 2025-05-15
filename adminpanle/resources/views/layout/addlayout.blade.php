@@ -1026,13 +1026,14 @@
                                                     <div class="mb-3 col-md-4">
                                                         <label for="display-type" class="form-label">Select
                                                             Store</label>
-                                                        <select name="store_id" class="form-control" required>
+                                                        <select id="storeSelect" name="store_id" class="form-control"
+                                                            required>
                                                             <option class="text-muted" disabled selected>Select Store
                                                             </option>
-                                                            @foreach ($store_id as $store)
-                                                                <option value="{{ $store->storeId }}"
-                                                                    {{ old('store_id') == $store->storeId ? 'selected' : '' }}>
-                                                                    {{ $store->storeId }}
+                                                            @foreach ($stores as $store)
+                                                                <option value="{{ $store->store_id }}"
+                                                                    {{ old('store_id') == $store->store_id ? 'selected' : '' }}>
+                                                                    {{ $store->store_id }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -1075,30 +1076,42 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="selection-box">
-                                                                <span class="numBox">0</span>
+                                                                <span class="numBox" id="displayCount">0</span>
                                                                 <label for="">: Item Available</label>
                                                                 <hr>
-                                                                <div class="search-box">
-                                                                    <input type="text"
-                                                                        class="form-control form-control"
-                                                                        placeholder="Search here">
+
+
+                                                                <select id="displaySelect" class="form-control"
+                                                                    size="6" multiple>
+                                                                    <option class="text-muted" disabled>Select Display
+                                                                    </option>
+                                                                </select>
+
+                                                                <button id="addBtn" class="btn btn-success mt-2"
+                                                                    disabled>Add Selected</button>
+
+                                                                <div class="no-data mt-2" id="noAvailableData">No Data
                                                                 </div>
-                                                                <div class="no-data">No Data</div>
+
+
                                                             </div>
+
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="selection-box">
-                                                                <span class="numBox">0</span>
+                                                                <span class="numBox" id="selectedCount">0</span>
                                                                 <label for="">: Item Selected</label>
                                                                 <hr>
-                                                                <div class="search-box">
-                                                                    <input type="text"
-                                                                        class="form-control form-control"
-                                                                        placeholder="Search here">
-                                                                </div>
-                                                                <div class="no-data">No Data</div>
+                                                                <p id="selectedDisplays"
+                                                                    class="d-flex flex-wrap gap-2"></p>
+                                                                <div class="no-data" id="noSelectedData">No Data</div>
+                                                                <input type="hidden" name="selectedDisplays"
+                                                                    id="selectedDisplaysInput">
                                                             </div>
                                                         </div>
+                                                        @error('selectedDisplays')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -1179,7 +1192,8 @@
                                                         <div class="zone-tables">
                                                             <!-- Zone1 -->
                                                             <div class="zone-table" id="table-zone1">
-                                                                <h6 class="fw-bold">Zone1 Media</h6>
+                                                                <p class="text-danger">Zone:1</p>
+
                                                                 <table class="table table-bordered">
                                                                     <thead class="bg-light">
                                                                         <tr>
@@ -1196,7 +1210,7 @@
 
                                                             <!-- Zone2 -->
                                                             <div class="zone-table d-none" id="table-zone2">
-                                                                <h6 class="fw-bold">Zone2 Media</h6>
+                                                                <p class="text-danger">Zone:2</p>
                                                                 <table class="table table-bordered">
                                                                     <thead class="bg-light">
                                                                         <tr>
@@ -1213,7 +1227,7 @@
 
                                                             <!-- Zone3 -->
                                                             <div class="zone-table d-none" id="table-zone3">
-                                                                <h6 class="fw-bold">Zone3 Media</h6>
+                                                                <p class="text-danger">Zone:3</p>
                                                                 <table class="table table-bordered">
                                                                     <thead class="bg-light">
                                                                         <tr>
@@ -1230,7 +1244,7 @@
 
                                                             <!-- Zone4 -->
                                                             <div class="zone-table d-none" id="table-zone4">
-                                                                <h6 class="fw-bold">Zone4 Media</h6>
+                                                                <p class="text-danger">Zone:4</p>
                                                                 <table class="table table-bordered">
                                                                     <thead class="bg-light">
                                                                         <tr>
@@ -1247,6 +1261,7 @@
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="media" id="mediaInput">
+
                                                     <div class="col-12 col-md-6 col-lg-4 selection-box mt-3">
                                                         <div class="col-xxl-6">
                                                             <div class="card">
@@ -1433,14 +1448,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {{-- add layout js --}}
-    <script src="assets/js/addlayout.js"></script>
-    
-    
- 
 
-  
-   
-   
+
+    <script>
+        window.displayData = {!! json_encode($displays) !!};
+    </script>
+    <script src="assets/js/addlayout.js"></script>
+
+
+
+
 
 </body>
 

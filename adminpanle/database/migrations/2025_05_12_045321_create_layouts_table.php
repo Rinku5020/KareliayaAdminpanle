@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('playlistName');
             $table->string('address');
             $table->string('logo');
+            $table->json('selectedDisplays');
             $table->json('zone1')->nullable();
             $table->json('zone2')->nullable();
             $table->json('zone3')->nullable();

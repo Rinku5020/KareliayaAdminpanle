@@ -1029,14 +1029,20 @@
                                                             ? implode(', ', json_decode($layout->selectedDisplays))
                                                             : $layout->selectedDisplays }}
                                                     </td>
-                                                    <td>
+                                                    <td class="d-flex gap-3">
                                                         <button class="btn btn-sm btn-primary">
                                                             <i class="bi bi-pencil-square fs-6"></i>
                                                         </button>
-                                                        <button class="btn btn-sm bg-light">
-                                                            <i class="bi bi-ban fs-6"></i>
-                                                        </button>
-                                                    </td>
+                                                        <form action="{{ route('layoutstatus', $layout->id) }}"
+                                                            method="POST" class="status-form d-inline">
+                                                            @csrf
+                                                            <button type="button"
+                                                                class="btn btn-sm {{ $layout->status == 0 ? 'btn-danger' : 'btn-success' }} change-status-btn"
+                                                                data-layout-id="{{ $layout->id }}">
+                                                                <i class="bi bi-ban fs-6"></i>
+                                                            </button>
+                                                        </form>
+                                                        </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -1078,6 +1084,30 @@
     <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.change-status-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const form = this.closest('form');
+                    const layoutId = this.getAttribute('data-layout-id');
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You are about to change the status!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, change it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

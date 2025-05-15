@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DigitalController;
 use App\Http\Controllers\DisplayController;
@@ -44,7 +45,8 @@ Route::post('/resetpassword', [Controller::class, 'resetPasswordUpdate'])->name(
 Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
 Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
 Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
-Route::get('api/display/{id}', [LayoutController::class, 'getAllData'])->name('getAllData');
+Route::post('/layout/status/{id}', [LayoutController::class, 'status'])->name('layoutstatus');
+
 
 // Display Routes
 Route::get('/display', [DisplayController::class, 'showDisplay'])->name('display');
@@ -54,3 +56,6 @@ Route::get('/edit-display/{display_id}', [DisplayController::class, 'editDisplay
 Route::put('/update-display/{display_id}', [DisplayController::class, 'updateDisplay'])->name('updateDisplay');
 Route::delete('/delete-display/{id}', [DisplayController::class, 'deleteDisplay'])->name('deleteDisplay');
 Route::post('/display/status/{id}', [DisplayController::class, 'status'])->name('status');
+
+// API Routes
+Route::get('api/display/{id}', [ApiController::class, 'getAllData'])->name('getAllData');

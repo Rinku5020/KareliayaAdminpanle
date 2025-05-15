@@ -16,8 +16,6 @@ class DigitalController extends Controller
         return view('dashboard');
     }
 
-<<<<<<< HEAD
-=======
     /**
      * Show the form for creating a new resource.
      */
@@ -60,7 +58,6 @@ class DigitalController extends Controller
         //
     }
 
->>>>>>> 709b0303234e79b408aeaa5bcdca29e8a0cf6411
     public function showStore()
     {
         $store = Store::all();
@@ -83,7 +80,7 @@ class DigitalController extends Controller
         } while (Store::where('storeId', $storeId)->exists());
         return view('store.addstore', compact('storeId'));
     }
-    
+
     public function createStore(Request $request)
     {
         // Validate inputs (including the generated storeId)
@@ -208,17 +205,17 @@ class DigitalController extends Controller
 
 
     public function deleteStore($id)
-{
-    $store = Store::findOrFail($id);
+    {
+        $store = Store::findOrFail($id);
 
-    if ($store->logo && file_exists(public_path('uploads/store/' . $store->logo))) {
-        unlink(public_path('uploads/store/' . $store->logo));
+        if ($store->logo && file_exists(public_path('uploads/store/' . $store->logo))) {
+            unlink(public_path('uploads/store/' . $store->logo));
+        }
+
+        $store->delete();
+
+        return redirect()->route('store')->with('success', 'Store deleted successfully!');
     }
-
-    $store->delete();
-
-    return redirect()->route('store')->with('success', 'Store deleted successfully!');
-}
 
 
 
@@ -232,12 +229,5 @@ class DigitalController extends Controller
         $store->save();
 
         return redirect()->route('store')->with('success', 'Store status updated successfully!');
-   
-<<<<<<< HEAD
-    }   
-   
-=======
-    
     }
->>>>>>> 709b0303234e79b408aeaa5bcdca29e8a0cf6411
 }

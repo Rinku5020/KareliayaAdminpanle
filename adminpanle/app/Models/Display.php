@@ -2,25 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Store;
 use Illuminate\Database\Eloquent\Model;
 
 class Display extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'displayName',
-        'displayMode',
-        'timeZone',
+        'display_id',
+        'name',
         'tags',
-        'status',
-        'displayId',
         'store_id',
-        'account_id',
+        'time_zone',
+        'display_mode',
+        'country',
+        'state',
+        'city',
+        'address',
     ];
 
-    protected $casts = [
-        'tags' => 'array', 
-    ];
+    // Define the relationship here
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 }
+

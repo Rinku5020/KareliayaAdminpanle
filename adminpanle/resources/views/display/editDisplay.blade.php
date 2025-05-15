@@ -2,7 +2,7 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-
+    <base href="{{ asset('') }}">
     <meta charset="utf-8" />
     <title>Datatables | Velzon - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +11,8 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 
 
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
     <!-- Bootstrap Css -->
@@ -31,9 +23,8 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-
-    <!-- Bootstrap Icons CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    {{-- Leaflet Css --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
 </head>
 
@@ -44,7 +35,7 @@
                 toast: true,
                 position: 'top-end',
                 icon: 'success',
-                text: "{{ Session::get('success') }}",
+                title: "{{ Session::get('success') }}",
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true,
@@ -57,6 +48,7 @@
             });
         </script>
     @endif
+
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -1043,95 +1035,266 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card shadow-sm rounded-3 border-0">
-                                <div
-                                    class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
-                                    <h5 class="card-title mb-0 fw-semibold">Displays</h5>
-                                    <a href="{{ route('addDisplay') }}" class="btn btn-secondary">
-                                        <i class="bi bi-plus-circle me-1"></i> Add Display
+
+                    <div class="col-xxl-12">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h2 class="card-title mb-0 flex-grow-1">
+                                    <a href="{{ route('store') }}" class="text-decoration-none me-2">
+                                        <i class="ri-arrow-left-line"></i>
                                     </a>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table id="add-rows"
-                                            class="table table-hover table-bordered align-middle text-center"
-                                            style="width: 100%;">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th>Display Name</th>
-                                                    <th>Store</th>
-                                                    <th>Device Id</th>
-                                                    <th>Location</th>
-                                                    <th>City</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($display as $displayCollection)
-                                                    <tr>
-                                                        <td class="fw-medium">{{ $displayCollection->name }}</td>
-                                                        <td>{{ $displayCollection->store->name ?? 'N/A' }}</td>
-                                                        <td>{{ $displayCollection->deviceId }}</td>
-                                                        <td>{{ $displayCollection->country }}</td>
-                                                        <td>{{ $displayCollection->city }}</td>
-                                                        <input type="text"
-                                                            value="{{ $displayCollection->display_id }}">
-                                                        <td>
-                                                            @if ($displayCollection->status)
-                                                                <span
-                                                                    class="badge bg-success border-success text-light fw-semibold">Active</span>
-                                                            @else
-                                                                <span
-                                                                    class="badge bg-danger border-danger text-light fw-semibold">Inactive</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('editDisplay', $displayCollection->display_id) }}"
-                                                                class="btn btn-sm btn-outline-secondary me-1"
-                                                                title="Edit">
-                                                                <i class="bi bi-pencil"></i>
-                                                            </a>
-                                                            <form action="" method="POST" class="d-inline">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-outline-danger me-1 delete-store-btn"
-                                                                    onclick="return confirm('Are you sure you want to delete this store?\nThis action cannot be undone.')"
-                                                                    title="Delete">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </button>
-                                                            </form>
-                                                            <form
-                                                                action="{{ route('status', $displayCollection->id) }}"
-                                                                method="POST" class="d-inline">
-                                                                @csrf
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-outline-dark"
-                                                                    title="{{ $displayCollection->status ? 'Disable' : 'Enable' }}">
-                                                                    <i
-                                                                        class="bi {{ $displayCollection->status ? 'bi-slash-circle' : 'bi-check-circle' }}"></i>
-                                                                </button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                    Add Display
+                                </h2>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <div class="container-fluid mt-4">
+                                        <form action="{{ route('createDisplay') }}" method="post"
+                                            enctype="multipart/form-data" class="row g-4 justify-content-between">
+                                            @csrf
+                                            <!-- Left Form Section -->
+                                            <div class="col-md-5 shadow-lg p-3 mb-5 rounded">
+                                                <div class="mb-5 mt-2">
+                                                    <label for="display_id" class="form-label">
+                                                        <span class="text-danger fs-4">*</span> Display Id
+                                                    </label>
+                                                    <input type="text"  name="display_id"
+                                                        class="form-control {{ $errors->first('display_id') ? 'input-error' : '' }}"
+                                                        value="{{ old('display_id', $display_id ?? '') }}"
+                                                        placeholder="Enter Display Id" readonly>
+                                                    <span class="text-danger">
+                                                        @error('display_id')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <div class="mb-5 mt-2">
+                                                    <label for="name" class="form-label">
+                                                        <span class="text-danger fs-4">*</span> Display Name
+                                                    </label>
+                                                    <input type="text" id="name" name="name"
+                                                        class="form-control"
+                                                        value="{{ old('name', $name ?? '') }}"
+                                                        placeholder="Enter Display Name">
+                                                    <span class="text-danger">
+                                                        @error('name')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <div class="mb-5 mt-2">
+                                                    <label for="tags" class="form-label">
+                                                        <span class="text-danger fs-4">*</span> Tags
+                                                    </label>
+                                                    <input type="text" id="tags" name="tags"
+                                                        class="form-control" value="{{ old('tags', $tags ?? '') }}"
+                                                        placeholder="Enter tag name">
+                                                    <span class="text-danger">
+                                                        @error('tags')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <div class="mb-5">
+                                                    <label for="store" class="form-label"><span
+                                                            class="text-danger">*</span> Select Store</label>
+                                                    <select
+                                                        class="form-select w-100 {{ $errors->has('store') ? 'input-error' : '' }}"
+                                                        id="store" name="store">
+                                                        <option value="" disabled selected>Choose Store...
+                                                        </option>
+                                                        @foreach ($stores as $store)
+                                                            <option value="{{ $store->storeId }}"
+                                                                {{ old('store') == $store->storeId ? 'selected' : '' }}>
+                                                                {{ $store->storeId }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <span class="text-danger">
+                                                        @error('store')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <div class="mb-5 mt-2">
+                                                    <label for="time_zone" class="form-label">
+                                                        <span class="text-danger fs-4">*</span> Time Zone
+                                                    </label>
+                                                    <select id="time_zone" name="time_zone"
+                                                        class="form-select {{ $errors->has('time_zone') ? 'input-error' : '' }}"
+                                                        name="time_zone">>
+                                                        <option disabled {{ old('time_zone') ? '' : 'selected' }}>Select
+                                                            a Time Zone
+                                                        </option>
+                                                        <option
+                                                            {{ old('time_zone') == 'Asia/Kolkata' ? 'selected' : '' }}
+                                                            value="Asia/Kolkata">Asia/Kolkata</option>
+                                                        <option
+                                                            {{ old('time_zone') == 'America/New_York' ? 'selected' : '' }}
+                                                            value="America/New_York">America/New_York</option>
+                                                        <option
+                                                            {{ old('time_zone') == 'Europe/London' ? 'selected' : '' }}
+                                                            value="Europe/London">Europe/London</option>
+
+                                                    </select>
+                                                    <span class="text-danger">
+                                                        @error('time_zone')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label d-block">
+                                                        <span class="text-danger fs-4">*</span> Display Type
+                                                    </label>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" id="display_mode"
+                                                            value="landscape" name="display_mode"
+                                                            {{ old('display_mode') == 'landscape' ? 'checked' : '' }}>
+                                                        <label class="form-check-label"
+                                                            for="landscape">Landscape</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" id="display_mode"
+                                                            value="portrait" name="display_mode"
+                                                            {{ old('display_mode') == 'portrait' ? 'checked' : '' }}>
+                                                        <label class="form-check-label"
+                                                            for="portrait">Portrait</label>
+                                                    </div>
+                                                    <span class="text-danger d-block">
+                                                        @error('display_mode')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+                                            {{-- Right Form Section --}}
+                                            <div class="col-md-5 shadow-lg p-3 mb-5 rounded ">
+                                                <div class="mb-5 mt-2 d-flex justify-content-center">
+                                                    <div style="width:100%;height:500px" id="map"></div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label"><span class="text-danger">*</span>
+                                                        Select Country</label>
+                                                    <select
+                                                        class="form-select {{ $errors->has('country') ? 'input-error' : '' }}"
+                                                        id="country" name="country">
+                                                        <option value="" disabled selected>Choose Country...
+                                                        </option>
+                                                        <option value="India"
+                                                            {{ old('country') == 'India' ? 'selected' : '' }}>India
+                                                        </option>
+                                                        <option value="USA"
+                                                            {{ old('country') == 'USA' ? 'selected' : '' }}>USA
+                                                        </option>
+                                                        <option value="Germany"
+                                                            {{ old('country') == 'Germany' ? 'selected' : '' }}>Germany
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger">
+                                                        @error('country')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <!-- State -->
+                                                <div class="mb-3">
+                                                    <label class="form-label"><span class="text-danger">*</span>
+                                                        Select State</label>
+                                                    <select
+                                                        class="form-select {{ $errors->has('state') ? 'input-error' : '' }}"
+                                                        id="state" name="state">
+                                                        <option value="" disabled selected>Choose State...
+                                                        </option>
+                                                        <option value="Gujrat"
+                                                            {{ old('state') == 'Gujrat' ? 'selected' : '' }}>Gujrat
+                                                        </option>
+                                                        <option value="California"
+                                                            {{ old('state') == 'California' ? 'selected' : '' }}>
+                                                            California</option>
+                                                        <option value="Hessen"
+                                                            {{ old('state') == 'Hessen' ? 'selected' : '' }}>Hessen
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger">
+                                                        @error('state')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+                                                <!-- City -->
+                                                <div class="mb-3">
+                                                    <label class="form-label"><span class="text-danger">*</span>
+                                                        Select City</label>
+                                                    <select
+                                                        class="form-select {{ $errors->has('city') ? 'input-error' : '' }}"
+                                                        id="city" name="city">
+                                                        <option value="" disabled selected>Choose City...
+                                                        </option>
+                                                        <option value="Surat"
+                                                            {{ old('city') == 'Surat' ? 'selected' : '' }}>
+                                                            Surat
+                                                        </option>
+                                                        <option value="Fresno"
+                                                            {{ old('city') == 'Fresno' ? 'selected' : '' }}>Fresno
+                                                        </option>
+                                                        <option value="Marburg"
+                                                            {{ old('city') == 'Marburg' ? 'selected' : '' }}>Marburg
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger">
+                                                        @error('city')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+
+
+                                                <div class="mb-5 mt-2">
+                                                    <label class="form-label"><span
+                                                            class="text-danger fs-4">*</span>Store Address</label>
+                                                    <textarea class="form-control  {{ $errors->first('address') ? 'input-error' : '' }}" name="address" rows="3"
+                                                        placeholder="Enter Store Address">{{ old('address') }}</textarea>
+                                                    <span class="text-danger">
+                                                        @error('address')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Submit Button -->
+                                            <div class="col-12 text-end">
+                                                <button type="submit" class="btn btn-primary mt-3">Add
+                                                    Display</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!--end col-->
-            </div>
 
+
+                    <!-- end col -->
+                </div>
+            </div><!--end col-->
         </div>
 
-        <!-- end main content-->
+    </div>
+
+    <!-- end main content-->
 
     </div>
     <!-- END layout-wrapper -->
@@ -1141,7 +1304,6 @@
         <i class="ri-arrow-up-line"></i>
     </button>
     <!--end back-to-top-->
-
 
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -1153,21 +1315,111 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-    <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
+
+    {{-- Maps js --}}
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        var map = L.map('map').setView([20.5937, 78.9629], 5);
+        var marker = L.marker([20.5937, 78.9629]).addTo(map);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        function updateMapByAddress(address, zoomLevel = 10) {
+            if (!address) return;
+
+            if (marker) {
+                map.removeLayer(marker);
+            }
+
+            fetch(
+                    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&addressdetails=1&limit=1`
+                )
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const {
+                            lat,
+                            lon,
+                            display_name
+                        } = data[0];
+                        console.log("Found location:", display_name);
+                        map.setView([lat, lon], zoomLevel);
+                        marker = L.marker([lat, lon]).addTo(map);
+
+                    } else {
+                        console.warn("Location not found:", address);
+                        tryFallbackSearch(address, zoomLevel);
+                    }
+                })
+                .catch(error => {
+                    console.error("Geocoding error:", error);
+                });
+        }
+
+        function tryFallbackSearch(address, zoomLevel) {
+            const parts = address.split(', ');
+            if (parts.length > 1) {
+                // Try with fewer address components
+                const fallbackAddress = parts.slice(0, -1).join(', ');
+                console.log("Trying fallback with:", fallbackAddress);
+                updateMapByAddress(fallbackAddress, zoomLevel - 2);
+            }
+        }
+
+        function updateMapBasedOnSelection() {
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const city = document.getElementById('city').value;
+
+            // Determine appropriate zoom level based on selection
+            let zoomLevel = 5; // Default for country
+            let address = country;
+
+            if (country && country !== 'Choose Country...') {
+                if (state && state !== 'Choose State...') {
+                    zoomLevel = 8;
+                    address = `${state}, ${country}`;
+
+                    if (city && city !== 'Choose City...') {
+                        zoomLevel = 12;
+                        address = `${city}, ${state}, ${country}`;
+                    }
+                }
+            }
+
+            console.log("Searching for:", address, "at zoom:", zoomLevel);
+            updateMapByAddress(address, zoomLevel);
+        }
+
+        // Debounce function to prevent too many API calls
+        function debounce(func, timeout = 500) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    func.apply(this, args);
+                }, timeout);
+            };
+        }
+
+        // Event listeners
+        const debouncedUpdate = debounce(updateMapBasedOnSelection);
+
+        document.getElementById('country').addEventListener('change', debouncedUpdate);
+        document.getElementById('state').addEventListener('change', debouncedUpdate);
+        document.getElementById('city').addEventListener('change', debouncedUpdate);
+
+        // Initial update
+        updateMapBasedOnSelection();
+    </script>
+
+
 </body>
 
 </html>

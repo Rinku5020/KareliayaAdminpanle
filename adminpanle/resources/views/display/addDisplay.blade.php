@@ -1056,30 +1056,30 @@
                                             <!-- Left Form Section -->
                                             <div class="col-md-5 shadow-lg p-3 mb-5 rounded">
                                                 <div class="mb-5 mt-2">
-                                                    <label for="displayId" class="form-label">
+                                                    <label for="display_id" class="form-label">
                                                         <span class="text-danger fs-4">*</span> Display Id
                                                     </label>
-                                                    <input type="text" id="displayId" name="displayId"
-                                                        class="form-control {{ $errors->first('displayId') ? 'input-error' : '' }}"
-                                                        value="{{ old('displayId', $displayId ?? '') }}"
-                                                        placeholder="Enter Store Id" readonly>
+                                                    <input type="text"  name="display_id"
+                                                        class="form-control {{ $errors->first('display_id') ? 'input-error' : '' }}"
+                                                        value="{{ old('display_id', $display_id ?? '') }}"
+                                                        placeholder="Enter Display Id" readonly>
                                                     <span class="text-danger">
-                                                        @error('displayId')
+                                                        @error('display_id')
                                                             {{ $message }}
                                                         @enderror
                                                     </span>
                                                 </div>
 
                                                 <div class="mb-5 mt-2">
-                                                    <label for="displayName" class="form-label">
+                                                    <label for="name" class="form-label">
                                                         <span class="text-danger fs-4">*</span> Display Name
                                                     </label>
-                                                    <input type="text" id="displayName" name="displayName"
+                                                    <input type="text" id="name" name="name"
                                                         class="form-control"
-                                                        value="{{ old('displayName', $displayName ?? '') }}"
+                                                        value="{{ old('name', $name ?? '') }}"
                                                         placeholder="Enter Display Name">
                                                     <span class="text-danger">
-                                                        @error('displayName')
+                                                        @error('name')
                                                             {{ $message }}
                                                         @enderror
                                                     </span>
@@ -1110,7 +1110,7 @@
                                                         @foreach ($stores as $store)
                                                             <option value="{{ $store->storeId }}"
                                                                 {{ old('store') == $store->storeId ? 'selected' : '' }}>
-                                                                {{ $store->storeId }} {{ $store->storeName ?? '' }}
+                                                                {{ $store->storeId }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -1122,28 +1122,28 @@
                                                 </div>
 
                                                 <div class="mb-5 mt-2">
-                                                    <label for="timeZone" class="form-label">
+                                                    <label for="time_zone" class="form-label">
                                                         <span class="text-danger fs-4">*</span> Time Zone
                                                     </label>
-                                                    <select id="timeZone" name="timeZone"
-                                                        class="form-select {{ $errors->has('timeZone') ? 'input-error' : '' }}"
-                                                        name="timeZone">>
-                                                        <option disabled {{ old('timeZone') ? '' : 'selected' }}>Select
+                                                    <select id="time_zone" name="time_zone"
+                                                        class="form-select {{ $errors->has('time_zone') ? 'input-error' : '' }}"
+                                                        name="time_zone">>
+                                                        <option disabled {{ old('time_zone') ? '' : 'selected' }}>Select
                                                             a Time Zone
                                                         </option>
                                                         <option
-                                                            {{ old('timeZone') == 'Asia/Kolkata' ? 'selected' : '' }}
+                                                            {{ old('time_zone') == 'Asia/Kolkata' ? 'selected' : '' }}
                                                             value="Asia/Kolkata">Asia/Kolkata</option>
                                                         <option
-                                                            {{ old('timeZone') == 'America/New_York' ? 'selected' : '' }}
+                                                            {{ old('time_zone') == 'America/New_York' ? 'selected' : '' }}
                                                             value="America/New_York">America/New_York</option>
                                                         <option
-                                                            {{ old('timeZone') == 'Europe/London' ? 'selected' : '' }}
+                                                            {{ old('time_zone') == 'Europe/London' ? 'selected' : '' }}
                                                             value="Europe/London">Europe/London</option>
 
                                                     </select>
                                                     <span class="text-danger">
-                                                        @error('timeZone')
+                                                        @error('time_zone')
                                                             {{ $message }}
                                                         @enderror
                                                     </span>
@@ -1154,21 +1154,21 @@
                                                         <span class="text-danger fs-4">*</span> Display Type
                                                     </label>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="display"
-                                                            value="landscape" name="display"
-                                                            {{ old('display') == 'landscape' ? 'checked' : '' }}>
+                                                        <input class="form-check-input" type="radio" id="display_mode"
+                                                            value="landscape" name="display_mode"
+                                                            {{ old('display_mode') == 'landscape' ? 'checked' : '' }}>
                                                         <label class="form-check-label"
                                                             for="landscape">Landscape</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="display"
-                                                            value="portrait" name="display"
-                                                            {{ old('display') == 'portrait' ? 'checked' : '' }}>
+                                                        <input class="form-check-input" type="radio" id="display_mode"
+                                                            value="portrait" name="display_mode"
+                                                            {{ old('display_mode') == 'portrait' ? 'checked' : '' }}>
                                                         <label class="form-check-label"
                                                             for="portrait">Portrait</label>
                                                     </div>
                                                     <span class="text-danger d-block">
-                                                        @error('display')
+                                                        @error('display_mode')
                                                             {{ $message }}
                                                         @enderror
                                                     </span>
@@ -1339,7 +1339,7 @@
 
             fetch(
                     `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&addressdetails=1&limit=1`
-                    )
+                )
                 .then(response => response.json())
                 .then(data => {
                     if (data.length > 0) {

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
+
 <head>
     <base href="{{asset('/public')}}">
     <meta charset="utf-8" />
@@ -26,65 +27,10 @@
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="assets/css/layout.css" rel="stylesheet" />
 </head>
-<style>
-    .swal-toast-popup {
-        align-items: center;
-    }
-    .swal-toast-title {
-        margin: 0;
-        flex-grow: 1;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .swal-toast-close {
-        position: static;
-        margin-left: 10px;
-    }
-</style>
+
 <body>
-    @if (Session::has('success'))
-        <script>
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                text: '{{ Session::get('success') }}',
-                showConfirmButton: false,
-                timer: 1500,
-                width: '400px',
-                padding: '0.5em 1em',
-                customClass: {
-                    container: 'swal-toast-container',
-                    popup: 'swal-toast-popup',
-                    title: 'swal-toast-title',
-                    closeButton: 'swal-toast-close'
-                }
-            });
-        </script>
-    @endif
-    @if (Session::has('error'))
-        <script>
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'error',
-                text: '{{ Session::get('error') }}',
-                showConfirmButton: false,
-                timer: 1500,
-                width: '400px',
-                padding: '0.5em 1em',
-                customClass: {
-                    container: 'swal-toast-container',
-                    popup: 'swal-toast-popup',
-                    title: 'swal-toast-title',
-                    closeButton: 'swal-toast-close'
-                }
-            });
-        </script>
-    @endif
     <!-- Begin page -->
     <div id="layout-wrapper">
         <header id="page-topbar">
@@ -867,13 +813,9 @@
                                 <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
                                         class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Lock screen</span></a>
-                                <form action="{{route('logout')}}" method="post">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
-                                        <span class="align-middle">Logout</span>
-                                    </button>
-                                </form>
+                                <a class="dropdown-item" href="auth-logout-basic.html"><i
+                                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle" data-key="t-logout">Logout</span></a>
                             </div>
                         </div>
                     </div>
@@ -997,59 +939,473 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card bg-white">
-                                <div class="card-header d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1">Layout</h5>
-                                    <div>
-                                        <a href="{{ route('addlayout') }}" class="btn btn-primary">Add Layout</a>
-                                    </div>
-                                </div>
-                                <div class="card-body table-responsive">
-                                    <table id="add-rows" class="table table-striped table-bordered nowrap display"
-                                        style="width:100%">
-                                        <thead class="bg-light">
-                                            <tr>
-                                                <th>SL. No.</th>
-                                                <th>Unique Code</th>
-                                                <th>Playlist</th>
-                                                <th>Assigned Display</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($layouts as $layout)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $layout->unique_id }}</td>
-                                                    <td>{{ $layout->playlistName }}</td>
-                                                    <td>
-                                                        {{ is_array(json_decode($layout->selectedDisplays))
-                                                            ? implode(', ', json_decode($layout->selectedDisplays))
-                                                            : $layout->selectedDisplays }}
-                                                    </td>
-                                                    <td class="d-flex gap-3">
-                                                        <a href="{{ route('editLayout', $layout->id) }}" class="btn btn-sm btn-primary">
-                                                            <i class="bi bi-pencil-square fs-6"></i>
-                                                        </a>
-                                                        <form action="{{ route('layoutstatus', $layout->id) }}"
-                                                            method="POST" class="status-form d-inline">
-                                                            @csrf
-                                                            <button type="button"
-                                                                class="btn btn-sm {{ $layout->status == 0 ? 'btn-danger' : 'btn-success' }} change-status-btn"
-                                                                data-layout-id="{{ $layout->id }}">
-                                                                <i class="bi bi-ban fs-6"></i>
-                                                            </button>
-                                                        </form>
-                                                        </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                    <div class="col-xl-12 mx-auto">
+                        <div class="card container">
+                            <div class="card-header  d-flex justify-content-between ">
+                                <a href="{{ route('layout') }}" class="bi bi-arrow-left-circle-fill "
+                                    style="font-size: 25px"></a>
+                                <h4 class="card-title mb-0 fw-semibold">Edit Playlist</h4>
                             </div>
+                            <!-- end card header -->
+                            <div class="card-body form-steps">
+                                <form id="layoutForm" action="{{ route('updateLayout', $layout->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="step-arrow-nav mb-4">
+                                        <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="steparrow-gen-info-tab"
+                                                    data-bs-toggle="pill" data-bs-target="#steparrow-gen-info"
+                                                    type="button" role="tab" aria-controls="steparrow-gen-info"
+                                                    aria-selected="true">Select Display</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link done disabled"
+                                                    id="steparrow-description-info-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#steparrow-description-info" type="button"
+                                                    role="tab" aria-controls="steparrow-description-info"
+                                                    aria-selected="false" disabled>Select Zone</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Step 1 -->
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="steparrow-gen-info"
+                                            role="tabpanel" aria-labelledby="steparrow-gen-info-tab">
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3">
+                                                        <h4 for="" class="form-label">Display Type</h4>
+                                                    </div>
+                                                    <div class="layout-selector">
+                                                        <!-- Layout 1 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="Layout 1"
+                                                                {{ $layout->layoutName == 'Layout 1' || old('layoutName') == 'Layout 1' ? 'checked' : '' }}>
+                                                            <span>Layout 1</span>
+                                                            <div class="layout-box"></div>
+                                                        </label>
+                                                        <!-- Layout 2 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="Layout 2"
+                                                                {{$layout->layoutName == 'Layout 2' || old('layoutName') == 'Layout 2' ? 'checked' : '' }}>
+                                                            <span>Layout 2</span>
+                                                            <div class="layout-box vertical-line"></div>
+                                                        </label>
+                                                        <!-- Layout 3 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="Layout 3"
+                                                                {{ $layout->layoutName == 'Layout 3' || old('layoutName') == 'Layout 3' ? 'checked' : '' }}>
+                                                            <span>Layout 3</span>
+                                                            <div class="layout-box cross-lines"></div>
+                                                        </label>
+                                                        <!-- Layout 4 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="Layout 4"
+                                                                {{ $layout->layoutName == 'Layout 4' || old('layoutName') == 'Layout 4' ? 'checked' : '' }}>
+                                                            <span>Layout 4</span>
+                                                            <div class="layout-box bottom-line"></div>
+                                                        </label>
+                                                        <!-- Layout 5 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="Layout 5"
+                                                                {{ $layout->layoutName == 'Layout 5' || old('layoutName') == 'Layout 5' ? 'checked' : '' }}>
+                                                            <span>Layout 5</span>
+                                                            <div class="layout-box tall horizontal-line"></div>
+                                                        </label>
+                                                    </div>
+                                                    @error('layoutName')
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="row mt-5 ">
+                                                    <div class="mb-3 col-md-4">
+                                                        <label for="display-type" class="form-label">Select
+                                                            Store</label>
+                                                        <select id="storeSelect" name="store_id" class="form-control"
+                                                            required>
+                                                            <option class="text-muted" disabled selected>Select Store
+                                                            </option>
+                                                            @foreach ($stores as $store)
+                                                                <option value="{{ $store->store_id }}"
+                                                                    {{$layout->store_id == $store->store_id || old('store_id') == $store->store_id ? 'selected' : '' }}>
+                                                                    {{  $store->store_id }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('store_id')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3 col-md-4 text-center ">
+                                                        <p for="display-type" class="form-label fw-semibold">Display
+                                                            Type</p>
+                                                        <label class="form-check-label">
+                                                            <input type="radio" name="displayMode"
+                                                                class="form-check-input" required value="Portrait"
+                                                                {{$layout->displayMode == 'Portrait' || old('displayMode') == 'Portrait' ? 'checked' : '' }}>
+                                                            Portrait</label>
+                                                        <label class="form-check-label">
+                                                            <input type="radio" name="displayMode"
+                                                                class="form-check-input" required value="Landscape"
+                                                                {{ $layout->displayMode == 'Landscape' || old('displayMode') == 'Landscape' ? 'checked' : '' }}>
+                                                            Landscape
+                                                        </label>
+                                                        @error('displayMode')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3 col-md-4">
+                                                        <label for="">Playlist Name</label>
+                                                        <input type="text" class="form-control"
+                                                            name="playlistName" id="layout-name" required
+                                                            value={{ $layout->playlistName || old('playlistName') }}>
+                                                        @error('playlistName')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="selection-container">
+                                                    <div class="selection-header text-center">Select Display</div>
+                                                    <hr>
+                                                    <div class="selection-status fw-semibold">Selected Display: 0</div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="selection-box">
+                                                                <span class="numBox" id="displayCount">0</span>
+                                                                <label for="">: Item Available</label>
+                                                                <hr>
+                                                                <select id="displaySelect" class="form-control"
+                                                                    size="6" multiple>
+                                                                    <option value={{ $layout->display_id }} class="text-muted" disabled>Select Display
+                                                                    </option>
+                                                                </select>
+                                                                <button id="addBtn" class="btn btn-success mt-2"
+                                                                    disabled>Add Selected</button>
+                                                                <div class="no-data mt-2" id="noAvailableData">No Data
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="selection-box">
+                                                                <span class="numBox" id="selectedCount">0</span>
+                                                                <label for="">: Item Selected</label>
+                                                                <hr>
+                                                                <p id="selectedDisplays"
+                                                                    class="d-flex flex-wrap gap-2"></p>
+                                                                <div class="no-data" id="noSelectedData">No Data</div>
+                                                                <input type="hidden" name="selectedDisplays"
+                                                                    id="selectedDisplaysInput">
+                                                            </div>
+                                                        </div>
+                                                        @error('selectedDisplays')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-start gap-3 mt-4">
+                                                <button type="button"
+                                                    class="btn btn-success btn-label right ms-auto nexttab"
+                                                    id="next-to-step2">
+                                                    <i
+                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Continue
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- Step 2 -->
+                                        <div class="tab-pane fade" id="steparrow-description-info" role="tabpanel"
+                                            aria-labelledby="steparrow-description-info-tab">
+                                            <div class="container">
+                                                <div class="row gy-4 justify-content-between">
+                                                    <!-- Left Column -->
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="" class="form-label">Address</label>
+                                                        <textarea name="address" class="form-control">{{$layout->address || old('address') }}</textarea>
+                                                        @error('address')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                        <div class="mt-3">
+                                                            <label>Logo</label>
+                                                            <div class="logoBOX">
+                                                                <input type="file" name="logo" id="logoInput"
+                                                                    accept="image/*" style="display: none;"
+                                                                    onchange="previewLogo(event)">
+                                                                <!-- Label acts as clickable image -->
+                                                                <label for="logoInput" style="cursor: pointer;">
+                                                                    <img id="logoPreview"
+                                                                        src="{{ asset('assets/images/small/blank-img.webp') }}"
+                                                                        class="img-fluid" alt="Click to upload logo">
+                                                                </label>
+                                                            </div>
+                                                            @error('logo')
+                                                                <span style="color: red"> {{ $message }} </span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <!-- Table Column -->
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Static Address</th>
+                                                                    <th>Logo</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Zone1</td>
+                                                                    <td>Sliding Image</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- Bottom Two Columns -->
+                                                    <div class="col-12 col-md-6 col-lg-7 selection-box mt-3 gap-3">
+                                                        <!-- Zone Tabs -->
+                                                        <div class="zone-tabs mb-2 mx-auto">
+                                                            <a href="#"
+                                                                class="zone-tab fw-bold text-primary active"
+                                                                data-zone="zone1">Zone1</a>
+                                                            <a href="#" class="zone-tab fw-bold text-primary"
+                                                                data-zone="zone2">Zone2</a>
+                                                            <a href="#" class="zone-tab fw-bold text-primary"
+                                                                data-zone="zone3">Zone3</a>
+                                                            <a href="#" class="zone-tab fw-bold text-primary"
+                                                                data-zone="zone4">Zone4</a>
+                                                        </div>
+                                                        <hr>
+                                                        <!-- Zone-wise Tables -->
+                                                        <div class="zone-tables">
+                                                            <!-- Zone1 -->
+                                                            <div class="zone-table" id="table-zone1">
+                                                                <p class="text-danger">Zone:1</p>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone1">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <!-- Zone2 -->
+                                                            <div class="zone-table d-none" id="table-zone2">
+                                                                <p class="text-danger">Zone:2</p>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone2">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <!-- Zone3 -->
+                                                            <div class="zone-table d-none" id="table-zone3">
+                                                                <p class="text-danger">Zone:3</p>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone3">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <!-- Zone4 -->
+                                                            <div class="zone-table d-none" id="table-zone4">
+                                                                <p class="text-danger">Zone:4</p>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone4">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" name="media" id="mediaInput">
+                                                    <div class="col-12 col-md-6 col-lg-4 selection-box mt-3">
+                                                        <div class="col-xxl-6">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <ul class="nav nav-pills arrow-navtabs nav-success bg-light mb-3 justify-content-between"
+                                                                        role="tablist">
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link active"
+                                                                                data-bs-toggle="tab"
+                                                                                href="#arrow-overview"
+                                                                                role="tab">
+                                                                                <span class="d-block d-sm-none"><i
+                                                                                        class="bi bi-card-image"></i></span>
+                                                                                <span
+                                                                                    class="d-none d-sm-block">Image</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" data-bs-toggle="tab"
+                                                                                href="#arrow-profile"
+                                                                                role="tab">
+                                                                                <span class="d-block d-sm-none"><i
+                                                                                        class="bi bi-file-earmark-play"></i></span>
+                                                                                <span
+                                                                                    class="d-none d-sm-block">Video</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" data-bs-toggle="tab"
+                                                                                href="#arrow-contact"
+                                                                                role="tab">
+                                                                                <span class="d-block d-sm-none"><i
+                                                                                        class="bi bi-file-earmark"></i></span>
+                                                                                <span
+                                                                                    class="d-none d-sm-block">Template</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <!-- Tab panes -->
+                                                                    <div class="tab-content text-muted">
+                                                                        <div class="tab-pane active"
+                                                                            id="arrow-overview" role="tabpanel">
+                                                                            <h4 class="text-center">Image</h4>
+                                                                            <hr>
+                                                                            <div class="row justify-content-between">
+                                                                                @foreach ($graphics as $image)
+                                                                                    @php
+                                                                                        $ext = pathinfo(
+                                                                                            $image->media_id,
+                                                                                            PATHINFO_EXTENSION,
+                                                                                        );
+                                                                                    @endphp
+                                                                                    @if (in_array(strtolower($ext), ['jpg', 'png', 'jpeg', 'svg']))
+                                                                                        <div class="col-6 mb-3 ">
+                                                                                            <a href="javascript:void(0);"
+                                                                                                class="card text-center select-media bg-light"
+                                                                                                data-name="{{ $image->media_id }}"
+                                                                                                data-type="Image"
+                                                                                                data-duration="N/A">
+                                                                                                <img src="{{ asset('uploads/media/' . $image->media_id) }}"
+                                                                                                    alt=""
+                                                                                                    class="img-fluid card-img-top">
+                                                                                                <div
+                                                                                                    class="card-body">
+                                                                                                    <strong>{{ $image->media_id }}</strong>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="tab-pane" id="arrow-profile"
+                                                                            role="tabpanel">
+                                                                            <h4 class="text-center">Videos</h4>
+                                                                            <hr>
+                                                                            <div class="row justify-content-between">
+                                                                                @foreach ($graphics as $item)
+                                                                                    @php
+                                                                                        $ext = pathinfo(
+                                                                                            $item->media_id,
+                                                                                            PATHINFO_EXTENSION,
+                                                                                        );
+                                                                                    @endphp
+                                                                                    @if (strtolower($ext) === 'mp4')
+                                                                                        <div class="col-6 mb-3">
+                                                                                            <a class="card bg-light select-media text-decoration-none border-0"
+                                                                                                style="display: block;"
+                                                                                                data-name="{{ $item->media_id }}"
+                                                                                                data-type="Video"
+                                                                                                data-duration="00:00">
+                                                                                                <video controls
+                                                                                                    width="100%"
+                                                                                                    poster="{{ asset('assets/images/small/blank-img.webp') }}"
+                                                                                                    class="card-img-top">
+                                                                                                    <source
+                                                                                                        src="{{ asset('uploads/media/' . $item->media_id) }}"
+                                                                                                        type="video/mp4">
+                                                                                                    Your browser does
+                                                                                                    not support the
+                                                                                                    video tag.
+                                                                                                </video>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="tab-pane" id="arrow-contact"
+                                                                            role="tabpanel">
+                                                                            <h4 class="text-center">Template</h4>
+                                                                            <hr>
+                                                                            <div class="row justify-content-between">
+                                                                                <div class="col-3">
+                                                                                    <div class="card">
+                                                                                        <img src="assets/images/small/blank-img.webp"
+                                                                                            alt="">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-3">
+                                                                                    <div class="card">
+                                                                                        <img src="assets/images/small/blank-img.webp"
+                                                                                            alt="">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-3">
+                                                                                    <div class="card">
+                                                                                        <img src="assets/images/small/blank-img.webp"
+                                                                                            alt="">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div><!-- end card-body -->
+                                                            </div><!-- end card -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-start gap-3 mt-4">
+                                                <button type="button" class="btn btn-light btn-label previestab"
+                                                    data-previous="steparrow-gen-info-tab"><i
+                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                                    Back to General</button>
+                                                <button type="submit"
+                                                    class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                                    data-nexttab="pills-experience-tab"><i
+                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit
+                                                </button>
+                                            </div>
+                                        </div>
+                                </form>
+                            </div>
+                            <!-- end card body -->
                         </div>
+                        <!-- end card -->
                     </div>
                 </div><!--end col-->
             </div>
@@ -1064,48 +1420,24 @@
     <!--end back-to-top-->
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="assets/js/pages/datatables.init.js"></script>
+    <!-- form wizard init -->
+    <script src="assets/js/pages/form-wizard.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
+    <!-- Include SweetAlert and Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- add layout js --}}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.change-status-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const form = this.closest('form');
-                    const layoutId = this.getAttribute('data-layout-id');
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You are about to change the status!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, change it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                        }
-                    });
-                });
-            });
-        });
+        window.displayData = {!! json_encode($displays) !!};
     </script>
+    <script src="assets/js/addlayout.js"></script>
 </body>
+
 </html>

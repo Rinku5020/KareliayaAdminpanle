@@ -14,12 +14,20 @@ class DigitalController extends Controller
      */
     public function index()
     {
-        dd(Auth::id());
+        
+           return redirect()->route('showLogin');
+        
+       
         return view('dashboard');
     }
 
     public function showStore()
     {
+        
+            return redirect()->route('showLogin');
+       
+        
+        
         $store = Store::all();
         return view('store.store', ['store' => $store]);
     }

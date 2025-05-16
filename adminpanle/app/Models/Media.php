@@ -8,10 +8,12 @@ class Media extends Model
 {
    
     protected $fillable = [
-        'layout_unique_id',
-        'media_name',
-        'media_type',
-        'duration',
+    'account_id',
+    'originalname',
+    'encoding',
+    'mimetype',
+    'size',
+    'path',
     ];
 
    

@@ -153,9 +153,14 @@ class Controller
         return redirect()->route('showLogin')->with('success', 'Password reset successfully');
     }
 
+<<<<<<< HEAD
     public function logout(Request $request)
     {
         $request->session()->flush();
         return redirect()->route('showLogin')->with('status', 'You have been logged out!');
     }
+=======
+    
+
+>>>>>>> b309b40e77d1bcdb54cf5524af4bb1b310977e41
 }

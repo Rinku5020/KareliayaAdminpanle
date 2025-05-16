@@ -73,6 +73,8 @@ Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
 Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
 Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
 Route::post('/layout/status/{id}', [LayoutController::class, 'status'])->name('layoutstatus');
+Route::get('/edit_layout/{id}', [LayoutController::class, 'editLayout'])->name('editLayout');
+Route::put('/update_layout/{id}', [LayoutController::class, 'updateLayout'])->name('updateLayout');
 
 
 // Display Routes
@@ -86,3 +88,8 @@ Route::post('/display/status/{id}', [DisplayController::class, 'status'])->name(
 
 // API Routes
 Route::get('api/display/{id}', [ApiController::class, 'getAllData'])->name('getAllData');
+<<<<<<< HEAD
+=======
+Route::get('api/verify-codes/{id}', [ApiController::class, 'verifyCode'])->name('verifyCode');
+Route::get('api/devices/', [ApiController::class, 'devices'])->name('devices');
+>>>>>>> b309b40e77d1bcdb54cf5524af4bb1b310977e41

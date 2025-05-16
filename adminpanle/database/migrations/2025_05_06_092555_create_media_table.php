@@ -12,14 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('media', function (Blueprint $table) {
-            $table->id();
-            $table->string('layout_unique_id');
-            $table->string('media_name');
-            $table->string('media_type');
-            $table->string('duration')->nullable();
-            $table->string('zone')->nullable();
+                $table->id();
+                $table->foreignId('account_id')->constrained('user')->nullable();
+                $table->string('originalname');
+                $table->string('encoding');
+                $table->string('mimetype');
+                $table->integer('size');
+                $table->string('path');
+                $table->timestamps();
 
-            $table->timestamps();
         });
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\digital;
 use App\Models\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DigitalController extends Controller
 {
@@ -13,6 +14,10 @@ class DigitalController extends Controller
      */
     public function index()
     {
+        if(!Auth::check()){
+            return redirect()->route('showLogin');
+        }
+       
         return view('dashboard');
     }
 
@@ -60,6 +65,11 @@ class DigitalController extends Controller
 
     public function showStore()
     {
+        if(!Auth::check()){
+            return redirect()->route('showLogin');
+        }
+        $authId = Auth::user()->id;
+        dd($authId);
         $store = Store::all();
         return view('store.store', ['store' => $store]);
     }

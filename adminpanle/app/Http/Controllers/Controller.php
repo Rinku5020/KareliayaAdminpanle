@@ -139,6 +139,9 @@ class Controller
     
         return redirect()->route('showLogin')->with('success', 'Password reset successfully');
     }
+
+    
+
 }
   
 

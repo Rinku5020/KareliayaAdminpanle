@@ -869,7 +869,7 @@
                                     <img class="rounded-circle header-profile-user"
                                         src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('username') }}</span>
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
                                         <span
                                             class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
                                     </span>
@@ -877,7 +877,8 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
-                                <h6 class="dropdown-header">{{ session('username') }}</h6>
+                                <h1>{{session('user_id')}}</h1>
+                                <h6 class="dropdown-header">{{ session('user_name') }}</h6>
                                 <a class="dropdown-item" href="pages-profile.html"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>

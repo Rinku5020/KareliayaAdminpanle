@@ -12,47 +12,50 @@ use App\Mail\OtpMail;
 class Controller
 {
 
-  
-    public function showLogin(){
+
+    public function showLogin()
+    {
         return view('auth.login');
     }
-    
+
 
     public function loginValidateUser(Request $request)
-{
-    // Validate input
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    {
+        // Validate input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-    // Retrieve user from the database
-    $user = User::where('email', $request->input('email'))->first();
+        // Retrieve user from the database
+        $user = User::where('email', $request->input('email'))->first();
 
-    // Check if user exists and password matches
-    if (!$user || !Hash::check($request->input('password'), $user->password)) {
-        return back()->with('error', 'Invalid credentials');
+        // Check if user exists and password matches
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
+            return back()->with('error', 'Invalid credentials');
+        }
+
+        // Store user info in session
+        $request->session()->put([
+            'loggedIn'  => true,
+            'account_id'   => $user->id,
+            'user_name' => $user->name,
+        ]);
+
+        // Redirect to dashboard
+        return redirect()->route('dashboard')->with('success', 'Login successful');
     }
 
-    // Store user info in session
-    $request->session()->put([
-        'loggedIn'  => true,
-        'user_id'   => $user->id,
-        'user_name' => $user->name,
-    ]);
 
-    // Redirect to dashboard
-    return redirect()->route('dashboard')->with('success', 'Login successful');
-}
-
-
-    public function userRegister(Request $request){
+    public function userRegister(Request $request)
+    {
         return view('auth.register');
     }
 
 
 
-    public function registerValidateUser(Request $request){
+    public function registerValidateUser(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -72,14 +75,14 @@ class Controller
 
     public function EmailVerify(Request $request)
     {
-       return view('auth.emailverify');
+        return view('auth.emailverify');
     }
-    
+
     public function Verification(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
-            
+
         ]);
         $user = User::where('email', $request->input('email'))->first();
         if (!$user) {
@@ -87,12 +90,13 @@ class Controller
         }
         $email = $request->input('email');
         $otp = rand(100000, 999999);
-    
+
         session(['otp' => $otp, 'otp_email' => $email]);
         Mail::to($email)->send(new OtpMail($otp));
+        dd(session()->all());
 
-        
-       return redirect()->route('otp')->with('success', 'OTP sent successfully');
+
+        return redirect()->route('otp')->with('success', 'OTP sent successfully');
     }
 
 
@@ -105,23 +109,23 @@ class Controller
         $request->validate([
             'otp' => 'required|digits:6',
         ]);
-    
+
         $inputOtp = $request->input('otp');
         $sessionOtp = session('otp');
-        $sessionEmail = session('otp_email'); 
-        
-    
+        $sessionEmail = session('otp_email');
+
+
         if ($inputOtp != $sessionOtp) {
             return redirect()->back()->with('error', 'Invalid OTP');
         }
-    
+
         $user = User::where('email', $sessionEmail)->first();
-    
+
         if (!$user) {
             return redirect()->back()->with('error', 'User not found');
         }
 
-    
+
         return redirect()->route('resetpassword')->with('success', 'OTP verified successfully');
     }
 
@@ -136,16 +140,16 @@ class Controller
             'password' => 'required|string|min:8|regex:/[a-zA-Z]/|regex:/[0-9]/',
             'confirm_password' => 'required|same:password',
         ]);
-    
+
         $user = User::where('email', session('otp_email'))->first();
-    
+
         if (!$user) {
             return redirect()->back()->with('error', 'User not found');
         }
-    
+
         $user->password = Hash::make($request->input('password'));
         $user->save();
-    
+
         return redirect()->route('showLogin')->with('success', 'Password reset successfully');
     }
 
@@ -155,10 +159,3 @@ class Controller
         return redirect()->route('showLogin')->with('status', 'You have been logged out!');
     }
 }
-  
-
-
-
-
-    
-

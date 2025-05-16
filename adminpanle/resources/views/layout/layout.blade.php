@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
-
 <head>
     <meta charset="utf-8" />
     <title>Datatables | Velzon - Admin & Dashboard Template</title>
@@ -32,7 +31,6 @@
     .swal-toast-popup {
         align-items: center;
     }
-
     .swal-toast-title {
         margin: 0;
         flex-grow: 1;
@@ -40,13 +38,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-
     .swal-toast-close {
         position: static;
         margin-left: 10px;
     }
 </style>
-
 <body>
     @if (Session::has('success'))
         <script>
@@ -1007,12 +1003,10 @@
                                     <h5 class="card-title mb-0 flex-grow-1">Layout</h5>
                                     <div>
                                         <a href="{{ route('addlayout') }}" class="btn btn-primary">Add Layout</a>
-
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <table id="add-rows"
-                                        class="table table-nowrap dt-responsive table-bordered display"
+                                <div class="card-body table-responsive">
+                                    <table id="add-rows" class="table table-striped table-bordered nowrap display"
                                         style="width:100%">
                                         <thead class="bg-light">
                                             <tr>
@@ -1029,21 +1023,27 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $layout->unique_id }}</td>
                                                     <td>{{ $layout->playlistName }}</td>
-                                                    <td>{{ $layout->layoutName }}</td>
-
-
                                                     <td>
+                                                        {{ is_array(json_decode($layout->selectedDisplays))
+                                                            ? implode(', ', json_decode($layout->selectedDisplays))
+                                                            : $layout->selectedDisplays }}
+                                                    </td>
+                                                    <td class="d-flex gap-3">
                                                         <button class="btn btn-sm btn-primary">
                                                             <i class="bi bi-pencil-square fs-6"></i>
                                                         </button>
-                                                        <button class="btn btn-sm btn-danger">
-                                                            <i class="bi bi-ban  fs-6"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                        <form action="{{ route('layoutstatus', $layout->id) }}"
+                                                            method="POST" class="status-form d-inline">
+                                                            @csrf
+                                                            <button type="button"
+                                                                class="btn btn-sm {{ $layout->status == 0 ? 'btn-danger' : 'btn-success' }} change-status-btn"
+                                                                data-layout-id="{{ $layout->id }}">
+                                                                <i class="bi bi-ban fs-6"></i>
+                                                            </button>
+                                                        </form>
+                                                        </td>
                                                 </tr>
                                             @endforeach
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -1083,6 +1083,28 @@
     <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.change-status-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const form = this.closest('form');
+                    const layoutId = this.getAttribute('data-layout-id');
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You are about to change the status!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, change it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
-
 </html>

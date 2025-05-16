@@ -18,7 +18,11 @@ return new class extends Migration
             $table->string('playlistName');
             $table->string('address');
             $table->string('logo');
-            $table->string('select_zone');
+            $table->json('selectedDisplays');
+            $table->json('zone1')->nullable();
+            $table->json('zone2')->nullable();
+            $table->json('zone3')->nullable();
+            $table->json('zone4')->nullable();
             $table->string('status')->default(true);
             $table->timestamps();
         });

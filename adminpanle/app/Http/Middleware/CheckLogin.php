@@ -13,6 +13,7 @@ class CheckLogin
     {
         if (!session()->has('loggedIn') || !session('loggedIn')) {
             return redirect()->route('showLogin');
+            
         }
 
         return $next($request);

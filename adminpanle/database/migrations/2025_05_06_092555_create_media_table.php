@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('media_name');
             $table->string('media_type');
             $table->string('duration')->nullable();
+            $table->string('zone')->nullable();
+
             $table->timestamps();
         });
     }

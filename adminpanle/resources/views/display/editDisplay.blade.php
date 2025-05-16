@@ -1198,7 +1198,7 @@
                                                         Select Country</label>
                                                     <select
                                                         class="form-select {{ $errors->has('country') ? 'input-error' : '' }}"
-                                                        id="country" name="country" readonly>
+                                                        id="country" name="country" disabled>
                                                         <option value="" disabled
                                                             {{ old('country', $display->country ?? '') == '' ? 'selected' : '' }}>
                                                             Choose Country...</option>
@@ -1212,6 +1212,7 @@
                                                             {{ old('country', $display->country ?? '') == 'Germany' ? 'selected' : '' }}>
                                                             Germany</option>
                                                     </select>
+                                                    <input type="hidden" name="country" value="{{ old('country', $display->country ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('country')
                                                             {{ $message }}
@@ -1225,20 +1226,21 @@
                                                         Select State</label>
                                                     <select
                                                         class="form-select {{ $errors->has('state') ? 'input-error' : '' }}"
-                                                        id="state" name="state" readonly>
+                                                        id="state" name="state" disabled>
                                                         <option value="" disabled
                                                             {{ old('state', $display->state ?? '') == '' ? 'selected' : '' }}>
                                                             Choose State...</option>
-                                                        <option value="Gujrat"
-                                                            {{ old('state', $display->state ?? '') == 'Gujrat' ? 'selected' : '' }}>
-                                                            Gujrat</option>
+                                                        <option value="Gujarat"
+                                                            {{ old('state', $display->state ?? '') == 'Gujarat' ? 'selected' : '' }}>
+                                                            Gujarat</option>
                                                         <option value="California"
                                                             {{ old('state', $display->state ?? '') == 'California' ? 'selected' : '' }}>
                                                             California</option>
-                                                        <option value="Hessen"
-                                                            {{ old('state', $display->state ?? '') == 'Hessen' ? 'selected' : '' }}>
-                                                            Hessen</option>
+                                                        <option value="Hesse"
+                                                            {{ old('state', $display->state ?? '') == 'Hesse' ? 'selected' : '' }}>
+                                                            Hesse</option>
                                                     </select>
+                                                    <input type="hidden" name="state" value="{{ old('state', $display->state ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('state')
                                                             {{ $message }}
@@ -1252,7 +1254,7 @@
                                                         Select City</label>
                                                     <select
                                                         class="form-select {{ $errors->has('city') ? 'input-error' : '' }}"
-                                                        id="city" name="city" readonly>
+                                                        id="city" name="city" disabled>
                                                         <option value="" disabled
                                                             {{ old('city', $display->city ?? '') == '' ? 'selected' : '' }}>
                                                             Choose City...</option>
@@ -1262,10 +1264,11 @@
                                                         <option value="Fresno"
                                                             {{ old('city', $display->city ?? '') == 'Fresno' ? 'selected' : '' }}>
                                                             Fresno</option>
-                                                        <option value="Marburg"
-                                                            {{ old('city', $display->city ?? '') == 'Marburg' ? 'selected' : '' }}>
-                                                            Marburg</option>
+                                                        <option value="Berlin"
+                                                            {{ old('city', $display->city ?? '') == 'Berlin' ? 'selected' : '' }}>
+                                                            Berlin</option>
                                                     </select>
+                                                    <input type="hidden" name="city" value="{{ old('city', $display->city ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('city')
                                                             {{ $message }}

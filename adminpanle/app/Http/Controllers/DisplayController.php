@@ -10,9 +10,9 @@ class DisplayController extends Controller
 {
     public function showDisplay()
     {
-        $display = Display::with('store')->get();
-        $stores = Store::all();
-        return view('display.display', ['display' => $display, 'stores' => $stores]);
+        $display = Display::with('store')->get(); 
+        $store = Store::all();
+        return view('display.display', ['display' => $display, 'store' => $store]);
     }
 
     public function addDisplay()

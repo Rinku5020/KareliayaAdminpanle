@@ -890,9 +890,13 @@
                                 <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
                                         class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Lock screen</span></a>
-                                <a class="dropdown-item" href="auth-logout-basic.html"><i
-                                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
-                                        class="align-middle" data-key="t-logout">Logout</span></a>
+                                <form action="{{route('logout')}}" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+                                        <span class="align-middle">Logout</span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -1049,7 +1053,7 @@
                                 <div
                                     class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
                                     <h5 class="card-title mb-0 fw-semibold">Displays</h5>
-                                    <a href="{{ route('addDisplay') }}" class="btn btn-secondary">
+                                    <a href="{{ route('addDisplay') }}" class="btn btn-primary">
                                         <i class="bi bi-plus-circle me-1"></i> Add Display
                                     </a>
                                 </div>
@@ -1071,9 +1075,15 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($display as $displayCollection)
+                                                    @php
+                                                        $matchedStore = $store->firstWhere(
+                                                            'storeId',
+                                                            $displayCollection->store_id,
+                                                        );
+                                                    @endphp
                                                     <tr>
                                                         <td class="fw-medium">{{ $displayCollection->name }}</td>
-                                                        <td>{{ $displayCollection->store->name ?? 'N/A' }}</td>
+                                                        <td>{{ $matchedStore->name ?? 'N/A' }}</td>
                                                         <td>{{ $displayCollection->deviceId }}</td>
                                                         <td>{{ $displayCollection->country }}</td>
                                                         <td>{{ $displayCollection->city }}</td>
@@ -1092,7 +1102,9 @@
                                                                 title="Edit">
                                                                 <i class="bi bi-pencil"></i>
                                                             </a>
-                                                            <form action="{{ route('deleteDisplay', $displayCollection->id) }}" method="POST" class="d-inline">
+                                                            <form
+                                                                action="{{ route('deleteDisplay', $displayCollection->display_id) }}"
+                                                                method="POST" class="d-inline">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit"
@@ -1116,6 +1128,7 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
+
                                             </tbody>
                                         </table>
                                     </div>

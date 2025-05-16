@@ -18,29 +18,38 @@ class Controller
     }
     
 
-    public function loginValidateUser(Request $request){
-        
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+    public function loginValidateUser(Request $request)
+{
+    // Validate input
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        
-        $user = User::where('email', $request->input('email'))->first();
+    // Retrieve user from the database
+    $user = User::where('email', $request->input('email'))->first();
 
-        
-
-        if (!$user || !Hash::check($request->input('password'), $user->password)) {
-            return back()->with('error', 'Invalid credentials'); 
-        }
-
-        return redirect()->route('dashboard')->with('success', 'Login successful');
+    // Check if user exists and password matches
+    if (!$user || !Hash::check($request->input('password'), $user->password)) {
+        return back()->with('error', 'Invalid credentials');
     }
+
+    // Store user info in session
+    $request->session()->put([
+        'loggedIn'  => true,
+        'user_id'   => $user->id,
+        'user_name' => $user->name,
+    ]);
+
+    // Redirect to dashboard
+    return redirect()->route('dashboard')->with('success', 'Login successful');
+}
 
 
     public function userRegister(Request $request){
         return view('auth.register');
     }
+
 
 
     public function registerValidateUser(Request $request){
@@ -138,6 +147,12 @@ class Controller
         $user->save();
     
         return redirect()->route('showLogin')->with('success', 'Password reset successfully');
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->flush();
+        return redirect()->route('showLogin')->with('status', 'You have been logged out!');
     }
 }
   

@@ -1059,7 +1059,7 @@
                                                     <label for="display_id" class="form-label">
                                                         <span class="text-danger fs-4">*</span> Display Id
                                                     </label>
-                                                    <input type="text"  name="display_id"
+                                                    <input type="text" name="display_id"
                                                         class="form-control {{ $errors->first('display_id') ? 'input-error' : '' }}"
                                                         value="{{ old('display_id', $display_id ?? '') }}"
                                                         placeholder="Enter Display Id" readonly>
@@ -1075,8 +1075,7 @@
                                                         <span class="text-danger fs-4">*</span> Display Name
                                                     </label>
                                                     <input type="text" id="name" name="name"
-                                                        class="form-control"
-                                                        value="{{ old('name', $name ?? '') }}"
+                                                        class="form-control" value="{{ old('name', $name ?? '') }}"
                                                         placeholder="Enter Display Name">
                                                     <span class="text-danger">
                                                         @error('name')
@@ -1128,7 +1127,8 @@
                                                     <select id="time_zone" name="time_zone"
                                                         class="form-select {{ $errors->has('time_zone') ? 'input-error' : '' }}"
                                                         name="time_zone">>
-                                                        <option disabled {{ old('time_zone') ? '' : 'selected' }}>Select
+                                                        <option disabled {{ old('time_zone') ? '' : 'selected' }}>
+                                                            Select
                                                             a Time Zone
                                                         </option>
                                                         <option
@@ -1154,18 +1154,18 @@
                                                         <span class="text-danger fs-4">*</span> Display Type
                                                     </label>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="display_mode"
-                                                            value="landscape" name="display_mode"
+                                                        <input class="form-check-input" type="radio"
+                                                            id="display_mode_landscape" value="landscape" name="display_mode"
                                                             {{ old('display_mode') == 'landscape' ? 'checked' : '' }}>
                                                         <label class="form-check-label"
-                                                            for="landscape">Landscape</label>
+                                                            for="display_mode_landscape">Landscape</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="display_mode"
-                                                            value="portrait" name="display_mode"
+                                                        <input class="form-check-input" type="radio"
+                                                            id="display_mode_portrait" value="portrait" name="display_mode"
                                                             {{ old('display_mode') == 'portrait' ? 'checked' : '' }}>
                                                         <label class="form-check-label"
-                                                            for="portrait">Portrait</label>
+                                                            for="display_mode_portrait">Portrait</label>
                                                     </div>
                                                     <span class="text-danger d-block">
                                                         @error('display_mode')
@@ -1187,19 +1187,22 @@
                                                         Select Country</label>
                                                     <select
                                                         class="form-select {{ $errors->has('country') ? 'input-error' : '' }}"
-                                                        id="country" name="country">
-                                                        <option value="" disabled selected>Choose Country...
-                                                        </option>
+                                                        id="country" name="country" disabled>
+                                                        <option value="" disabled
+                                                            {{ old('country', $display->country ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose Country...</option>
                                                         <option value="India"
-                                                            {{ old('country') == 'India' ? 'selected' : '' }}>India
-                                                        </option>
+                                                            {{ old('country', $display->country ?? '') == 'India' ? 'selected' : '' }}>
+                                                            India</option>
                                                         <option value="USA"
-                                                            {{ old('country') == 'USA' ? 'selected' : '' }}>USA
-                                                        </option>
+                                                            {{ old('country', $display->country ?? '') == 'USA' ? 'selected' : '' }}>
+                                                            USA</option>
                                                         <option value="Germany"
-                                                            {{ old('country') == 'Germany' ? 'selected' : '' }}>Germany
-                                                        </option>
+                                                            {{ old('country', $display->country ?? '') == 'Germany' ? 'selected' : '' }}>
+                                                            Germany</option>
                                                     </select>
+                                                    <input type="hidden" name="country" id="country_hidden"
+                                                        value="{{ old('country', $display->country ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('country')
                                                             {{ $message }}
@@ -1207,25 +1210,31 @@
                                                     </span>
                                                 </div>
 
+
                                                 <!-- State -->
                                                 <div class="mb-3">
                                                     <label class="form-label"><span class="text-danger">*</span>
                                                         Select State</label>
                                                     <select
                                                         class="form-select {{ $errors->has('state') ? 'input-error' : '' }}"
-                                                        id="state" name="state">
-                                                        <option value="" disabled selected>Choose State...
-                                                        </option>
+                                                        id="state" name="state" disabled>
+                                                        <option value="" disabled
+                                                            {{ old('state', $display->state ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose State...</option>
                                                         <option value="Gujrat"
-                                                            {{ old('state') == 'Gujrat' ? 'selected' : '' }}>Gujrat
+                                                            {{ old('state', $display->state ?? '') == 'Gujrat' ? 'selected' : '' }}>
+                                                            Gujrat
                                                         </option>
                                                         <option value="California"
-                                                            {{ old('state') == 'California' ? 'selected' : '' }}>
+                                                            {{ old('state', $display->state ?? '') == 'California' ? 'selected' : '' }}>
                                                             California</option>
                                                         <option value="Hessen"
-                                                            {{ old('state') == 'Hessen' ? 'selected' : '' }}>Hessen
+                                                            {{ old('state', $display->state ?? '') == 'Hessen' ? 'selected' : '' }}>
+                                                            Hessen
                                                         </option>
                                                     </select>
+                                                    <input type="hidden" name="state" id="state_hidden"
+                                                        value="{{ old('state', $display->state ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('state')
                                                             {{ $message }}
@@ -1233,26 +1242,32 @@
                                                     </span>
                                                 </div>
 
+
                                                 <!-- City -->
                                                 <div class="mb-3">
                                                     <label class="form-label"><span class="text-danger">*</span>
                                                         Select City</label>
                                                     <select
                                                         class="form-select {{ $errors->has('city') ? 'input-error' : '' }}"
-                                                        id="city" name="city">
-                                                        <option value="" disabled selected>Choose City...
-                                                        </option>
+                                                        id="city" name="city" disabled>
+                                                        <option value="" disabled
+                                                            {{ old('city', $display->city ?? '') == '' ? 'selected' : '' }}>
+                                                            Choose City...</option>
                                                         <option value="Surat"
-                                                            {{ old('city') == 'Surat' ? 'selected' : '' }}>
+                                                            {{ old('city', $display->city ?? '') == 'Surat' ? 'selected' : '' }}>
                                                             Surat
                                                         </option>
                                                         <option value="Fresno"
-                                                            {{ old('city') == 'Fresno' ? 'selected' : '' }}>Fresno
+                                                            {{ old('city', $display->city ?? '') == 'Fresno' ? 'selected' : '' }}>
+                                                            Fresno
                                                         </option>
                                                         <option value="Marburg"
-                                                            {{ old('city') == 'Marburg' ? 'selected' : '' }}>Marburg
+                                                            {{ old('city', $display->city ?? '') == 'Marburg' ? 'selected' : '' }}>
+                                                            Marburg
                                                         </option>
                                                     </select>
+                                                    <input type="hidden" name="city" id="city_hidden"
+                                                        value="{{ old('city', $display->city ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('city')
                                                             {{ $message }}
@@ -1261,17 +1276,37 @@
                                                 </div>
 
 
+
                                                 <div class="mb-5 mt-2">
                                                     <label class="form-label"><span
                                                             class="text-danger fs-4">*</span>Store Address</label>
-                                                    <textarea class="form-control  {{ $errors->first('address') ? 'input-error' : '' }}" name="address" rows="3"
-                                                        placeholder="Enter Store Address">{{ old('address') }}</textarea>
+                                                    <textarea class="form-control {{ $errors->first('address') ? 'input-error' : '' }}" name="address" id="address"
+                                                        rows="3" placeholder="Enter Store Address" readonly>{{ old('address') }}</textarea>
                                                     <span class="text-danger">
                                                         @error('address')
                                                             {{ $message }}
                                                         @enderror
                                                     </span>
                                                 </div>
+                                                <script>
+                                                    // Example: storesAddressData = { "1": "Address 1", "2": "Address 2", ... }
+                                                    var storesAddressData = @json($stores->pluck('address', 'storeId'));
+
+                                                    document.getElementById('store').addEventListener('change', function() {
+                                                        var selectedStoreId = this.value;
+                                                        var address = storesAddressData[selectedStoreId] || '';
+                                                        document.getElementById('address').value = address;
+                                                    });
+
+                                                    // On page load, trigger change if store is preselected
+                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                        var storeSelect = document.getElementById('store');
+                                                        if (storeSelect.value) {
+                                                            var event = new Event('change');
+                                                            storeSelect.dispatchEvent(event);
+                                                        }
+                                                    });
+                                                </script>
                                             </div>
 
                                             <!-- Submit Button -->
@@ -1419,6 +1454,99 @@
         updateMapBasedOnSelection();
     </script>
 
+    {{-- COUNTRY --}}
+    <script>
+        // Example: storesData = { "1": "India", "2": "USA", ... }
+        var storesData = @json($stores->pluck('country', 'storeId'));
+
+        document.getElementById('store').addEventListener('change', function() {
+            var selectedStoreId = this.value;
+            var country = storesData[selectedStoreId] || '';
+            var countrySelect = document.getElementById('country');
+            var countryHidden = document.getElementById('country_hidden');
+
+            // Set the select value
+            for (var i = 0; i < countrySelect.options.length; i++) {
+                if (countrySelect.options[i].value === country) {
+                    countrySelect.selectedIndex = i;
+                    break;
+                }
+            }
+            // Set the hidden input value
+            countryHidden.value = country;
+        });
+
+        // On page load, trigger change if store is preselected
+        document.addEventListener('DOMContentLoaded', function() {
+            var storeSelect = document.getElementById('store');
+            if (storeSelect.value) {
+                var event = new Event('change');
+                storeSelect.dispatchEvent(event);
+            }
+        });
+    </script>
+    {{-- STATE --}}
+    <script>
+        // Example: storesStateData = { "1": "Gujrat", "2": "California", ... }
+        var storesStateData = @json($stores->pluck('state', 'storeId'));
+
+        document.getElementById('store').addEventListener('change', function() {
+            var selectedStoreId = this.value;
+            var state = storesStateData[selectedStoreId] || '';
+            var stateSelect = document.getElementById('state');
+            var stateHidden = document.getElementById('state_hidden');
+
+            // Set the select value
+            for (var i = 0; i < stateSelect.options.length; i++) {
+                if (stateSelect.options[i].value === state) {
+                    stateSelect.selectedIndex = i;
+                    break;
+                }
+            }
+            // Set the hidden input value
+            stateHidden.value = state;
+        });
+
+        // On page load, trigger change if store is preselected
+        document.addEventListener('DOMContentLoaded', function() {
+            var storeSelect = document.getElementById('store');
+            if (storeSelect.value) {
+                var event = new Event('change');
+                storeSelect.dispatchEvent(event);
+            }
+        });
+    </script>
+    {{-- CITY --}}
+    <script>
+        // Example: storesCityData = { "1": "Surat", "2": "Fresno", ... }
+        var storesCityData = @json($stores->pluck('city', 'storeId'));
+
+        document.getElementById('store').addEventListener('change', function() {
+            var selectedStoreId = this.value;
+            var city = storesCityData[selectedStoreId] || '';
+            var citySelect = document.getElementById('city');
+            var cityHidden = document.getElementById('city_hidden');
+
+            // Set the select value
+            for (var i = 0; i < citySelect.options.length; i++) {
+                if (citySelect.options[i].value === city) {
+                    citySelect.selectedIndex = i;
+                    break;
+                }
+            }
+            // Set the hidden input value
+            cityHidden.value = city;
+        });
+
+        // On page load, trigger change if store is preselected
+        document.addEventListener('DOMContentLoaded', function() {
+            var storeSelect = document.getElementById('store');
+            if (storeSelect.value) {
+                var event = new Event('change');
+                storeSelect.dispatchEvent(event);
+            }
+        });
+    </script>
 
 </body>
 

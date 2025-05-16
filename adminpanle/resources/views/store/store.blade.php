@@ -890,9 +890,13 @@
                                 <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
                                         class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Lock screen</span></a>
-                                <a class="dropdown-item" href="auth-logout-basic.html"><i
-                                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
-                                        class="align-middle" data-key="t-logout">Logout</span></a>
+                                <form action="{{route('logout')}}" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+                                        <span class="align-middle">Logout</span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -1048,7 +1052,7 @@
                             <div class="card shadow-sm rounded-3 border-0">
                                 <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
                                     <h5 class="card-title mb-0 fw-semibold">Stores</h5>
-                                    <a href="{{ route('newStore') }}" class="btn btn-secondary">
+                                    <a href="{{ route('newStore') }}" class="btn btn-primary">
                                         <i class="bi bi-plus-circle me-1"></i> Add Store
                                     </a>
                                 </div>

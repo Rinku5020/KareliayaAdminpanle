@@ -86,5 +86,5 @@ Route::put('/update-display/{display_id}', [DisplayController::class, 'updateDis
 Route::delete('/delete-display/{id}', [DisplayController::class, 'deleteDisplay'])->name('deleteDisplay');
 Route::post('/display/status/{id}', [DisplayController::class, 'status'])->name('status');
 
-// API Routes
+
 

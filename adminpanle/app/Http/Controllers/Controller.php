@@ -142,6 +142,9 @@ class Controller
 
         $user = User::where('id', $userId)->where('name', $userName)->first();
         return view('profile', compact('user'));
+        $user = User::where('id', $userId)->where('name', $userName)->first();
+
+        return view('auth.profile', compact('user'));
     }
     public function updatePass(Request $request, $id)
     {

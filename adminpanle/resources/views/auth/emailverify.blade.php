@@ -1,15 +1,16 @@
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none">
 
 <head>
 
     <meta charset="utf-8" />
-    <title>Reset Password | Velzon - Admin & Dashboard Template</title>
+    <title>Kareliya Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="uploads/logo/kareliya_logo.png">
 
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
@@ -45,58 +46,63 @@
 
 <body>
     @if (Session::has('success'))
-    <script>
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            text: '{{ Session::get('success') }}',
-            showConfirmButton: false,
-            timer: 1500,
-            width: '400px',
-            padding: '0.5em 1em',
-            customClass: {
-                container: 'swal-toast-container',
-                popup: 'swal-toast-popup',
-                title: 'swal-toast-title',
-                closeButton: 'swal-toast-close'
-            }
-        });
-    </script>
-@endif
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                text: '{{ Session::get('success') }}',
+                showConfirmButton: false,
+                timer: 1500,
+                width: '400px',
+                padding: '0.5em 1em',
+                customClass: {
+                    container: 'swal-toast-container',
+                    popup: 'swal-toast-popup',
+                    title: 'swal-toast-title',
+                    closeButton: 'swal-toast-close'
+                }
+            });
+        </script>
+    @endif
     @if (Session::has('error'))
-    <script>
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'error',
-            text: '{{ Session::get('error') }}',
-            showConfirmButton: false,
-            timer: 1500,
-            width: '400px',
-            padding: '0.5em 1em',
-            customClass: {
-                container: 'swal-toast-container',
-                popup: 'swal-toast-popup',
-                title: 'swal-toast-title',
-                closeButton: 'swal-toast-close'
-            }
-        });
-    </script>
-@endif
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                text: '{{ Session::get('error') }}',
+                showConfirmButton: false,
+                timer: 1500,
+                width: '400px',
+                padding: '0.5em 1em',
+                customClass: {
+                    container: 'swal-toast-container',
+                    popup: 'swal-toast-popup',
+                    title: 'swal-toast-title',
+                    closeButton: 'swal-toast-close'
+                }
+            });
+        </script>
+    @endif
+    <div class="auth-page-wrapper pt-5">
+
         <!-- auth page content -->
         <div class="auth-page-content">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card mt-4">
-
+                            <div class="text-center mt-4">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo" height="60">
+                            </div>
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">Forgot Password?</h5>
                                     <p class="text-muted">Reset password with Kareliya</p>
 
-                                    <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop" colors="primary:#0ab39c" class="avatar-xl"></lord-icon>
+                                    <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop"
+                                        colors="primary:#0ab39c" class="avatar-xl"></lord-icon>
 
                                 </div>
 
@@ -104,18 +110,20 @@
                                     Enter your email and instructions will be sent to you!
                                 </div>
                                 <div class="p-2">
-                                    <form action="{{route('Verification')}}" method="POST">
+                                    <form action="{{ route('Verification') }}" method="POST">
                                         @csrf
                                         <div class="mb-4">
                                             <label class="form-label">Email</label>
-                                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email">
+                                            <input type="email" class="form-control" name="email" id="email"
+                                                placeholder="Enter Email">
                                             @error('email')
-                                            <span style="color:red">{{ $message }}</span>
-                                        @enderror
+                                                <span style="color:red">{{ $message }}</span>
+                                            @enderror
                                         </div>
 
                                         <div class="text-center mt-4">
-                                            <button class="btn btn-success w-100" type="submit">Send Reset Link</button>
+                                            <button class="btn btn-success w-100" type="submit">Send Reset
+                                                Link</button>
                                         </div>
                                     </form><!-- end form -->
                                 </div>
@@ -125,7 +133,8 @@
                         <!-- end card -->
 
                         <div class="mt-4 text-center">
-                            <p class="mb-0">Wait, I remember my password... <a href="{{route('showLogin')}}" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
+                            <p class="mb-0">Wait, I remember my password... <a href="{{ route('showLogin') }}"
+                                    class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
                         </div>
 
                     </div>
@@ -143,7 +152,7 @@
                     <div class="col-lg-12">
                         <div class="text-center">
                             <p class="mb-0 text-muted">&copy;
-                                <script>document.write(new Date().getFullYear())</script> Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
+                                Kareliya. All rights reserved.
                             </p>
                         </div>
                     </div>

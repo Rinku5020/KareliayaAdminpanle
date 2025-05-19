@@ -2,14 +2,14 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-    <base href="/public">
+    <base href="{{ asset('/') }}">
     <meta charset="utf-8" />
-    <title>Datatables | Velzon - Admin & Dashboard Template</title>
+    <title>Kareliya Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="uploads/logo/kareliya_logo.png">
 
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
@@ -21,29 +21,31 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+    {{-- Leaflet Css --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
 </head>
 
 <body>
     @if (Session::has('success'))
-    <script>
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: "{{ Session::get('success') }}",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            width: 'auto',
-            padding: '0.5rem',
-            customClass: {
-                container: 'swal2-toast-container',
-                popup: 'swal2-toast'
-            }
-        });
-    </script>
-@endif
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: "{{ Session::get('success') }}",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                width: 'auto',
+                padding: '0.5rem',
+                customClass: {
+                    container: 'swal2-toast-container',
+                    popup: 'swal2-toast'
+                }
+            });
+        </script>
+    @endif
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -53,21 +55,14 @@
                     <div class="d-flex">
                         <!-- LOGO -->
                         <div class="navbar-brand-box horizontal-logo">
+
                             <a href="index.html" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.png" alt="" height="22">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Small">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="assets/images/logo-dark.png" alt="" height="17">
-                                </span>
-                            </a>
-
-                            <a href="index.html" class="logo logo-light">
-                                <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.png" alt="" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="assets/images/logo-light.png" alt="" height="17">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large"
+                                        height="50">
                                 </span>
                             </a>
                         </div>
@@ -844,7 +839,8 @@
                                     <img class="rounded-circle header-profile-user"
                                         src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
+                                        <span
+                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
                                         <span
                                             class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
                                     </span>
@@ -853,7 +849,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <h6 class="dropdown-header">{{ session('user_name') }}</h6>
-                                <a class="dropdown-item" href="{{route('profile')}}"><i
+                                <a class="dropdown-item" href="{{ route('profile') }}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="apps-chat.html"><i
@@ -1044,11 +1040,11 @@
                             <div class="card-body">
                                 <div class="live-preview">
                                     <div class="container-fluid mt-4">
-                                        
-                                        <form method="POST" action="{{ route('updateStore', $store->id ?? '') }}" enctype="multipart/form-data"
-                                            class="row g-4 justify-content-between">
+
+                                        <form method="POST" action="{{ route('updateStore', $store->id ?? '') }}"
+                                            enctype="multipart/form-data" class="row g-4 justify-content-between">
                                             @csrf
-                                                @method('PUT')
+                                            @method('PUT')
                                             <input type="hidden" name="storeId" value="{{ $store->storeId }}">
                                             <!-- Left Form Section -->
                                             <div class="col-md-5">
@@ -1248,12 +1244,9 @@
                                                 </div>
 
                                                 <!-- Map Embed -->
-                                                <div class="mb-3">
-                                                    <iframe
-                                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709451063!2d72.73988483609048!3d21.15934029880327!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1746616876309!5m2!1sen!2sin"
-                                                        width="500" height="450" style="border:0;"
-                                                        allowfullscreen="" loading="lazy"
-                                                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                <div class="mb-5 mt-2 d-flex justify-content-center">
+                                                    <div style="width:100%;height:500px;z-index: 0" id="map">
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -1264,44 +1257,16 @@
                                                 </button>
                                             </div>
                                         </form>
-
-                                        <!-- JS for preview -->
-                                        {{-- <script>
-                                          function previewStoreImage(event) {
-                                              const file = event.target.files[0];
-                                              if (file && file.type.startsWith('image/')) {
-                                                  const reader = new FileReader();
-                                                  reader.onload = function (e) {
-                                                      document.getElementById('storeImagePreview').src = e.target.result;
-                                                  };
-                                                  reader.readAsDataURL(file);
-                                              }
-                                          }
-                                      </script>
-                                       --}}
                                     </div>
                                     <script>
                                         function previewStoreImage(event) {
                                             const reader = new FileReader();
-                                            reader.onload = function(){
+                                            reader.onload = function() {
                                                 document.getElementById('storeImagePreview').src = reader.result;
                                             };
                                             reader.readAsDataURL(event.target.files[0]);
                                         }
                                     </script>
-                                    {{-- <script>
-                                        function previewStoreImage(event) {
-                                            const file = event.target.files[0];
-                                            if (file && file.type.startsWith('image/')) {
-                                                const reader = new FileReader();
-                                                reader.onload = function(e) {
-                                                    const img = document.getElementById('storeImagePreview');
-                                                    img.src = e.target.result; // Replace default with uploaded image
-                                                };
-                                                reader.readAsDataURL(file);
-                                            }
-                                        }
-                                    </script> --}}
                                 </div>
                             </div>
                         </div>
@@ -1338,6 +1303,104 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([20.5937, 78.9629], 5);
+        var marker = L.marker([20.5937, 78.9629]).addTo(map);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        function updateMapByAddress(address, zoomLevel = 10) {
+            if (!address) return;
+
+            if (marker) {
+                map.removeLayer(marker);
+            }
+
+            fetch(
+                    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&addressdetails=1&limit=1`
+                )
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const {
+                            lat,
+                            lon,
+                            display_name
+                        } = data[0];
+                        console.log("Found location:", display_name);
+                        map.setView([lat, lon], zoomLevel);
+                        marker = L.marker([lat, lon]).addTo(map);
+
+                    } else {
+                        console.warn("Location not found:", address);
+                        tryFallbackSearch(address, zoomLevel);
+                    }
+                })
+                .catch(error => {
+                    console.error("Geocoding error:", error);
+                });
+        }
+
+        function tryFallbackSearch(address, zoomLevel) {
+            const parts = address.split(', ');
+            if (parts.length > 1) {
+                // Try with fewer address components
+                const fallbackAddress = parts.slice(0, -1).join(', ');
+                console.log("Trying fallback with:", fallbackAddress);
+                updateMapByAddress(fallbackAddress, zoomLevel - 2);
+            }
+        }
+
+        function updateMapBasedOnSelection() {
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const city = document.getElementById('city').value;
+
+            // Determine appropriate zoom level based on selection
+            let zoomLevel = 5; // Default for country
+            let address = country;
+
+            if (country && country !== 'Choose Country...') {
+                if (state && state !== 'Choose State...') {
+                    zoomLevel = 8;
+                    address = `${state}, ${country}`;
+
+                    if (city && city !== 'Choose City...') {
+                        zoomLevel = 12;
+                        address = `${city}, ${state}, ${country}`;
+                    }
+                }
+            }
+
+            console.log("Searching for:", address, "at zoom:", zoomLevel);
+            updateMapByAddress(address, zoomLevel);
+        }
+
+        // Debounce function to prevent too many API calls
+        function debounce(func, timeout = 500) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    func.apply(this, args);
+                }, timeout);
+            };
+        }
+
+        // Event listeners
+        const debouncedUpdate = debounce(updateMapBasedOnSelection);
+
+        document.getElementById('country').addEventListener('change', debouncedUpdate);
+        document.getElementById('state').addEventListener('change', debouncedUpdate);
+        document.getElementById('city').addEventListener('change', debouncedUpdate);
+
+        // Initial update
+        updateMapBasedOnSelection();
+    </script>
+
 </body>
 
 </html>

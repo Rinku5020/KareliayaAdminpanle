@@ -12,9 +12,6 @@ class DigitalController extends Controller
     /**
      * Display a listing of the resource.
      */
-
-
-
     public function index()
     {
 
@@ -26,15 +23,12 @@ class DigitalController extends Controller
     public function showStore()
     {
         
-        $role = session('role');
-        $userId = session('account_id');
-
-    if ($role === 'admin') {
-        $store = Store::all(); 
-    } else {
-        $store = Store::where('account_id', $userId)->get(); 
-    }
+            
        
+        
+        
+
+        $store = Store::all();
         return view('store.store', ['store' => $store]);
     }
 

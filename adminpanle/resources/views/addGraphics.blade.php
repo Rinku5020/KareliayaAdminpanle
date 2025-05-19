@@ -2,12 +2,12 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 <head>
     <meta charset="utf-8" />
-    <title>Horizontal Layout | Velzon - Admin & Dashboard Template</title>
+    <title>Kareliya Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="uploads/logo/kareliya_logo.png">
     <!-- plugin css -->
     <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
     <!-- Layout config Js -->
@@ -37,18 +37,10 @@
                         <div class="navbar-brand-box horizontal-logo">
                             <a href="index.html" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.png" alt="" height="22">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Small">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="assets/images/logo-dark.png" alt="" height="17">
-                                </span>
-                            </a>
-                            <a href="index.html" class="logo logo-light">
-                                <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.png" alt="" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="assets/images/logo-light.png" alt="" height="17">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large" height="50">
                                 </span>
                             </a>
                         </div>
@@ -1032,21 +1024,18 @@
             </div>
             <!-- End Page-content -->
             <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script> © Velzon.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Themesbrand
-                            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">&copy;
+                                 Kareliya. All rights reserved.
+                            </p>
                         </div>
                     </div>
                 </div>
-            </footer>
+            </div>
+        </footer>
         </div>
         <!-- end main content-->
     </div>

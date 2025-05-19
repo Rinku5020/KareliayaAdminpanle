@@ -9,31 +9,15 @@ use Illuminate\Http\Request;
 
 class DigitalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> fc2f19ec8a3c27b71546a144eb99e59c497f0f6b
         return view('dashboard');
     }
 
     public function showStore()
     {
-<<<<<<< HEAD
-        
-            
-       
-        
-        
-=======
 
->>>>>>> fc2f19ec8a3c27b71546a144eb99e59c497f0f6b
         $store = Store::all();
         return view('store.store', ['store' => $store]);
     }

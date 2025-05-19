@@ -73,9 +73,7 @@ Route::get('/otp', [Controller::class, 'otp'])->name('otp');
 Route::post('/sendOtp', [Controller::class, 'sendVerification'])->name('sendOtp');
 Route::get('/resetpassword', [Controller::class, 'resetpassword'])->name('resetpassword');
 Route::post('/resetpassword', [Controller::class, 'resetPasswordUpdate'])->name('password.update');
-<<<<<<< HEAD
 Route::post('/logout', [Controller::class, 'logout'])->name('logout');
-=======
 Route::post('/logout', [Controller::class, 'logout'])->name('logout');
 
 // Layout 
@@ -98,4 +96,3 @@ Route::post('/display/status/{id}', [DisplayController::class, 'status'])->name(
 
 
 
->>>>>>> 455af2918b090128ca20556fcd802197155be2ec

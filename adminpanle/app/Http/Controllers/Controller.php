@@ -174,12 +174,9 @@ class Controller
     {
         $userId = session('account_id');
         $userName = session('user_name');
-
-        
-
         $user = User::where('id', $userId)->where('name', $userName)->first();
 
-        return view('profile', compact('user'));
+        return view('auth.profile', compact('user'));
     }
 
 

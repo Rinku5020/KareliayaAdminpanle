@@ -13,7 +13,9 @@
         "codeat3/blade-codicons": "^1.34",
         "laravel/framework": "^12.0",
         "laravel/passport": "^13.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "symfony/http-client": "^7.2",
+        "symfony/mailgun-mailer": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

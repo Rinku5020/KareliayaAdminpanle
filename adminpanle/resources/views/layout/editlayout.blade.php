@@ -2,7 +2,7 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-    <base href="{{asset('/public')}}">
+    <base href="{{ asset('/public') }}">
     <meta charset="utf-8" />
     <title>Datatables | Velzon - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +28,9 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/css/layout.css" rel="stylesheet" />
+    <!-- Bootstrap Bundle includes Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body>
@@ -780,8 +783,8 @@
                                     <img class="rounded-circle header-profile-user"
                                         src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Anna
-                                            Adame</span>
+                                        <span
+                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
                                         <span
                                             class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
                                     </span>
@@ -789,8 +792,8 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
-                                <h6 class="dropdown-header">Welcome Anna!</h6>
-                                <a class="dropdown-item" href="pages-profile.html"><i
+                                <h6 class="dropdown-header">{{ session('user_name') }}</h6>
+                                <a class="dropdown-item" href="{{route('profile')}}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="apps-chat.html"><i
@@ -813,9 +816,13 @@
                                 <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
                                         class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Lock screen</span></a>
-                                <a class="dropdown-item" href="auth-logout-basic.html"><i
-                                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
-                                        class="align-middle" data-key="t-logout">Logout</span></a>
+                                <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+                                        <span class="align-middle">Logout</span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -948,30 +955,33 @@
                             </div>
                             <!-- end card header -->
                             <div class="card-body form-steps">
-                                <form id="layoutForm" action="{{ route('updateLayout', $layout->id) }}" method="POST"
-                                    enctype="multipart/form-data">
+                                <form id="layoutForm" action="{{ route('updateLayout', $layout->id) }}"
+                                    method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="step-arrow-nav mb-4">
                                         <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="steparrow-gen-info-tab"
-                                                    data-bs-toggle="pill" data-bs-target="#steparrow-gen-info"
-                                                    type="button" role="tab" aria-controls="steparrow-gen-info"
-                                                    aria-selected="true">Select Display</button>
+                                                <button class="nav-link active" id="step-gen-info-tab"
+                                                    data-bs-toggle="pill" data-bs-target="#step-gen-info"
+                                                    type="button" role="tab" aria-controls="step-gen-info"
+                                                    aria-selected="true">
+                                                    Select Display
+                                                </button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link done disabled"
-                                                    id="steparrow-description-info-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#steparrow-description-info" type="button"
-                                                    role="tab" aria-controls="steparrow-description-info"
-                                                    aria-selected="false" disabled>Select Zone</button>
+                                                <button class="nav-link" id="step-description-info-tab"
+                                                    data-bs-toggle="pill" data-bs-target="#step-description-info"
+                                                    type="button" role="tab"
+                                                    aria-controls="step-description-info" aria-selected="false">
+                                                    Select Zone
+                                                </button>
                                             </li>
                                         </ul>
                                     </div>
                                     <!-- Step 1 -->
                                     <div class="tab-content">
-                                        <div class="tab-pane fade show active" id="steparrow-gen-info"
-                                            role="tabpanel" aria-labelledby="steparrow-gen-info-tab">
+                                        <div class="tab-pane fade show active" id="step-gen-info" role="tabpanel"
+                                            aria-labelledby="step-gen-info-tab">
                                             <div>
                                                 <div class="row">
                                                     <div class="col-lg-12 mb-3">
@@ -990,7 +1000,7 @@
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
                                                                 class="form-check-input" value="Layout 2"
-                                                                {{$layout->layoutName == 'Layout 2' || old('layoutName') == 'Layout 2' ? 'checked' : '' }}>
+                                                                {{ $layout->layoutName == 'Layout 2' || old('layoutName') == 'Layout 2' ? 'checked' : '' }}>
                                                             <span>Layout 2</span>
                                                             <div class="layout-box vertical-line"></div>
                                                         </label>
@@ -1033,8 +1043,8 @@
                                                             </option>
                                                             @foreach ($stores as $store)
                                                                 <option value="{{ $store->store_id }}"
-                                                                    {{$layout->store_id == $store->store_id || old('store_id') == $store->store_id ? 'selected' : '' }}>
-                                                                    {{  $store->store_id }}
+                                                                    {{ $layout->store_id == $store->store_id || old('store_id') == $store->store_id ? 'selected' : '' }}>
+                                                                    {{ $store->store_id }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -1048,7 +1058,7 @@
                                                         <label class="form-check-label">
                                                             <input type="radio" name="displayMode"
                                                                 class="form-check-input" required value="Portrait"
-                                                                {{$layout->displayMode == 'Portrait' || old('displayMode') == 'Portrait' ? 'checked' : '' }}>
+                                                                {{ $layout->displayMode == 'Portrait' || old('displayMode') == 'Portrait' ? 'checked' : '' }}>
                                                             Portrait</label>
                                                         <label class="form-check-label">
                                                             <input type="radio" name="displayMode"
@@ -1061,13 +1071,15 @@
                                                         @enderror
                                                     </div>
                                                     <div class="mb-3 col-md-4">
-                                                        <label for="">Playlist Name</label>
-                                                        <input type="text" class="form-control"
-                                                            name="playlistName" id="layout-name" required
-                                                            value={{ $layout->playlistName || old('playlistName') }}>
-                                                        @error('playlistName')
-                                                            <span style="color: red"> {{ $message }} </span>
-                                                        @enderror
+                                                        <label for="layout-name">Playlist Name</label>
+                                                            <input type="text" class="form-control"
+                                                                name="playlistName" id="layout-name"
+                                                                value="{{ old('playlistName', $layout->playlistName) }}"
+                                                                required>
+                                                            @error('playlistName')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="selection-container">
@@ -1082,7 +1094,8 @@
                                                                 <hr>
                                                                 <select id="displaySelect" class="form-control"
                                                                     size="6" multiple>
-                                                                    <option value={{ $layout->display_id }} class="text-muted" disabled>Select Display
+                                                                    <option value={{ $layout->display_id }}
+                                                                        class="text-muted" disabled>Select Display
                                                                     </option>
                                                                 </select>
                                                                 <button id="addBtn" class="btn btn-success mt-2"
@@ -1119,14 +1132,14 @@
                                             </div>
                                         </div>
                                         <!-- Step 2 -->
-                                        <div class="tab-pane fade" id="steparrow-description-info" role="tabpanel"
-                                            aria-labelledby="steparrow-description-info-tab">
+                                        <div class="tab-pane fade" id="step-description-info" role="tabpanel"
+                                            aria-labelledby="step-description-info-tab">
                                             <div class="container">
                                                 <div class="row gy-4 justify-content-between">
                                                     <!-- Left Column -->
                                                     <div class="col-12 col-md-6 col-lg-4">
                                                         <label for="" class="form-label">Address</label>
-                                                        <textarea name="address" class="form-control">{{$layout->address || old('address') }}</textarea>
+                                                        <textarea name="address" class="form-control">{{ $layout->address || old('address') }}</textarea>
                                                         @error('address')
                                                             <span style="color: red"> {{ $message }} </span>
                                                         @enderror
@@ -1437,7 +1450,7 @@
     <script>
         window.displayData = {!! json_encode($displays) !!};
     </script>
-    <script src="assets/js/addlayout.js"></script>
+    {{-- <script src="assets/js/addlayout.js"></script> --}}
 </body>
 
 </html>

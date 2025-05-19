@@ -21,29 +21,33 @@ class Controller
 
     public function loginValidateUser(Request $request)
     {
-        // Validate input
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        try {
+            // Validate input
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
 
-        // Retrieve user from the database
-        $user = User::where('email', $request->input('email'))->first();
+            // Retrieve user from the database
+            $user = User::where('email', $request->input('email'))->first();
 
-        // Check if user exists and password matches
-        if (!$user || !Hash::check($request->input('password'), $user->password)) {
-            return back()->with('error', 'Invalid credentials');
+            // Check if user exists and password matches
+            if (!$user || !Hash::check($request->input('password'), $user->password)) {
+                return back()->with('error', 'Invalid credentials');
+            }
+
+            // Store user info in session
+            session([
+                'loggedIn'  => true,
+                'account_id'   => $user->id,
+                'user_name' => $user->name,
+            ]);
+
+            // Redirect to dashboard (ensure 'dashboard' route exists in your web.php)
+            return redirect()->route('dashboard')->with('success', 'Login successful');
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred during login. Please try again.');
         }
-
-        // Store user info in session
-        $request->session()->put([
-            'loggedIn'  => true,
-            'account_id'   => $user->id,
-            'user_name' => $user->name,
-        ]);
-
-        // Redirect to dashboard
-        return redirect()->route('dashboard')->with('success', 'Login successful');
     }
 
 
@@ -93,7 +97,7 @@ class Controller
 
         session(['otp' => $otp, 'otp_email' => $email]);
         Mail::to($email)->send(new OtpMail($otp));
-        dd(session()->all());
+        // dd(session()->all());
 
 
         return redirect()->route('otp')->with('success', 'OTP sent successfully');
@@ -153,14 +157,42 @@ class Controller
         return redirect()->route('showLogin')->with('success', 'Password reset successfully');
     }
 
-<<<<<<< HEAD
     public function logout(Request $request)
     {
         $request->session()->flush();
         return redirect()->route('showLogin')->with('status', 'You have been logged out!');
     }
-=======
-    
 
->>>>>>> b309b40e77d1bcdb54cf5524af4bb1b310977e41
+    public function profile()
+    {
+        $userId = session('account_id');
+        $userName = session('user_name');
+
+        
+
+        $user = User::where('id', $userId)->where('name', $userName)->first();
+
+        return view('profile', compact('user'));
+    }
+
+
+    public function updatePass(Request $request, $id)
+{
+    $request->validate([
+        'new_password' => 'required|min:6|same:new_password_confirmation',
+        'new_password_confirmation' => 'required'
+    ], [
+        'new_password.required' => 'Please enter new password',
+        'new_password.min' => 'Password must be at least 6 characters',
+        'new_password.same' => 'Passwords do not match',
+        'new_password_confirmation.required' => 'Please confirm your password',
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->password = bcrypt($request->new_password);
+    $user->save();
+
+    return redirect()->back()->with('success', 'Password updated successfully.');
+}
+
 }

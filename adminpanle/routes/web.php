@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Route;
 
 
 // Check Auth
-Route::middleware('check.login')->group(function (){
-    
+Route::middleware('check.login')->group(function () {
+
     // Dashboard
     Route::get('/', [DigitalController::class, 'index'])->name('dashboard');
 
@@ -23,18 +23,20 @@ Route::middleware('check.login')->group(function (){
     Route::put('/update-store/{id}', [DigitalController::class, 'updateStore'])->name('updateStore');
     Route::delete('/delete-store/{id}', [DigitalController::class, 'deleteStore'])->name('deleteStore');
     Route::post('/store/status/{id}', [DigitalController::class, 'status'])->name('status');
-    
+
     // Layout 
     Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
-    Route::get('/addlayout', [LayoutController::class, 'addLayout'])->name('addLayout');
+    Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
     Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
-    Route::get('/getAllData/{id}', [LayoutController::class, 'getAllData'])->name('getAllData');
+    Route::post('/layout/status/{id}', [LayoutController::class, 'status'])->name('layoutstatus');
+    Route::get('/edit_layout/{id}', [LayoutController::class, 'editLayout'])->name('editLayout');
+    Route::put('/update_layout/{id}', [LayoutController::class, 'updateLayout'])->name('updateLayout');
 
     // Graphics and Videos Controller
     Route::get('/graphics', [GraphicsController::class, 'showGraphicsAndVideos'])->name('graphics');
     Route::get('/addGraphics', [GraphicsController::class, 'addGraphicsAndVideos'])->name('addGraphics');
     Route::post('/createGraphics', [GraphicsController::class, 'createGraphics'])->name('CreateGraphics');
-    
+
     // Display Routes
     Route::get('/display', [DisplayController::class, 'showDisplay'])->name('display');
     Route::get('/add-display', [DisplayController::class, 'addDisplay'])->name('addDisplay');
@@ -46,12 +48,17 @@ Route::middleware('check.login')->group(function (){
 
     // Template Routes
     Route::get('/template', [DigitalController::class, 'showTemplate'])->name('template');
+
+    // profile
+    Route::get('/profile', [Controller::class, 'profile'])->name('profile');
+    Route::post('/update-password/{id}', [Controller::class, 'updatePass'])->name('updatePass');
+
 });
 
 
 
 
-Route::get('/graphics', [DigitalController::class, 'showGraphicsAndVideos'])->name('graphics');
+
 
 
 
@@ -69,27 +76,24 @@ Route::post('/resetpassword', [Controller::class, 'resetPasswordUpdate'])->name(
 Route::post('/logout', [Controller::class, 'logout'])->name('logout');
 
 // Layout 
-Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
-Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
-Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
-Route::post('/layout/status/{id}', [LayoutController::class, 'status'])->name('layoutstatus');
-Route::get('/edit_layout/{id}', [LayoutController::class, 'editLayout'])->name('editLayout');
-Route::put('/update_layout/{id}', [LayoutController::class, 'updateLayout'])->name('updateLayout');
+// Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
+// Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
+// Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
+// Route::post('/layout/status/{id}', [LayoutController::class, 'status'])->name('layoutstatus');
+// Route::get('/edit_layout/{id}', [LayoutController::class, 'editLayout'])->name('editLayout');
+// Route::put('/update_layout/{id}', [LayoutController::class, 'updateLayout'])->name('updateLayout');
 
 
-// Display Routes
-Route::get('/display', [DisplayController::class, 'showDisplay'])->name('display');
-Route::get('/add-display', [DisplayController::class, 'addDisplay'])->name('addDisplay');
-Route::post('/display-create', [DisplayController::class, 'createDisplay'])->name('createDisplay');
-Route::get('/edit-display/{display_id}', [DisplayController::class, 'editDisplay'])->name('editDisplay');
-Route::put('/update-display/{display_id}', [DisplayController::class, 'updateDisplay'])->name('updateDisplay');
-Route::delete('/delete-display/{id}', [DisplayController::class, 'deleteDisplay'])->name('deleteDisplay');
-Route::post('/display/status/{id}', [DisplayController::class, 'status'])->name('status');
+// // Display Routes
+// Route::get('/display', [DisplayController::class, 'showDisplay'])->name('display');
+// Route::get('/add-display', [DisplayController::class, 'addDisplay'])->name('addDisplay');
+// Route::post('/display-create', [DisplayController::class, 'createDisplay'])->name('createDisplay');
+// Route::get('/edit-display/{display_id}', [DisplayController::class, 'editDisplay'])->name('editDisplay');
+// Route::put('/update-display/{display_id}', [DisplayController::class, 'updateDisplay'])->name('updateDisplay');
+// Route::delete('/delete-display/{id}', [DisplayController::class, 'deleteDisplay'])->name('deleteDisplay');
+// Route::post('/display/status/{id}', [DisplayController::class, 'status'])->name('status');
 
 // API Routes
 Route::get('api/display/{id}', [ApiController::class, 'getAllData'])->name('getAllData');
-<<<<<<< HEAD
-=======
 Route::get('api/verify-codes/{id}', [ApiController::class, 'verifyCode'])->name('verifyCode');
 Route::get('api/devices/', [ApiController::class, 'devices'])->name('devices');
->>>>>>> b309b40e77d1bcdb54cf5524af4bb1b310977e41

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class layout extends Model
 {
     protected $fillable = [
+        'account_id',
         'unique_id',
         'layoutName',
         'store_id',

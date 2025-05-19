@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('verifycodes', function (Blueprint $table) {
             $table->id();
-            $table->integer('unique_code');
+            $table->string('unique_code');
             $table->string('ip_address')->nullable();
             $table->string('ipv4_address')->nullable();
             $table->string('device_token')->nullable();

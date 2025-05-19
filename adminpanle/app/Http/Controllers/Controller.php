@@ -27,6 +27,13 @@ class Controller
                 'email' => 'required|email',
                 'password' => 'required',
             ]);
+        
+
+        // Validate input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
             // Retrieve user from the database
             $user = User::where('email', $request->input('email'))->first();
@@ -194,5 +201,7 @@ class Controller
 
     return redirect()->back()->with('success', 'Password updated successfully.');
 }
+
+    
 
 }

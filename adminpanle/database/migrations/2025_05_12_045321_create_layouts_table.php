@@ -12,13 +12,14 @@ return new class extends Migration
         Schema::create('layouts', function (Blueprint $table) {
             $table->id();
             $table->string('unique_id')->unique();
+            $table->string('account_id');
             $table->string('layoutName');
             $table->string('store_id');
             $table->string('displayMode');
             $table->string('playlistName');
             $table->string('address');
             $table->string('logo');
-            $table->json('selectedDisplays');
+            $table->json('selectedDisplays')->nullable();
             $table->json('zone1')->nullable();
             $table->json('zone2')->nullable();
             $table->json('zone3')->nullable();

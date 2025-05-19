@@ -983,16 +983,16 @@
                                                         <!-- Layout 1 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
-                                                                class="form-check-input" value="Layout 1"
-                                                                {{ old('layoutName') == 'Layout 1' ? 'checked' : '' }}>
+                                                                class="form-check-input" value="layout1"
+                                                                {{ old('layoutName') == 'layout1' ? 'checked' : '' }}>
                                                             <span>Layout 1</span>
                                                             <div class="layout-box"></div>
                                                         </label>
                                                         <!-- Layout 2 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
-                                                                class="form-check-input" value="Layout 2"
-                                                                {{ old('layoutName') == 'Layout 2' ? 'checked' : '' }}>
+                                                                class="form-check-input" value="layout2"
+                                                                {{ old('layoutName') == 'layout2' ? 'checked' : '' }}>
                                                             <span>Layout 2</span>
                                                             <div class="layout-box vertical-line"></div>
                                                         </label>
@@ -1000,23 +1000,23 @@
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
                                                                 class="form-check-input" value="Layout 3"
-                                                                {{ old('layoutName') == 'Layout 3' ? 'checked' : '' }}>
+                                                                {{ old('layoutName') == 'layout3' ? 'checked' : '' }}>
                                                             <span>Layout 3</span>
                                                             <div class="layout-box cross-lines"></div>
                                                         </label>
                                                         <!-- Layout 4 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
-                                                                class="form-check-input" value="Layout 4"
-                                                                {{ old('layoutName') == 'Layout 4' ? 'checked' : '' }}>
+                                                                class="form-check-input" value="layout 4"
+                                                                {{ old('layoutName') == 'layout4' ? 'checked' : '' }}>
                                                             <span>Layout 4</span>
                                                             <div class="layout-box bottom-line"></div>
                                                         </label>
                                                         <!-- Layout 5 -->
                                                         <label class="layout-option">
                                                             <input type="radio" name="layoutName"
-                                                                class="form-check-input" value="Layout 5"
-                                                                {{ old('layoutName') == 'Layout 5' ? 'checked' : '' }}>
+                                                                class="form-check-input" value="layout5"
+                                                                {{ old('layoutName') == 'layout5' ? 'checked' : '' }}>
                                                             <span>Layout 5</span>
                                                             <div class="layout-box tall horizontal-line"></div>
                                                         </label>
@@ -1049,13 +1049,13 @@
                                                             Type</p>
                                                         <label class="form-check-label">
                                                             <input type="radio" name="displayMode"
-                                                                class="form-check-input" required value="Portrait"
-                                                                {{ old('displayMode') == 'Portrait' ? 'checked' : '' }}>
+                                                                class="form-check-input" required value="portrait"
+                                                                {{ old('displayMode') == 'portrait' ? 'checked' : '' }}>
                                                             Portrait</label>
                                                         <label class="form-check-label">
                                                             <input type="radio" name="displayMode"
-                                                                class="form-check-input" required value="Landscape"
-                                                                {{ old('displayMode') == 'Landscape' ? 'checked' : '' }}>
+                                                                class="form-check-input" required value="landscape"
+                                                                {{ old('displayMode') == 'landscape' ? 'checked' : '' }}>
                                                             Landscape
                                                         </label>
                                                         @error('displayMode')
@@ -1309,7 +1309,7 @@
                                                                                                 class="card text-center select-media bg-light"
                                                                                                 data-name="{{ $image->media_id }}"
                                                                                                 data-type="Image"
-                                                                                                data-duration="N/A">
+                                                                                                data-duration="10:00">
                                                                                                 <img src="{{ asset('uploads/media/' . $image->media_id) }}"
                                                                                                     alt=""
                                                                                                     class="img-fluid card-img-top">
@@ -1341,7 +1341,7 @@
                                                                                                 style="display: block;"
                                                                                                 data-name="{{ $item->media_id }}"
                                                                                                 data-type="Video"
-                                                                                                data-duration="00:00">
+                                                                                                data-duration="10:00">
                                                                                                 <video controls
                                                                                                     width="100%"
                                                                                                     poster="{{ asset('assets/images/small/blank-img.webp') }}"

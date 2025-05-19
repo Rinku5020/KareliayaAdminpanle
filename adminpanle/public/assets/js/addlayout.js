@@ -260,9 +260,18 @@
 //     const form = document.getElementById('layoutForm');
 //     const hiddenInput = document.getElementById('selectedDisplaysInput');
 
+<<<<<<< HEAD
 //     form.addEventListener('submit', function () {
 //         const displayIds = selectedItems.map(item => item.display_id);
 //         hiddenInput.value = JSON.stringify(displayIds);
 //         console.log("Submitting displays:", hiddenInput.value);
 //     });
 // });
+=======
+   form.addEventListener('submit', function () {
+    const displayNames = selectedItems.map(item => item.name); // ✅ Send names
+    hiddenInput.value = JSON.stringify(displayNames);
+    console.log("Submitting display names:", hiddenInput.value);
+});
+});
+>>>>>>> fc2f19ec8a3c27b71546a144eb99e59c497f0f6b

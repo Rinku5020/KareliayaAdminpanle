@@ -73,4 +73,29 @@ Route::get('/otp', [Controller::class, 'otp'])->name('otp');
 Route::post('/sendOtp', [Controller::class, 'sendVerification'])->name('sendOtp');
 Route::get('/resetpassword', [Controller::class, 'resetpassword'])->name('resetpassword');
 Route::post('/resetpassword', [Controller::class, 'resetPasswordUpdate'])->name('password.update');
+<<<<<<< HEAD
 Route::post('/logout', [Controller::class, 'logout'])->name('logout');
+=======
+Route::post('/logout', [Controller::class, 'logout'])->name('logout');
+
+// Layout 
+Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
+Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
+Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
+Route::post('/layout/status/{id}', [LayoutController::class, 'status'])->name('layoutstatus');
+Route::get('/edit_layout/{id}', [LayoutController::class, 'editLayout'])->name('editLayout');
+Route::put('/update_layout/{id}', [LayoutController::class, 'updateLayout'])->name('updateLayout');
+
+
+// Display Routes
+Route::get('/display', [DisplayController::class, 'showDisplay'])->name('display');
+Route::get('/add-display', [DisplayController::class, 'addDisplay'])->name('addDisplay');
+Route::post('/display-create', [DisplayController::class, 'createDisplay'])->name('createDisplay');
+Route::get('/edit-display/{display_id}', [DisplayController::class, 'editDisplay'])->name('editDisplay');
+Route::put('/update-display/{display_id}', [DisplayController::class, 'updateDisplay'])->name('updateDisplay');
+Route::delete('/delete-display/{id}', [DisplayController::class, 'deleteDisplay'])->name('deleteDisplay');
+Route::post('/display/status/{id}', [DisplayController::class, 'status'])->name('status');
+
+
+
+>>>>>>> 455af2918b090128ca20556fcd802197155be2ec

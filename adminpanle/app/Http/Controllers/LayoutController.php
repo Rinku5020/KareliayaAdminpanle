@@ -59,15 +59,16 @@ class LayoutController extends Controller
                 $uniqueId =  rand(100000, 999999);
             } while (Layout::where('unique_id', $uniqueId)->exists());
             $layout->unique_id = $uniqueId;
+            $layout->account_id = session('account_id');
             $layout->layoutName = $request->input('layoutName');
             $layout->store_id = $request->input('store_id');
             $layout->displayMode = $request->input('displayMode');
             $layout->playlistName = $request->input('playlistName');
             $layout->address = $request->input('address');
-            $layout->selectedDisplays = $request->input('selectedDisplays');
+
             // Handle selected displays
-            $displayIds = json_decode($request->input('selectedDisplays'), true);
-            $layout->selectedDisplays = $request->input('selectedDisplays');
+            $layout->selectedDisplays = $request->input('selectedDisplays'); // saves as real JSON array
+           
             // Handle media JSON input
             // Get zone-wise media data from the form submission
             $flatMediaList = json_decode($request->input('media'), true);

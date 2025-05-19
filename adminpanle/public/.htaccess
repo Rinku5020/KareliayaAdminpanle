@@ -5,7 +5,7 @@
 
     RewriteEngine On
     # Set the base to your subfolder path
-    RewriteBase /KareliayaAdminpanle/adminpanle/public/
+    RewriteBase /kareliayaAdminpanle/adminpanle/public/
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

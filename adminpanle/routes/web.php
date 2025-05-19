@@ -51,7 +51,7 @@ Route::middleware('check.login')->group(function (){
 
 
 
-Route::get('/graphics', [DigitalController::class, 'showGraphicsAndVideos'])->name('graphics');
+
 
 
 
@@ -87,9 +87,4 @@ Route::delete('/delete-display/{id}', [DisplayController::class, 'deleteDisplay'
 Route::post('/display/status/{id}', [DisplayController::class, 'status'])->name('status');
 
 // API Routes
-Route::get('api/display/{id}', [ApiController::class, 'getAllData'])->name('getAllData');
-<<<<<<< HEAD
-=======
-Route::get('api/verify-codes/{id}', [ApiController::class, 'verifyCode'])->name('verifyCode');
-Route::get('api/devices/', [ApiController::class, 'devices'])->name('devices');
->>>>>>> b309b40e77d1bcdb54cf5524af4bb1b310977e41
+

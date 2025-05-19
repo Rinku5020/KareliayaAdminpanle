@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\digital;
+
 use App\Models\Store;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 class DigitalController extends Controller
 {
@@ -14,20 +14,15 @@ class DigitalController extends Controller
      */
     public function index()
     {
-        
-           return redirect()->route('showLogin');
-        
-       
+
+
+
         return view('dashboard');
     }
 
     public function showStore()
     {
-        
-            return redirect()->route('showLogin');
-       
-        
-        
+
         $store = Store::all();
         return view('store.store', ['store' => $store]);
     }
@@ -197,10 +192,5 @@ class DigitalController extends Controller
         $store->save();
 
         return redirect()->route('store')->with('success', 'Store status updated successfully!');
-   
-    }   
-   
-    
     }
-
- 
+}

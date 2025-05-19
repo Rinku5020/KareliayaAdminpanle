@@ -12,29 +12,29 @@ class DigitalController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
+
     public function index()
     {
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> fc2f19ec8a3c27b71546a144eb99e59c497f0f6b
         return view('dashboard');
     }
 
     public function showStore()
     {
-<<<<<<< HEAD
         
-            
-       
-        
-        
-=======
+        $role = session('role');
+        $userId = session('account_id');
 
->>>>>>> fc2f19ec8a3c27b71546a144eb99e59c497f0f6b
-        $store = Store::all();
+    if ($role === 'admin') {
+        $store = Store::all(); 
+    } else {
+        $store = Store::where('account_id', $userId)->get(); 
+    }
+       
         return view('store.store', ['store' => $store]);
     }
 
@@ -107,6 +107,7 @@ class DigitalController extends Controller
         $store->address = $request->address;
         $store->pincode = $request->pincode;
         $store->logo    = $logoName;
+        $store->account_id = $request->session()->get('account_id');
         $store->save();
 
         return redirect()->route('store')

@@ -8,16 +8,38 @@ use Illuminate\Http\Request;
 
 class DisplayController extends Controller
 {
-    public function showDisplay()
-    {
-        $display = Display::with('store')->get(); 
+ public function showDisplay()
+{
+    $role = session('role');
+    $userId = session('account_id');
+
+    if ($role === 'admin') {
+        $display = Display::with('store')->get();
         $store = Store::all();
-        return view('display.display', ['display' => $display, 'store' => $store]);
+    } else {
+        $display = Display::where('account_id', $userId)->get(); 
+        $store = Store::where('account_id', $userId)->get();
     }
+
+    return view('display.display', [
+        'display' => $display,
+        'store' => $store
+    ]);
+}
 
     public function addDisplay()
     {
+          $role = session('role');
+    $userId = session('account_id');
+
+    if ($role === 'admin') {
+        
         $stores = Store::all();
+    } else {
+        
+        $stores = Store::where('account_id', $userId)->get();
+    }
+
         do {
             $display_id = rand(100000, 999999);
         } while (Display::where('display_id', $display_id)->exists());

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('account_id')->nullable();            
             $table->string('logo')->nullable();
             $table->boolean('status')->default(true);
             $table->string('storeId')->nullable(); 

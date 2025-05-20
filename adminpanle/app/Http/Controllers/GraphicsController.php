@@ -15,8 +15,8 @@ class GraphicsController extends Controller
         
 
         $rules = [
-            'name' => 'required|alpha',
-            'media_id' => 'required|file|mimes:jpg,jpeg,png,mp4|max:2048',
+            'name' => 'required',
+            'media_id' => 'required|file|mimes:jpg,jpeg,png,mp4||max:204800',
             'type' => 'required|in:video,image',
             'type' => 'required',
         ];

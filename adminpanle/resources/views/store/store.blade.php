@@ -1080,7 +1080,7 @@
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-sm btn-outline-danger me-1 delete-store-btn"
                                                                     onclick="return confirm('Are you sure you want to delete this store?\nThis action cannot be undone.')" title="Delete">
-                                                                    <i class="bi bi-trash"></i>
+                                                                    <i class="bi bi-trash3-fill"></i>
                                                                 </button>
                                                             </form>
                                                             <form action="{{ route('status', $storeCollection->id) }}" method="POST" class="d-inline">

@@ -51,9 +51,16 @@ Route::middleware('check.login')->group(function () {
     // profile
     Route::get('/profile', [Controller::class, 'profile'])->name('profile');
     Route::post('/update-password/{id}', [Controller::class, 'updatePass'])->name('updatePass');
-    // approval
-    Route::get('/approval', [DigitalController::class, 'showApproval'])->name('approval');
+    // approval and decline & User Management
+    Route::get('/approval', [Controller::class, 'showApproval'])->name('approval');
     Route::post('/approve-user/{id}', [Controller::class, 'approveUser'])->name('approveUser');
+    Route::post('/users/decline/{id}', [Controller::class, 'declineUser'])->name('declineUser');
+    Route::get('/userlist', [Controller::class, 'userlist'])->name('userlist');
+    Route::delete('/deleteUser/{user}', [Controller::class, 'DeleteUser'])->name('DeleteUser');
+    Route::get('/editUser/{user}', [Controller::class, 'editUser'])->name('editUser');
+    Route::put('/editUserUpdate/{user}', [Controller::class, 'editUser'])->name('editUserUpdate');
+
+   
   
 
 });

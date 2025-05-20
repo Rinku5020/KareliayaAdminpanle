@@ -2,20 +2,19 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-
+    <base href="{{ asset('') }}">
     <meta charset="utf-8" />
     <title>Kareliya Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="uploads/logo/kareliya_logo.png">
 
     <!-- plugin css -->
     <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
-    <!-- Layout config Js -->
-    <script src="assets/js/layout.js"></script>
+    {{-- Sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap Css -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -30,56 +29,30 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-    {{-- sweet alert --}}
-    <!-- SweetAlert CSS -->
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
+
 
 </head>
 
 <body>
-
     @if (Session::has('success'))
         <script>
             Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'success',
-                text: '{{ Session::get('success') }}',
+                text: "{{ Session::get('success') }}",
                 showConfirmButton: false,
-                timer: 2000,
-                width: '400px',
-                padding: '0.5em 1em',
+                timer: 3000,
+                timerProgressBar: true,
+                width: 'auto',
+                padding: '0.5rem',
                 customClass: {
-                    container: 'swal-toast-container',
-                    popup: 'swal-toast-popup',
-                    title: 'swal-toast-title',
-                    closeButton: 'swal-toast-close'
+                    container: 'swal2-toast-container',
+                    popup: 'swal2-toast'
                 }
             });
         </script>
     @endif
-    @if (Session::has('error'))
-        <script>
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'error',
-                text: '{{ Session::get('error') }}',
-                showConfirmButton: false,
-                timer: 2000,
-                width: '400px',
-                padding: '0.5em 1em',
-                customClass: {
-                    container: 'swal-toast-container',
-                    popup: 'swal-toast-popup',
-                    title: 'swal-toast-title',
-                    closeButton: 'swal-toast-close'
-                }
-            });
-        </script>
-    @endif
-
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -94,8 +67,7 @@
                                     <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Small">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large"
-                                        height="50">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large" height="50">
                                 </span>
                             </a>
                         </div>
@@ -882,7 +854,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <h6 class="dropdown-header">{{ session('user_name') }}</h6>
-                                <a class="dropdown-item" href="{{ route('profile') }}"><i
+                                <a class="dropdown-item" href="{{route('profile')}}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="apps-chat.html"><i
@@ -954,8 +926,8 @@
                     <ul class="navbar-nav " id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{ route('dashboard') }}" data-bs-toggle=""
-                                role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link" href="{{route('dashboard')}}" data-bs-toggle="" role="button"
+                                aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
@@ -966,7 +938,7 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{ route('store') }}">
+                            <a class="nav-link menu-link" href="{{route('store')}}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
@@ -1030,12 +1002,12 @@
 
 
 
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('template') }}">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
 
-                        </li> --}}
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('layout') }}">
@@ -1066,47 +1038,98 @@
 
 
                     <div class="row">
-                        <div class="col-xl-12 mx-auto">
+                        <div class="col-xl-6 mx-auto">
                             <div class="card">
                                 <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">User Approval Request</h4>
+                                    <h4 class="card-title mb-0 flex-grow-1">User Profile</h4>
                                 </div><!-- end card header -->
                                 <div class="card-body">
                                     <div class="live-preview">
-                                       <table id="add-rows" class="table table-striped table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($pendingUsers as $user)
-                                                <tr>
-                                                    <td class="text-capitalize">{{ $user->name }}</td>
-                                                    <td>{{ $user->email }}</td>
-                                                    <td>
-                                                        <!-- Approve Form -->
-                                                        <form method="POST" action="{{ route('approveUser', $user->id) }}" style="display: inline-block;" id="approve-form-{{ $user->id }}">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-primary">Approve</button>
-                                                        </form>
+<form action="{{ route('editUserUpdate', $user->id) }}" method="POST">
+    @csrf
+    @method('PUT') <!-- If you're updating -->
+    <div class="row">
+        <!-- First Name -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="firstNameinput" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="name"
+                    placeholder="Enter your firstname" id="firstNameinput"
+                    value="{{ old('name', $user->name) }}">
+            </div>
+        </div>
 
-                                                        <!-- Decline Button triggers SweetAlert -->
-                                                        <button type="button" class="btn btn-danger" onclick="confirmDecline({{ $user->id }})">
-                                                            Decline
-                                                        </button>
+        <!-- Email -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="emailidInput" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email"
+                    placeholder="example@gmail.com" id="emailidInput"
+                    value="{{ old('email', $user->email) }}">
+            </div>
+        </div>
 
-                                                        <!-- Decline Form (hidden) -->
-                                                        <form id="decline-form-{{ $user->id }}" method="POST" action="{{ route('declineUser', $user->id) }}" style="display: none;">
-                                                            @csrf
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+        <!-- Phone Number -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" name="number"
+                    placeholder="Enter phone number" 
+                    value="{{ old('number', $user->number) }}">
+            </div>
+        </div>
+
+        <!-- Status Dropdown -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select  name="status" id="status" class="form-select">
+                    <option value="0" {{ $user->status == 0 ? 'selected' : '' }}>Pending</option>
+                    <option value="1" {{ $user->status == 1 ? 'selected' : '' }}>Approved</option>
+                    <option value="2" {{ $user->status == 2 ? 'selected' : '' }}>Declined</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="password-input">New Password</label>
+                <input type="password" name="new_password"
+                    value="{{ old('new_password') }}"
+                    class="form-control"
+                    placeholder="New password" id="password-input">
+                @error('new_password')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="password-input2">Confirm New Password</label>
+                <input type="password"
+                    name="new_password_confirmation"
+                    class="form-control"
+                    value="{{ old('new_password_confirmation') }}"
+                    placeholder="Confirm New password"
+                    id="password-input2">
+                @error('new_password_confirmation')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="col-lg-12">
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+
 
                                     </div>
                                 </div>
@@ -1121,18 +1144,18 @@
 
 
             <footer class="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="text-center">
-                                <p class="mb-0 text-muted">&copy;
-                                    Kareliya. All rights reserved.
-                                </p>
-                            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">&copy;
+                                 Kareliya. All rights reserved.
+                            </p>
                         </div>
                     </div>
                 </div>
-            </footer>
+            </div>
+        </footer>
         </div>
         <!-- end main content-->
 
@@ -1146,6 +1169,7 @@
         <i class="ri-arrow-up-line"></i>
     </button>
     <!--end back-to-top-->
+
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
@@ -1171,27 +1195,6 @@
     <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-    {{-- sweet alert --}}
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmDecline(userId) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Do you really want to decline this user?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, decline user!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('decline-form-' + userId).submit();
-        }
-    });
-}
-</script>
-
-
 </body>
 
 </html>

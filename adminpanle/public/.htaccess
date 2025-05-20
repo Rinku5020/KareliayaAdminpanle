@@ -5,7 +5,7 @@
 
     RewriteEngine On
     # Set the base to your subfolder path
-    RewriteBase /KareliayaAdminpanle/adminpanle/public/
+    RewriteBase /kareliayaAdminpanle/adminpanle/public/
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -23,4 +23,10 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    
 </IfModule>
+    php_value upload_max_filesize 200M
+    php_value post_max_size 210M
+    php_value max_execution_time 300
+    php_value max_input_time 300

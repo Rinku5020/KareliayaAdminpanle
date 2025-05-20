@@ -34,8 +34,12 @@ class Controller
             if (!$user || !Hash::check($request->input('password'), $user->password)) {
                 return back()->with('error', 'Invalid credentials');
             }
-            if (!$user->is_approved) {
+            if ($user->status == 0) {
+               
                 return back()->withErrors(['email' => 'Your account is pending approval by admin.']);
+            }
+            if ($user->status == 2) {
+                return back()->withErrors(['email' => 'Your account has been declined by admin.']);
             }
             // Store user info in session
             session([
@@ -67,7 +71,7 @@ class Controller
             'email' => $request->input('email'),
             'number' => $request->input('number'),
             'password' => Hash::make($request->input('password')),
-            'is_approved' => false,
+        
         ]);
         return redirect()->route('showLogin')->with('success', 'Send Registration request successfully');
     }
@@ -141,9 +145,6 @@ class Controller
         $userName = session('user_name');
 
         $user = User::where('id', $userId)->where('name', $userName)->first();
-        return view('profile', compact('user'));
-        $user = User::where('id', $userId)->where('name', $userName)->first();
-
         return view('auth.profile', compact('user'));
     }
     public function updatePass(Request $request, $id)
@@ -164,22 +165,80 @@ class Controller
     }
 
 
-public function showApproval()
+    public function showApproval()
     {
-         $pendingUsers = User::where('is_approved', false)->get();
+        if (session('role') !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+        $pendingUsers = User::where('status', 0)->get();
         return view('auth.approve', compact('pendingUsers'));
-       
     }
 
-public function approveUser($id)
-{
-    $user = User::findOrFail($id);
-    $user->is_approved = true;
-    $user->save();
+    public function approveUser($id)
+    {
+        if (session('role') !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+        $user = User::findOrFail($id);
+        $user->status = 1;
+        $user->save();
 
-    return redirect()->back()->with('success', 'User approved successfully');
-}
+        return redirect()->back()->with('success', 'User approved successfully');
+    }
+    public function declineUser(User $user, $id)
+    {
+        if (session('role') !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+        $user = User::findOrFail($id);
+        $user->status = 2;
+        $user->save();
 
+        return redirect()->back()->with('success', 'User declined');
+    }
+    public function userlist(User $user)
+    {
+        if (session('role') !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+        $users = User::all();
+        return view('auth.userlist', compact('users'));
+    }
+
+    public function DeleteUser(User $user)
+    {
+        if (session('role') !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+        $user->delete();
+        return redirect()->back()->with('success', 'User deleted successfully');
+    }
+    public function editUser(User $user)
+    {
+        if (session('role') !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+        $user = User::findOrFail($user->id);
+        return view('auth.edituser', compact('user'));
+        
+    }
+    public function editUserUpdate(Request $request, User $user)
+    {
+        if (session('role') !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'number' => 'required|string|max:10',
+        ]);
+        $user = User::findOrFail($user->id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->number = $request->input('number');
+        $user->save();
+        return redirect()->back()->with('success', 'User updated successfully');
+    }
 
 
 }

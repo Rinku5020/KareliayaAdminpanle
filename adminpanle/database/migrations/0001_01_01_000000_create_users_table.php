@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('number');
             $table->string('password');
 
-            $table->boolean('status')->default(true);
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
 

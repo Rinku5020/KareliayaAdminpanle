@@ -58,7 +58,8 @@ Route::middleware('check.login')->group(function () {
     Route::get('/userlist', [Controller::class, 'userlist'])->name('userlist');
     Route::delete('/deleteUser/{user}', [Controller::class, 'DeleteUser'])->name('DeleteUser');
     Route::get('/editUser/{user}', [Controller::class, 'editUser'])->name('editUser');
-    Route::put('/editUserUpdate/{user}', [Controller::class, 'editUser'])->name('editUserUpdate');
+    Route::put('/editUserUpdate/{user}', [Controller::class, 'editUserUpdate'])->name('editUserUpdate');
+
 
    
   

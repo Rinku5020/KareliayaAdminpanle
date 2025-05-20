@@ -67,7 +67,8 @@
                                     <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Small">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large" height="50">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large"
+                                        height="50">
                                 </span>
                             </a>
                         </div>
@@ -854,7 +855,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <h6 class="dropdown-header">{{ session('user_name') }}</h6>
-                                <a class="dropdown-item" href="{{route('profile')}}"><i
+                                <a class="dropdown-item" href="{{ route('profile') }}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="apps-chat.html"><i
@@ -926,8 +927,8 @@
                     <ul class="navbar-nav " id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{route('dashboard')}}" data-bs-toggle="" role="button"
-                                aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link" href="{{ route('dashboard') }}" data-bs-toggle=""
+                                role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
@@ -938,7 +939,7 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{route('store')}}">
+                            <a class="nav-link menu-link" href="{{ route('store') }}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
@@ -1038,97 +1039,135 @@
 
 
                     <div class="row">
-                        <div class="col-xl-6 mx-auto">
+                        <div class="col-xl-12 mx-auto">
                             <div class="card">
                                 <div class="card-header align-items-center d-flex">
                                     <h4 class="card-title mb-0 flex-grow-1">User Profile</h4>
                                 </div><!-- end card header -->
                                 <div class="card-body">
                                     <div class="live-preview">
-<form action="{{ route('editUserUpdate', $user->id) }}" method="POST">
-    @csrf
-    @method('PUT') <!-- If you're updating -->
-    <div class="row">
-        <!-- First Name -->
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label for="firstNameinput" class="form-label">First Name</label>
-                <input type="text" class="form-control" name="name"
-                    placeholder="Enter your firstname" id="firstNameinput"
-                    value="{{ old('name', $user->name) }}">
-            </div>
-        </div>
+                                        <form action="{{ route('editUserUpdate', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="row">
+                                                <!-- First Name -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="firstNameinput" class="form-label">First
+                                                            Name</label>
+                                                        <input type="text" class="form-control" name="name"
+                                                            placeholder="Enter your firstname" id="firstNameinput"
+                                                            value="{{ old('name', $user->name) }}">
+                                                    </div>
+                                                    @error('name')
+                                                        <span style="color: red">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
 
-        <!-- Email -->
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label for="emailidInput" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email"
-                    placeholder="example@gmail.com" id="emailidInput"
-                    value="{{ old('email', $user->email) }}">
-            </div>
-        </div>
+                                                <!-- Email -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="emailidInput" class="form-label">Email</label>
+                                                        <input type="email" class="form-control" name="email"
+                                                            placeholder="example@gmail.com" id="emailidInput"
+                                                            value="{{ old('email', $user->email) }}">
+                                                    </div>
+                                                    @error('email')
+                                                        <span style="color: red">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
 
-        <!-- Phone Number -->
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" name="number"
-                    placeholder="Enter phone number" 
-                    value="{{ old('number', $user->number) }}">
-            </div>
-        </div>
+                                                <!-- Phone Number -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="phone" class="form-label">Phone Number</label>
+                                                        <input type="text" class="form-control" name="number"
+                                                            placeholder="Enter phone number"
+                                                            value="{{ old('number', $user->number) }}">
+                                                    </div>
+                                                    @error('number')
+                                                        <span style="color: red">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
 
-        <!-- Status Dropdown -->
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select  name="status" id="status" class="form-select">
-                    <option value="0" {{ $user->status == 0 ? 'selected' : '' }}>Pending</option>
-                    <option value="1" {{ $user->status == 1 ? 'selected' : '' }}>Approved</option>
-                    <option value="2" {{ $user->status == 2 ? 'selected' : '' }}>Declined</option>
-                </select>
-            </div>
-        </div>
+                                                <!-- Status Dropdown -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label> Status</label>
+                                                        <select class="form-select" name="status">
+                                                            <option value="0"
+                                                                {{ old('status', $user->status) == 0 ? 'selected' : '' }}>
+                                                                Pending</option>
+                                                            <option value="1"
+                                                                {{ old('status', $user->status) == 1 ? 'selected' : '' }}>
+                                                                Approved</option>
+                                                            <option value="2"
+                                                                {{ old('status', $user->status) == 2 ? 'selected' : '' }}>
+                                                                Declined</option>
+                                                        </select>
+                                                    </div>
+                                                    @error('status')
+                                                        <span style="color: red">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
 
-        <!-- Password -->
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label class="form-label" for="password-input">New Password</label>
-                <input type="password" name="new_password"
-                    value="{{ old('new_password') }}"
-                    class="form-control"
-                    placeholder="New password" id="password-input">
-                @error('new_password')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
 
-        <!-- Confirm Password -->
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label class="form-label" for="password-input2">Confirm New Password</label>
-                <input type="password"
-                    name="new_password_confirmation"
-                    class="form-control"
-                    value="{{ old('new_password_confirmation') }}"
-                    placeholder="Confirm New password"
-                    id="password-input2">
-                @error('new_password_confirmation')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
+                                                <!-- Password -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="password-input">New
+                                                            Password</label>
+                                                        <div class="position-relative">
+                                                            <input type="password" name="new_password"
+                                                                value="{{ old('new_password') }}"
+                                                                class="form-control pe-5" placeholder="New password"
+                                                                id="password-input">
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-link position-absolute top-50 end-0 translate-middle-y"
+                                                                onclick="togglePasswordVisibility('password-input', 'password-icon')">
+                                                                <i class="ri-eye-fill align-middle"
+                                                                    id="password-icon"></i>
+                                                            </button>
+                                                        </div>
+                                                        @error('new_password')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
 
-        <!-- Submit -->
-        <div class="col-lg-12">
-            <div class="text-end">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </div>
-</form>
+                                                <!-- Confirm Password -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="password-input2">Confirm New
+                                                            Password</label>
+                                                        <div class="position-relative">
+                                                            <input type="password" name="new_password_confirmation"
+                                                                class="form-control pe-5"
+                                                                value="{{ old('new_password_confirmation') }}"
+                                                                placeholder="Confirm new password"
+                                                                id="password-input2">
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-link position-absolute top-50 end-0 translate-middle-y"
+                                                                onclick="togglePasswordVisibility('password-input2', 'password-icon2')">
+                                                                <i class="ri-eye-fill align-middle"
+                                                                    id="password-icon2"></i>
+                                                            </button>
+                                                        </div>
+                                                        @error('new_password_confirmation')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Submit -->
+                                                <div class="col-lg-12">
+                                                    <div class="text-end">
+                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
 
 
                                     </div>
@@ -1144,18 +1183,18 @@
 
 
             <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <p class="mb-0 text-muted">&copy;
-                                 Kareliya. All rights reserved.
-                            </p>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="text-center">
+                                <p class="mb-0 text-muted">&copy;
+                                    Kareliya. All rights reserved.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </footer>
+            </footer>
         </div>
         <!-- end main content-->
 
@@ -1195,6 +1234,23 @@
     <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
+    <script>
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("ri-eye-fill");
+                icon.classList.add("ri-eye-off-fill");
+            } else {
+                input.type = "password";
+                icon.classList.remove("ri-eye-off-fill");
+                icon.classList.add("ri-eye-fill");
+            }
+        }
+    </script>
+
 </body>
 
 </html>

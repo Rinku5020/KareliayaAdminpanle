@@ -968,9 +968,14 @@
                                         <div class="row container justify-content-between">
                                             <div class="col-md-5">
                                                 <div class="mb-3">
+                                                 
                                                     <label class="form-label fw-bold">Name</label>
+                                                       @php
+                                                        $defaultName = old('name', $user->name ?? 'M-' . rand(100000, 999999));
+                                                    @endphp
                                                     <input type="text" name="name" class="form-control"
-                                                        placeholder="Enter Name">
+                                                    placeholder="Enter Name"
+                                                    value="{{ $defaultName }}">
                                                     @error('name')
                                                         <span style="color: red">{{ $message }}</span>
                                                     @enderror
@@ -979,7 +984,6 @@
                                                     <label class="form-label fw-bold">Select Type</label>
                                                     <select id="fileType" name="type" class="form-select"
                                                         aria-label="Default select example">
-                                                        <option selected disabled>Open this select type</option>
                                                         <option name="type" value="image">Image</option>
                                                         <option name="type" value="video">Video</option>
                                                     </select>

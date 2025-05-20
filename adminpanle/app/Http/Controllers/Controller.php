@@ -225,19 +225,29 @@ class Controller
     public function editUserUpdate(Request $request, User $user)
     {
         if (session('role') !== 'admin') {
-            abort(403, 'Unauthorized action.');
-        }
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'number' => 'required|string|max:10',
-        ]);
-        $user = User::findOrFail($user->id);
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->number = $request->input('number');
-        $user->save();
-        return redirect()->back()->with('success', 'User updated successfully');
+        abort(403, 'Unauthorized action.');
+    }
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'number' => 'required|string|max:10',
+        'status' => 'required|in:0,1,2',
+        'new_password' => 'nullable|string|min:8|regex:/[a-zA-Z]/|regex:/[0-9]/',
+    ]);
+
+    $user->name = $request->input('name');
+    $user->email = $request->input('email');
+    $user->number = $request->input('number');
+    $user->status = $request->input('status');
+
+    if ($request->filled('new_password')) {
+        $user->password = Hash::make($request->input('new_password'));
+    }
+
+    $user->save();
+
+    return redirect()->route('userlist')->with('success', 'User updated successfully.');
     }
 
 

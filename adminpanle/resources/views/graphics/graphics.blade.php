@@ -958,7 +958,31 @@
                             </a>
                         </li>
 
+                        @php
+                            use App\Models\User;
+                            $pendingCount = User::where('status', false)->count();
+                        @endphp
 
+                        @if (session('role') === 'admin')
+                            <li class="nav-item">
+                            <a class="nav-link menu-link">
+                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">User Management</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarLayouts">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('approval') }}"  class="nav-link"
+                                            data-key="t-horizontal">Approve Request: {{ $pendingCount }}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('userlist') }}"  class="nav-link"
+                                            data-key="t-horizontal">User List</a>
+                                    </li>
+                                
+                                </ul>
+                            </div>
+                        </li>
+                        @endif
                     </ul>
                 </div>
                 <!-- Sidebar -->

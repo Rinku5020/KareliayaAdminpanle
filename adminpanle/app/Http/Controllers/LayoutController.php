@@ -11,15 +11,29 @@ class LayoutController extends Controller
     use ValidatesRequests;
     public function showLayout()
     {
-        $layouts = layout::all();
+        $role = session('role');
+        $userId = session('account_id');
+        if ($role === 'admin') {
+            $layouts = layout::all();
+        } else {
+            $layouts = layout::where('account_id', $userId)->get();
+        }
         $status = [true, false];
         return view('layout.layout', compact('layouts'));
     }
     public function AddLayout(Request $request)
     {
-        $graphics = Graphic::all();
-        $stores = Display::all()->unique('store_id');
-        $displays = Display::all();
+        $role = session('role');
+        $userId = session('account_id');
+        if ($role === 'admin') {
+            $graphics = Graphic::all();
+            $stores = Display::all()->unique('store_id');
+            $displays = Display::all();
+        } else {
+            $graphics = Graphic::where('account_id', $userId)->get();
+            $stores = Display::where('account_id', $userId)->get()->unique('store_id');
+            $displays = Display::where('account_id', $userId)->get();
+        }
         return view('layout.addlayout', compact('graphics', 'stores', 'displays'));
     }
     public function layoutStore(Request $request)
@@ -65,10 +79,8 @@ class LayoutController extends Controller
             $layout->displayMode = $request->input('displayMode');
             $layout->playlistName = $request->input('playlistName');
             $layout->address = $request->input('address');
-
             // Handle selected displays
             $layout->selectedDisplays = $request->input('selectedDisplays'); // saves as real JSON array
-           
             // Handle media JSON input
             // Get zone-wise media data from the form submission
             $flatMediaList = json_decode($request->input('media'), true);
@@ -95,105 +107,13 @@ class LayoutController extends Controller
             return redirect()->route('layout')->with('error', 'Layout added failed.');
         }
     }
- public function status($id)
+    public function status($id)
     {
         $layout = layout::findOrFail($id);
-      
         $layout->status = $layout->status == 1 ? 0 : 1;
         $layout->save();
         return redirect()->route('layout')->with('success', 'Layout status updated successfully!');
     }
-
-
-    public function saveMediaToDatabase(array $mediaList)
-{
-    foreach ($mediaList as $mediaItem) {
-        // Example: check required fields exist before inserting
-        if (
-            isset($mediaItem['originalname']) &&
-            isset($mediaItem['encoding']) &&
-            isset($mediaItem['mimetype']) &&
-            isset($mediaItem['size']) &&
-            isset($mediaItem['path'])
-        ) {
-            Media::create([
-                'account_id'   => session('account_id'), 
-                'originalname' => $mediaItem['originalname'],
-                'encoding'     => $mediaItem['encoding'],
-                'mimetype'     => $mediaItem['mimetype'],
-                'size'         => $mediaItem['size'],
-                'path'         => $mediaItem['path'],
-            ]);
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
     public function editLayout($id)
     {
         $layout = layout::findOrFail($id);
@@ -253,8 +173,7 @@ class LayoutController extends Controller
             'zone2' => [],
             'zone3' => [],
             'zone4' => [],
-        ];      
-
+        ];
         foreach ($flatMediaList as $media) {
             if (isset($media['zone']) && isset($zonesData[$media['zone']])) {
                 $zonesData[$media['zone']][] = $media;
@@ -269,5 +188,4 @@ class LayoutController extends Controller
         $layout->save();
         return redirect()->route('layout')->with('success', 'Layout updated successfully.');
     }
-    
 }

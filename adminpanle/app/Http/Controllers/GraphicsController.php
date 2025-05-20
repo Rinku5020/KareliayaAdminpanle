@@ -15,8 +15,8 @@ class GraphicsController extends Controller
         
 
         $rules = [
-            'name' => 'required|alpha',
-            'media_id' => 'required|file|mimes:jpg,jpeg,png,mp4|max:2048',
+            'name' => 'required',
+            'media_id' => 'required|file|mimes:jpg,jpeg,png,mp4||max:204800',
             'type' => 'required|in:video,image',
             'type' => 'required',
         ];
@@ -38,6 +38,7 @@ class GraphicsController extends Controller
 
         $graphics->name = $request->input('name');
         $graphics->type = $request->input('type');
+        $graphics->account_id = session('account_id');
         $graphics->save();
         return redirect()->route('graphics')->with('success', 'Media uploaded successfully');
     }
@@ -46,14 +47,23 @@ class GraphicsController extends Controller
 
 
     public function showGraphicsAndVideos(){
+    $role = session('role');
+    $userId = session('account_id');
+
+    if ($role === 'admin') {
+       
         $TableGraphics = Graphic::all();
-        return view('graphics', [
+    } else {
+  
+        $TableGraphics = Graphic::where('account_id', $userId)->get();
+    }
+        return view('graphics.graphics', [
             'TableGraphics' => $TableGraphics,
         ]);
     }
     public function addGraphicsAndVideos(){
 
-        return view ('addGraphics');
+        return view ('graphics.addGraphics');
     }
     public function createGraphics ()
     {

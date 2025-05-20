@@ -15,6 +15,8 @@ class CheckLogin
             return redirect()->route('showLogin');
             
         }
+    
+
 
         return $next($request);
     }

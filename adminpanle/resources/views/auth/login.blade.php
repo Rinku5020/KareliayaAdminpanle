@@ -53,7 +53,7 @@
                 icon: 'success',
                 text: '{{ Session::get('success') }}',
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 2000,
                 width: '400px',
                 padding: '0.5em 1em',
                 customClass: {
@@ -73,7 +73,7 @@
                 icon: 'error',
                 text: '{{ Session::get('error') }}',
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 2000,
                 width: '400px',
                 padding: '0.5em 1em',
                 customClass: {

@@ -2,11 +2,10 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-
+    <base href="{{ asset('') }}">
     <meta charset="utf-8" />
     <title>Kareliya Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="uploads/logo/kareliya_logo.png">
@@ -14,8 +13,8 @@
     <!-- plugin css -->
     <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
-    <!-- Layout config Js -->
-    <script src="assets/js/layout.js"></script>
+    {{-- Sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap Css -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -24,51 +23,36 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <!--datatable responsive css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+
 
 </head>
-<style>
-    .swal-toast-popup {
-        align-items: center;
-    }
-
-    .swal-toast-title {
-        margin: 0;
-        flex-grow: 1;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .swal-toast-close {
-        position: static;
-        margin-left: 10px;
-    }
-</style>
 
 <body>
-
     @if (Session::has('success'))
         <script>
             Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'success',
-                text: '{{ Session::get('success') }}',
+                text: "{{ Session::get('success') }}",
                 showConfirmButton: false,
-                timer: 1500,
-                width: '400px',
-                padding: '0.5em 1em',
+                timer: 3000,
+                timerProgressBar: true,
+                width: 'auto',
+                padding: '0.5rem',
                 customClass: {
-                    container: 'swal-toast-container',
-                    popup: 'swal-toast-popup',
-                    title: 'swal-toast-title',
-                    closeButton: 'swal-toast-close'
+                    container: 'swal2-toast-container',
+                    popup: 'swal2-toast'
                 }
             });
         </script>
     @endif
-
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -870,7 +854,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <h6 class="dropdown-header">{{ session('user_name') }}</h6>
-                                <a class="dropdown-item" href="{{ route('profile') }}"><i
+                                <a class="dropdown-item" href="{{route('profile')}}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="apps-chat.html"><i
@@ -942,7 +926,8 @@
                     <ul class="navbar-nav " id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{ route('dashboard') }}">
+                            <a class="nav-link menu-link" href="{{route('dashboard')}}" data-bs-toggle="" role="button"
+                                aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
@@ -953,10 +938,26 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{ route('store') }}">
+                            <a class="nav-link menu-link" href="{{route('store')}}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
-                            
+                            <div class="collapse menu-dropdown" id="sidebarLayouts">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="" target="_blank" class="nav-link"
+                                            data-key="t-horizontal">Demo1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" target="_blank" class="nav-link"
+                                            data-key="t-horizontal">Demo2</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" target="_blank" class="nav-link"
+                                            data-key="t-horizontal">Demo3</a>
+                                    </li>
+
+                                </ul>
+                            </div>
                         </li> <!-- end Dashboard Menu -->
 
 
@@ -967,56 +968,52 @@
                             <a class="nav-link menu-link" href="{{ route('display') }}">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">Display</span>
                             </a>
-                            
+                            <div class="collapse menu-dropdown" id="sidebarPages">
+                                <ul class="nav nav-sm flex-column">
+
+                                    <li class="nav-item">
+                                        <a href="#sidebarProfile" class="nav-link" data-bs-toggle="collapse"
+                                            role="button" aria-expanded="false" aria-controls="sidebarProfile"
+                                            data-key="t-profile"> Profile
+                                        </a>
+                                        <div class="collapse menu-dropdown" id="sidebarProfile">
+                                            <ul class="nav nav-sm flex-column">
+                                                <li class="nav-item">
+                                                    <a href="pages-profile.html" class="nav-link"
+                                                        data-key="t-simple-page">
+                                                        Simple Page </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages-profile-settings.html" class="nav-link"
+                                                        data-key="t-settings"> Settings </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('graphics') }}">
-                                <i class="ri-rocket-line"></i> <span>Graphics And Video</span>
+                                <i class="ri-rocket-line"></i> <span data-key="t-landing">Graphics And Video</span>
                             </a>
-
                         </li>
 
 
 
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('template') }}">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
 
-                        </li> --}}
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('layout') }}">
                                 <i class="ri-honour-line"></i> <span data-key="t-widgets">Layout</span>
                             </a>
                         </li>
-
-                        @php
-                            use App\Models\User;
-                            $pendingCount = User::where('status', false)->count();
-                        @endphp
-
-                        @if (session('role') === 'admin')
-                            <li class="nav-item">
-                            <a class="nav-link menu-link">
-                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">User Management</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarLayouts">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="{{ route('approval') }}"  class="nav-link"
-                                            data-key="t-horizontal">Approve Request: {{ $pendingCount }}</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('userlist') }}"  class="nav-link"
-                                            data-key="t-horizontal">User List</a>
-                                    </li>
-                                
-                                </ul>
-                            </div>
-                        </li>
-                        @endif
 
 
                     </ul>
@@ -1038,640 +1035,127 @@
             <div class="page-content">
                 <div class="container-fluid">
 
-                    <!-- start page title -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Dashboard</h4>
 
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Layouts</a></li>
-                                        <li class="breadcrumb-item active">Dashboard</li>
-                                    </ol>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end page title -->
 
                     <div class="row">
-                        <div class="col-xxl-5">
-                            <div class="d-flex flex-column h-100">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="fw-medium text-muted mb-0">Users</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                                class="counter-value" data-target="28.05">0</span>k
-                                                        </h2>
-                                                        <p class="mb-0 text-muted"><span
-                                                                class="badge bg-light text-success mb-0"><i
-                                                                    class="ri-arrow-up-line align-middle"></i> 16.24 %
-                                                            </span> vs. previous month</p>
-                                                    </div>
-                                                    <div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span
-                                                                class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                                <i data-feather="users" class="text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div> <!-- end card-->
-                                    </div> <!-- end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="fw-medium text-muted mb-0">Sessions</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                                class="counter-value" data-target="97.66">0</span>k
-                                                        </h2>
-                                                        <p class="mb-0 text-muted"><span
-                                                                class="badge bg-light text-danger mb-0"> <i
-                                                                    class="ri-arrow-down-line align-middle"></i> 3.96 %
-                                                            </span> vs. previous month</p>
-                                                    </div>
-                                                    <div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span
-                                                                class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                                <i data-feather="activity" class="text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div> <!-- end card-->
-                                    </div> <!-- end col-->
-                                </div> <!-- end row-->
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="fw-medium text-muted mb-0">Avg. Visit Duration</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                                class="counter-value" data-target="3">0</span>m
-                                                            <span class="counter-value" data-target="40">0</span>sec
-                                                        </h2>
-                                                        <p class="mb-0 text-muted"><span
-                                                                class="badge bg-light text-danger mb-0"> <i
-                                                                    class="ri-arrow-down-line align-middle"></i> 0.24 %
-                                                            </span> vs. previous month</p>
-                                                    </div>
-                                                    <div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span
-                                                                class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                                <i data-feather="clock" class="text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div> <!-- end card-->
-                                    </div> <!-- end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="fw-medium text-muted mb-0">Bounce Rate</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                                class="counter-value" data-target="33.48">0</span>%
-                                                        </h2>
-                                                        <p class="mb-0 text-muted"><span
-                                                                class="badge bg-light text-success mb-0"> <i
-                                                                    class="ri-arrow-up-line align-middle"></i> 7.05 %
-                                                            </span> vs. previous month</p>
-                                                    </div>
-                                                    <div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span
-                                                                class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                                <i data-feather="external-link" class="text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div> <!-- end card-->
-                                    </div> <!-- end col-->
-                                </div> <!-- end row-->
-                            </div>
-                        </div> <!-- end col-->
-
-                        <div class="col-xxl-7">
-                            <div class="row h-100">
-                                <div class="col-xl-6">
-                                    <div class="card card-height-100">
-                                        <div class="card-header align-items-center d-flex">
-                                            <h4 class="card-title mb-0 flex-grow-1">Live Users By Country</h4>
-                                            <div class="flex-shrink-0">
-                                                <button type="button" class="btn btn-soft-primary btn-sm">
-                                                    Export Report
-                                                </button>
-                                            </div>
-                                        </div><!-- end card header -->
-
-                                        <!-- card body -->
-                                        <div class="card-body">
-
-                                            <div id="users-by-country" data-colors='["--vz-light"]'
-                                                class="text-center" style="height: 252px"></div>
-
-                                            <div class="table-responsive table-card mt-3">
-                                                <table
-                                                    class="table table-borderless table-sm table-centered align-middle table-nowrap mb-1">
-                                                    <thead
-                                                        class="text-muted border-dashed border border-start-0 border-end-0 bg-soft-light">
-                                                        <tr>
-                                                            <th>Duration (Secs)</th>
-                                                            <th style="width: 30%;">Sessions</th>
-                                                            <th style="width: 30%;">Views</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="border-0">
-                                                        <tr>
-                                                            <td>0-30</td>
-                                                            <td>2,250</td>
-                                                            <td>4,250</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>31-60</td>
-                                                            <td>1,501</td>
-                                                            <td>2,050</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>61-120</td>
-                                                            <td>750</td>
-                                                            <td>1,600</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>121-240</td>
-                                                            <td>540</td>
-                                                            <td>1,040</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-
-                                <div class="col-xl-6">
-                                    <div class="card card-height-100">
-                                        <div class="card-header align-items-center d-flex">
-                                            <h4 class="card-title mb-0 flex-grow-1">Sessions by Countries</h4>
-                                            <div>
-                                                <button type="button" class="btn btn-soft-secondary btn-sm">
-                                                    ALL
-                                                </button>
-                                                <button type="button" class="btn btn-soft-primary btn-sm">
-                                                    1M
-                                                </button>
-                                                <button type="button" class="btn btn-soft-secondary btn-sm">
-                                                    6M
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <div>
-                                                <div id="countries_charts"
-                                                    data-colors='["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-danger", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]'
-                                                    class="apex-charts" dir="ltr"></div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div> <!-- end col-->
-
-                            </div> <!-- end row-->
-                        </div><!-- end col -->
-                    </div> <!-- end row-->
-
-                    <div class="row">
-                        <div class="col-xl-6">
+                        <div class="col-xl-6 mx-auto">
                             <div class="card">
-                                <div class="card-header border-0 align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Audiences Metrics</h4>
-                                    <div>
-                                        <button type="button" class="btn btn-soft-secondary btn-sm">
-                                            ALL
-                                        </button>
-                                        <button type="button" class="btn btn-soft-secondary btn-sm">
-                                            1M
-                                        </button>
-                                        <button type="button" class="btn btn-soft-secondary btn-sm">
-                                            6M
-                                        </button>
-                                        <button type="button" class="btn btn-soft-primary btn-sm">
-                                            1Y
-                                        </button>
-                                    </div>
-                                </div><!-- end card header -->
-                                <div class="card-header p-0 border-0 bg-soft-light">
-                                    <div class="row g-0 text-center">
-                                        <div class="col-6 col-sm-4">
-                                            <div class="p-3 border border-dashed border-start-0">
-                                                <h5 class="mb-1"><span class="counter-value"
-                                                        data-target="854">0</span>
-                                                    <span class="text-success ms-1 fs-12">49%<i
-                                                            class="ri-arrow-right-up-line ms-1 align-middle"></i></span>
-                                                </h5>
-                                                <p class="text-muted mb-0">Avg. Session</p>
-                                            </div>
-                                        </div>
-                                        <!--end col-->
-                                        <div class="col-6 col-sm-4">
-                                            <div class="p-3 border border-dashed border-start-0">
-                                                <h5 class="mb-1"><span class="counter-value"
-                                                        data-target="1278">0</span>
-                                                    <span class="text-success ms-1 fs-12">60%<i
-                                                            class="ri-arrow-right-up-line ms-1 align-middle"></i></span>
-                                                </h5>
-                                                <p class="text-muted mb-0">Conversion Rate</p>
-                                            </div>
-                                        </div>
-                                        <!--end col-->
-                                        <div class="col-6 col-sm-4">
-                                            <div class="p-3 border border-dashed border-start-0 border-end-0">
-                                                <h5 class="mb-1"><span class="counter-value"
-                                                        data-target="3">0</span>m
-                                                    <span class="counter-value" data-target="40">0</span>sec
-                                                    <span class="text-success ms-1 fs-12">37%<i
-                                                            class="ri-arrow-right-up-line ms-1 align-middle"></i></span>
-                                                </h5>
-                                                <p class="text-muted mb-0">Avg. Session Duration</p>
-                                            </div>
-                                        </div>
-                                        <!--end col-->
-                                    </div>
-                                </div><!-- end card header -->
-                                <div class="card-body p-0 pb-2">
-                                    <div>
-                                        <div id="audiences_metrics_charts"
-                                            data-colors='["--vz-success", "--vz-gray-300"]' class="apex-charts"
-                                            dir="ltr"></div>
-                                    </div>
-                                </div><!-- end card body -->
-                            </div><!-- end card -->
-                        </div><!-- end col -->
-
-                        <div class="col-xl-6">
-                            <div class="card card-height-100">
                                 <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Audiences Sessions by Country</h4>
-                                    <div class="flex-shrink-0">
-                                        <div class="dropdown card-header-dropdown">
-                                            <a class="text-reset dropdown-btn" href="#"
-                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="fw-semibold text-uppercase fs-12">Sort by: </span><span
-                                                    class="text-muted">Current Week<i
-                                                        class="mdi mdi-chevron-down ms-1"></i></span>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="#">Today</a>
-                                                <a class="dropdown-item" href="#">Last Week</a>
-                                                <a class="dropdown-item" href="#">Last Month</a>
-                                                <a class="dropdown-item" href="#">Current Year</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><!-- end card header -->
-                                <div class="card-body p-0">
-                                    <div>
-                                        <div id="audiences-sessions-country-charts"
-                                            data-colors='["--vz-success", "--vz-info"]' class="apex-charts"
-                                            dir="ltr"></div>
-                                    </div>
-                                </div><!-- end cardbody -->
-                            </div><!-- end card -->
-                        </div><!-- end col -->
-                    </div><!-- end row -->
-
-                    <div class="row">
-                        <div class="col-xl-4">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Users by Device</h4>
-                                    <div class="flex-shrink-0">
-                                        <div class="dropdown card-header-dropdown">
-                                            <a class="text-reset" href="#" data-bs-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false">
-                                                <span class="text-muted fs-16"><i
-                                                        class="mdi mdi-dots-vertical align-middle"></i></span>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="#">Today</a>
-                                                <a class="dropdown-item" href="#">Last Week</a>
-                                                <a class="dropdown-item" href="#">Last Month</a>
-                                                <a class="dropdown-item" href="#">Current Year</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <h4 class="card-title mb-0 flex-grow-1">User Profile</h4>
                                 </div><!-- end card header -->
                                 <div class="card-body">
-                                    <div id="user_device_pie_charts"
-                                        data-colors='["--vz-primary", "--vz-warning", "--vz-info"]'
-                                        class="apex-charts" dir="ltr"></div>
+                                    <div class="live-preview">
+<form action="{{ route('editUserUpdate', $user->id) }}" method="POST">
+    @csrf
+    @method('PUT') <!-- If you're updating -->
+    <div class="row">
+        <!-- First Name -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="firstNameinput" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="name"
+                    placeholder="Enter your firstname" id="firstNameinput"
+                    value="{{ old('name', $user->name) }}">
+            </div>
+        </div>
 
-                                    <div class="table-responsive mt-3">
-                                        <table
-                                            class="table table-borderless table-sm table-centered align-middle table-nowrap mb-0">
-                                            <tbody class="border-0">
-                                                <tr>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i
-                                                                class="ri-stop-fill align-middle fs-18 text-primary me-2"></i>Desktop
-                                                            Users</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0"><i data-feather="users"
-                                                                class="me-2 icon-sm"></i>78.56k</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <p class="text-success fw-medium fs-12 mb-0"><i
-                                                                class="ri-arrow-up-s-fill fs-5 align-middle"></i>2.08%
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i
-                                                                class="ri-stop-fill align-middle fs-18 text-warning me-2"></i>Mobile
-                                                            Users</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0"><i data-feather="users"
-                                                                class="me-2 icon-sm"></i>105.02k</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <p class="text-danger fw-medium fs-12 mb-0"><i
-                                                                class="ri-arrow-down-s-fill fs-5 align-middle"></i>10.52%
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i
-                                                                class="ri-stop-fill align-middle fs-18 text-info me-2"></i>Tablet
-                                                            Users</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0"><i data-feather="users"
-                                                                class="me-2 icon-sm"></i>42.89k</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <p class="text-danger fw-medium fs-12 mb-0"><i
-                                                                class="ri-arrow-down-s-fill fs-5 align-middle"></i>7.36%
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div><!-- end card body -->
-                            </div><!-- end card -->
-                        </div><!-- end col -->
+        <!-- Email -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="emailidInput" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email"
+                    placeholder="example@gmail.com" id="emailidInput"
+                    value="{{ old('email', $user->email) }}">
+            </div>
+        </div>
 
-                        <div class="col-xl-4 col-md-6">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Top Referrals Pages</h4>
-                                    <div class="flex-shrink-0">
-                                        <button type="button" class="btn btn-soft-primary btn-sm">
-                                            Export Report
-                                        </button>
+        <!-- Phone Number -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" name="number"
+                    placeholder="Enter phone number" 
+                    value="{{ old('number', $user->number) }}">
+            </div>
+        </div>
+
+        <!-- Status Dropdown -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select  name="status" id="status" class="form-select">
+                    <option value="0" {{ $user->status == 0 ? 'selected' : '' }}>Pending</option>
+                    <option value="1" {{ $user->status == 1 ? 'selected' : '' }}>Approved</option>
+                    <option value="2" {{ $user->status == 2 ? 'selected' : '' }}>Declined</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="password-input">New Password</label>
+                <input type="password" name="new_password"
+                    value="{{ old('new_password') }}"
+                    class="form-control"
+                    placeholder="New password" id="password-input">
+                @error('new_password')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="password-input2">Confirm New Password</label>
+                <input type="password"
+                    name="new_password_confirmation"
+                    class="form-control"
+                    value="{{ old('new_password_confirmation') }}"
+                    placeholder="Confirm New password"
+                    id="password-input2">
+                @error('new_password_confirmation')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="col-lg-12">
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
                                     </div>
                                 </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div>
+                    <!--end row-->
 
-                                <div class="card-body">
-
-                                    <div class="row align-items-center">
-                                        <div class="col-6">
-                                            <h6
-                                                class="text-muted text-uppercase fw-semibold text-truncate fs-12 mb-3">
-                                                Total Referrals Page</h6>
-                                            <h4 class="fs- mb-0">725,800</h4>
-                                            <p class="mb-0 mt-2 text-muted"><span
-                                                    class="badge badge-soft-success mb-0"> <i
-                                                        class="ri-arrow-up-line align-middle"></i> 15.72 % </span> vs.
-                                                previous month</p>
-                                        </div><!-- end col -->
-                                        <div class="col-6">
-                                            <div class="text-center">
-                                                <img src="assets/images/illustrator-1.png" class="img-fluid"
-                                                    alt="">
-                                            </div>
-                                        </div><!-- end col -->
-                                    </div><!-- end row -->
-                                    <div class="mt-3 pt-2">
-                                        <div class="progress progress-lg rounded-pill">
-                                            <div class="progress-bar bg-primary" role="progressbar"
-                                                style="width: 25%" aria-valuenow="25" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                            <div class="progress-bar bg-info" role="progressbar"
-                                                style="width: 18%" aria-valuenow="18" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                            <div class="progress-bar bg-success" role="progressbar"
-                                                style="width: 22%" aria-valuenow="22" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                            <div class="progress-bar bg-warning" role="progressbar"
-                                                style="width: 16%" aria-valuenow="16" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                            <div class="progress-bar bg-danger" role="progressbar"
-                                                style="width: 19%" aria-valuenow="19" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                        </div>
-                                    </div><!-- end -->
-
-                                    <div class="mt-3 pt-2">
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <p class="text-truncate text-muted fs-14 mb-0">
-                                                    <i
-                                                        class="mdi mdi-circle align-middle text-primary me-2"></i>www.google.com
-                                                </p>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <p class="mb-0">24.58%</p>
-                                            </div>
-                                        </div><!-- end -->
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <p class="text-truncate text-muted fs-14 mb-0">
-                                                    <i
-                                                        class="mdi mdi-circle align-middle text-info me-2"></i>www.youtube.com
-                                                </p>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <p class="mb-0">17.51%</p>
-                                            </div>
-                                        </div><!-- end -->
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <p class="text-truncate text-muted fs-14 mb-0">
-                                                    <i
-                                                        class="mdi mdi-circle align-middle text-success me-2"></i>www.meta.com
-                                                </p>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <p class="mb-0">23.05%</p>
-                                            </div>
-                                        </div><!-- end -->
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <p class="text-truncate text-muted fs-14 mb-0">
-                                                    <i
-                                                        class="mdi mdi-circle align-middle text-warning me-2"></i>www.medium.com
-                                                </p>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <p class="mb-0">12.22%</p>
-                                            </div>
-                                        </div><!-- end -->
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-truncate text-muted fs-14 mb-0">
-                                                    <i class="mdi mdi-circle align-middle text-danger me-2"></i>Other
-                                                </p>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <p class="mb-0">17.58%</p>
-                                            </div>
-                                        </div><!-- end -->
-                                    </div><!-- end -->
-
-                                    <div class="mt-2 text-center">
-                                        <a href="javascript:void(0);"
-                                            class="text-muted text-decoration-underline">Show All</a>
-                                    </div>
-
-                                </div><!-- end card body -->
-                            </div><!-- end card -->
-                        </div><!-- end col -->
-
-                        <div class="col-xl-4 col-md-6">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Top Pages</h4>
-                                    <div class="flex-shrink-0">
-                                        <div class="dropdown card-header-dropdown">
-                                            <a class="text-reset" href="#" data-bs-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false">
-                                                <span class="text-muted fs-16"><i
-                                                        class="mdi mdi-dots-vertical align-middle"></i></span>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="#">Today</a>
-                                                <a class="dropdown-item" href="#">Last Week</a>
-                                                <a class="dropdown-item" href="#">Last Month</a>
-                                                <a class="dropdown-item" href="#">Current Year</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><!-- end card header -->
-                                <div class="card-body">
-                                    <div class="table-responsive table-card">
-                                        <table
-                                            class="table align-middle table-borderless table-centered table-nowrap mb-0">
-                                            <thead class="text-muted table-light">
-                                                <tr>
-                                                    <th scope="col" style="width: 62;">Active Page</th>
-                                                    <th scope="col">Active</th>
-                                                    <th scope="col">Users</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <a href="javascript:void(0);">/themesbrand/skote-25867</a>
-                                                    </td>
-                                                    <td>99</td>
-                                                    <td>25.3%</td>
-                                                </tr><!-- end -->
-                                                <tr>
-                                                    <td>
-                                                        <a href="javascript:void(0);">/dashonic/chat-24518</a>
-                                                    </td>
-                                                    <td>86</td>
-                                                    <td>22.7%</td>
-                                                </tr><!-- end -->
-                                                <tr>
-                                                    <td>
-                                                        <a href="javascript:void(0);">/skote/timeline-27391</a>
-                                                    </td>
-                                                    <td>64</td>
-                                                    <td>18.7%</td>
-                                                </tr><!-- end -->
-                                                <tr>
-                                                    <td>
-                                                        <a href="javascript:void(0);">/themesbrand/minia-26441</a>
-                                                    </td>
-                                                    <td>53</td>
-                                                    <td>14.2%</td>
-                                                </tr><!-- end -->
-                                                <tr>
-                                                    <td>
-                                                        <a href="javascript:void(0);">/dashon/dashboard-29873</a>
-                                                    </td>
-                                                    <td>33</td>
-                                                    <td>12.6%</td>
-                                                </tr><!-- end -->
-                                                <tr>
-                                                    <td>
-                                                        <a href="javascript:void(0);">/doot/chats-29964</a>
-                                                    </td>
-                                                    <td>20</td>
-                                                    <td>10.9%</td>
-                                                </tr><!-- end -->
-                                                <tr>
-                                                    <td>
-                                                        <a href="javascript:void(0);">/minton/pages-29739</a>
-                                                    </td>
-                                                    <td>10</td>
-                                                    <td>07.3%</td>
-                                                </tr><!-- end -->
-                                            </tbody><!-- end tbody -->
-                                        </table><!-- end table -->
-                                    </div><!-- end -->
-                                </div><!-- end cardbody -->
-                            </div><!-- end card -->
-                        </div><!-- end col -->
-                    </div><!-- end row -->
-
-                </div>
-                <!-- container-fluid -->
+                </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
 
+
             <footer class="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="text-center">
-                                <p class="mb-0 text-muted">&copy;
-                                    Kareliya. All rights reserved.
-                                </p>
-                            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">&copy;
+                                 Kareliya. All rights reserved.
+                            </p>
                         </div>
                     </div>
                 </div>
-            </footer>
+            </div>
+        </footer>
         </div>
         <!-- end main content-->
 
@@ -1694,16 +1178,21 @@
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
 
-    <!-- apexcharts -->
-    <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <!-- Vector map-->
-    <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-    <script src="assets/libs/jsvectormap/maps/world-merc.js"></script>
+    <!--datatable js-->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-    <!-- Dashboard init -->
-    <script src="assets/js/pages/dashboard-analytics.init.js"></script>
-
+    <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
 </body>

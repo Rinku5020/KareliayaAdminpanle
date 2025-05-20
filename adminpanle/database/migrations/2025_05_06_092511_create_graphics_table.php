@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('graphics', function (Blueprint $table) {
             $table->id();
+            $table->string('account_id')->nullable();
             $table->enum('type', ['image', 'video']);
             $table->string('media_id');
             $table->string('name');

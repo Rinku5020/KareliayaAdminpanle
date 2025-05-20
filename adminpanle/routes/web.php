@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DigitalController;
 use App\Http\Controllers\DisplayController;
@@ -52,6 +51,17 @@ Route::middleware('check.login')->group(function () {
     // profile
     Route::get('/profile', [Controller::class, 'profile'])->name('profile');
     Route::post('/update-password/{id}', [Controller::class, 'updatePass'])->name('updatePass');
+    // approval and decline & User Management
+    Route::get('/approval', [Controller::class, 'showApproval'])->name('approval');
+    Route::post('/approve-user/{id}', [Controller::class, 'approveUser'])->name('approveUser');
+    Route::post('/users/decline/{id}', [Controller::class, 'declineUser'])->name('declineUser');
+    Route::get('/userlist', [Controller::class, 'userlist'])->name('userlist');
+    Route::delete('/deleteUser/{user}', [Controller::class, 'DeleteUser'])->name('DeleteUser');
+    Route::get('/editUser/{user}', [Controller::class, 'editUser'])->name('editUser');
+    Route::put('/editUserUpdate/{user}', [Controller::class, 'editUser'])->name('editUserUpdate');
+
+   
+  
 
 });
 
@@ -76,23 +86,7 @@ Route::post('/resetpassword', [Controller::class, 'resetPasswordUpdate'])->name(
 Route::post('/logout', [Controller::class, 'logout'])->name('logout');
 Route::post('/logout', [Controller::class, 'logout'])->name('logout');
 
-// Layout 
-Route::get('/layout', [LayoutController::class, 'showLayout'])->name('layout');
-Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
-Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
-Route::post('/layout/status/{id}', [LayoutController::class, 'status'])->name('layoutstatus');
-Route::get('/edit_layout/{id}', [LayoutController::class, 'editLayout'])->name('editLayout');
-Route::put('/update_layout/{id}', [LayoutController::class, 'updateLayout'])->name('updateLayout');
 
-
-// Display Routes
-Route::get('/display', [DisplayController::class, 'showDisplay'])->name('display');
-Route::get('/add-display', [DisplayController::class, 'addDisplay'])->name('addDisplay');
-Route::post('/display-create', [DisplayController::class, 'createDisplay'])->name('createDisplay');
-Route::get('/edit-display/{display_id}', [DisplayController::class, 'editDisplay'])->name('editDisplay');
-Route::put('/update-display/{display_id}', [DisplayController::class, 'updateDisplay'])->name('updateDisplay');
-Route::delete('/delete-display/{id}', [DisplayController::class, 'deleteDisplay'])->name('deleteDisplay');
-Route::post('/display/status/{id}', [DisplayController::class, 'status'])->name('status');
 
 
 

@@ -2,21 +2,19 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-    <base href="{{ asset('/public') }}">
+
     <meta charset="utf-8" />
     <title>Kareliya Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="uploads/logo/kareliya_logo.png">
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-    <!-- Layout config Js -->
-    <script src="assets/js/layout.js"></script>
+
+    <!-- plugin css -->
+    <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+    {{-- Sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap Css -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -25,17 +23,39 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/css/layout.css" rel="stylesheet" />
-    <!-- Bootstrap Bundle includes Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <!--datatable responsive css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+
 
 </head>
 
 <body>
+    @if (Session::has('success'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                text: "{{ Session::get('success') }}",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                width: 'auto',
+                padding: '0.5rem',
+                customClass: {
+                    container: 'swal2-toast-container',
+                    popup: 'swal2-toast'
+                }
+            });
+        </script>
+    @endif
     <!-- Begin page -->
     <div id="layout-wrapper">
+
         <header id="page-topbar">
             <div class="layout-width">
                 <div class="navbar-header">
@@ -51,6 +71,7 @@
                                 </span>
                             </a>
                         </div>
+
                         <button type="button"
                             class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
                             id="topnav-hamburger-icon">
@@ -60,6 +81,7 @@
                                 <span></span>
                             </span>
                         </button>
+
                         <!-- App Search-->
                         <form class="app-search d-none d-md-block">
                             <div class="position-relative">
@@ -75,6 +97,7 @@
                                     <div class="dropdown-header">
                                         <h6 class="text-overflow text-muted mb-0 text-uppercase">Recent Searches</h6>
                                     </div>
+
                                     <div class="dropdown-item bg-transparent text-wrap">
                                         <a href="index.html" class="btn btn-soft-secondary btn-sm btn-rounded">how to
                                             setup <i class="mdi mdi-magnify ms-1"></i></a>
@@ -85,25 +108,30 @@
                                     <div class="dropdown-header mt-2">
                                         <h6 class="text-overflow text-muted mb-1 text-uppercase">Pages</h6>
                                     </div>
+
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="ri-bubble-chart-line align-middle fs-18 text-muted me-2"></i>
                                         <span>Analytics Dashboard</span>
                                     </a>
+
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="ri-lifebuoy-line align-middle fs-18 text-muted me-2"></i>
                                         <span>Help Center</span>
                                     </a>
+
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="ri-user-settings-line align-middle fs-18 text-muted me-2"></i>
                                         <span>My account settings</span>
                                     </a>
+
                                     <!-- item-->
                                     <div class="dropdown-header mt-2">
                                         <h6 class="text-overflow text-muted mb-2 text-uppercase">Members</h6>
                                     </div>
+
                                     <div class="notification-list">
                                         <!-- item -->
                                         <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
@@ -140,6 +168,7 @@
                                         </a>
                                     </div>
                                 </div>
+
                                 <div class="text-center pt-3 pb-1">
                                     <a href="pages-search-results.html" class="btn btn-primary btn-sm">View All
                                         Results <i class="ri-arrow-right-line ms-1"></i></a>
@@ -147,7 +176,9 @@
                             </div>
                         </form>
                     </div>
+
                     <div class="d-flex align-items-center">
+
                         <div class="dropdown d-md-none topbar-head-dropdown header-item">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -168,8 +199,11 @@
                                 </form>
                             </div>
                         </div>
+
                         <div class="dropdown ms-1 topbar-head-dropdown header-item">
+
                             <div class="dropdown-menu dropdown-menu-end">
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language py-2"
                                     data-lang="en" title="English">
@@ -177,6 +211,7 @@
                                         height="18">
                                     <span class="align-middle">English</span>
                                 </a>
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="sp" title="Spanish">
@@ -184,12 +219,14 @@
                                         height="18">
                                     <span class="align-middle">Española</span>
                                 </a>
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="gr" title="German">
                                     <img src="assets/images/flags/germany.svg" alt="user-image" class="me-2 rounded"
                                         height="18"> <span class="align-middle">Deutsche</span>
                                 </a>
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="it" title="Italian">
@@ -197,6 +234,7 @@
                                         height="18">
                                     <span class="align-middle">Italiana</span>
                                 </a>
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="ru" title="Russian">
@@ -204,6 +242,7 @@
                                         height="18">
                                     <span class="align-middle">русский</span>
                                 </a>
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="ch" title="Chinese">
@@ -211,6 +250,7 @@
                                         height="18">
                                     <span class="align-middle">中国人</span>
                                 </a>
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="fr" title="French">
@@ -220,7 +260,9 @@
                                 </a>
                             </div>
                         </div>
+
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
+
                             <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
                                 <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
                                     <div class="row align-items-center">
@@ -233,6 +275,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="p-2">
                                     <div class="row g-0">
                                         <div class="col">
@@ -254,6 +297,7 @@
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="row g-0">
                                         <div class="col">
                                             <a class="dropdown-icon-item" href="#!">
@@ -277,7 +321,9 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
+
                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 dropdown-menu-cart"
                                 aria-labelledby="page-header-cart-dropdown">
                                 <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -329,6 +375,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-2.png"
@@ -353,6 +400,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-3.png"
@@ -378,6 +426,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-6.png"
@@ -403,6 +452,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-5.png"
@@ -437,24 +487,28 @@
                                             <h5 class="m-0" id="cart-item-total">$1258.58</h5>
                                         </div>
                                     </div>
+
                                     <a href="apps-ecommerce-checkout.html" class="btn btn-success text-center w-100">
                                         Checkout
                                     </a>
                                 </div>
                             </div>
                         </div>
+
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 data-toggle="fullscreen">
                                 <i class='bx bx-fullscreen fs-22'></i>
                             </button>
                         </div>
+
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
                                 <i class='bx bx-moon fs-22'></i>
                             </button>
                         </div>
+
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
@@ -466,6 +520,7 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                                 aria-labelledby="page-header-notifications-dropdown">
+
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
                                     <div class="p-3">
                                         <div class="row align-items-center">
@@ -477,6 +532,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="px-2 pt-2">
                                         <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom"
                                             data-dropdown-tabs="true" id="notificationItemsTab" role="tablist">
@@ -500,7 +556,9 @@
                                             </li>
                                         </ul>
                                     </div>
+
                                 </div>
+
                                 <div class="tab-content" id="notificationItemsTabContent">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab"
                                         role="tabpanel">
@@ -538,6 +596,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative active">
                                                 <div class="d-flex">
@@ -567,6 +626,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative">
                                                 <div class="d-flex">
@@ -598,6 +658,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative">
                                                 <div class="d-flex">
@@ -626,6 +687,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="my-3 text-center">
                                                 <button type="button"
                                                     class="btn btn-soft-success waves-effect waves-light">View
@@ -633,7 +695,9 @@
                                                         class="ri-arrow-right-line align-middle"></i></button>
                                             </div>
                                         </div>
+
                                     </div>
+
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
                                         aria-labelledby="messages-tab">
                                         <div data-simplebar style="max-height: 300px;" class="pe-2">
@@ -664,6 +728,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="assets/images/users/avatar-2.jpg"
@@ -692,6 +757,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="assets/images/users/avatar-6.jpg"
@@ -720,6 +786,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="assets/images/users/avatar-8.jpg"
@@ -747,6 +814,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="my-3 text-center">
                                                 <button type="button"
                                                     class="btn btn-soft-success waves-effect waves-light">View
@@ -768,6 +836,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="dropdown ms-sm-3 header-item topbar-user">
                             <button type="button" class="btn" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -848,19 +917,28 @@
                     <i class="ri-record-circle-line"></i>
                 </button>
             </div>
+
             <div id="scrollbar">
                 <div class="container-fluid">
+
                     <div id="two-column-menu">
                     </div>
                     <ul class="navbar-nav " id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{ route('dashboard') }}">
+                            <a class="nav-link menu-link" href="{{route('dashboard')}}" data-bs-toggle="" role="button"
+                                aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
+
+
+
+
+
+
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{ route('store') }}">
+                            <a class="nav-link menu-link" href="{{route('store')}}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarLayouts">
@@ -877,15 +955,22 @@
                                         <a href="" target="_blank" class="nav-link"
                                             data-key="t-horizontal">Demo3</a>
                                     </li>
+
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
+
+
+
+
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('display') }}">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">Display</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarPages">
                                 <ul class="nav nav-sm flex-column">
+
                                     <li class="nav-item">
                                         <a href="#sidebarProfile" class="nav-link" data-bs-toggle="collapse"
                                             role="button" aria-expanded="false" aria-controls="sidebarProfile"
@@ -908,541 +993,241 @@
                                 </ul>
                             </div>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('graphics') }}">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Graphics And Video</span>
                             </a>
                         </li>
+<<<<<<< HEAD:adminpanle/resources/views/layout/editlayout.blade.php
                         {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('template') }}">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
                         </li> --}}
+=======
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="{{ route('template') }}">
+                                <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
+                            </a>
+
+                        </li>
+
+>>>>>>> a7c6b1c44822a4f1e66d7264eed40348153c354b:adminpanle/resources/views/graphics/profile.blade.php
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('layout') }}">
                                 <i class="ri-honour-line"></i> <span data-key="t-widgets">Layout</span>
                             </a>
                         </li>
+
+
                     </ul>
                 </div>
                 <!-- Sidebar -->
             </div>
+
             <div class="sidebar-background"></div>
         </div>
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->
         <div class="vertical-overlay"></div>
+
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
+
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="col-xl-12 mx-auto">
-                        <div class="card container">
-                            <div class="card-header  d-flex justify-content-between ">
-                                <a href="{{ route('layout') }}" class="bi bi-arrow-left-circle-fill "
-                                    style="font-size: 25px"></a>
-                                <h4 class="card-title mb-0 fw-semibold">Edit Playlist</h4>
-                            </div>
-                            <!-- end card header -->
-                            <div class="card-body form-steps">
-                                <form id="layoutForm" action="{{ route('updateLayout', $layout->id) }}"
-                                    method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="step-arrow-nav mb-4">
-                                        <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="step-gen-info-tab"
-                                                    data-bs-toggle="pill" data-bs-target="#step-gen-info"
-                                                    type="button" role="tab" aria-controls="step-gen-info"
-                                                    aria-selected="true">
-                                                    Select Display
-                                                </button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="step-description-info-tab"
-                                                    data-bs-toggle="pill" data-bs-target="#step-description-info"
-                                                    type="button" role="tab"
-                                                    aria-controls="step-description-info" aria-selected="false">
-                                                    Select Zone
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- Step 1 -->
-                                    <div class="tab-content">
-                                        <div class="tab-pane fade show active" id="step-gen-info" role="tabpanel"
-                                            aria-labelledby="step-gen-info-tab">
-                                            <div>
+
+
+
+                    <div class="row">
+                        <div class="col-xl-6 mx-auto">
+                            <div class="card">
+                                <div class="card-header align-items-center d-flex">
+                                    <h4 class="card-title mb-0 flex-grow-1">User Profile</h4>
+                                </div><!-- end card header -->
+                                <div class="card-body">
+                                    <div class="live-preview">
+                                        <form action="{{ route('updatePass', $user->id) }}" method="POST">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="firstNameinput" class="form-label">First
+                                                            Name</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Enter your firstname" id="firstNameinput"
+                                                            value="{{ $user->name }}" disabled>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="emailidInput" class="form-label">Email</label>
+                                                        <input type="email" class="form-control"
+                                                            placeholder="example@gmail.com" id="emailidInput"
+                                                            value="{{ $user->email }}" disabled>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <div class="text-end">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            id="toggle-password-section">Change Password</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="password-section" style="display: none;">
                                                 <div class="row">
-                                                    <div class="col-lg-12 mb-3">
-                                                        <h4 for="" class="form-label">Display Type</h4>
-                                                    </div>
-                                                    <div class="layout-selector">
-                                                        <!-- Layout 1 -->
-                                                        <label class="layout-option">
-                                                            <input type="radio" name="layoutName"
-                                                                class="form-check-input" value="Layout 1"
-                                                                {{ $layout->layoutName == 'Layout 1' || old('layoutName') == 'Layout 1' ? 'checked' : '' }}>
-                                                            <span>Layout 1</span>
-                                                            <div class="layout-box"></div>
-                                                        </label>
-                                                        <!-- Layout 2 -->
-                                                        <label class="layout-option">
-                                                            <input type="radio" name="layoutName"
-                                                                class="form-check-input" value="Layout 2"
-                                                                {{ $layout->layoutName == 'Layout 2' || old('layoutName') == 'Layout 2' ? 'checked' : '' }}>
-                                                            <span>Layout 2</span>
-                                                            <div class="layout-box vertical-line"></div>
-                                                        </label>
-                                                        <!-- Layout 3 -->
-                                                        <label class="layout-option">
-                                                            <input type="radio" name="layoutName"
-                                                                class="form-check-input" value="Layout 3"
-                                                                {{ $layout->layoutName == 'Layout 3' || old('layoutName') == 'Layout 3' ? 'checked' : '' }}>
-                                                            <span>Layout 3</span>
-                                                            <div class="layout-box cross-lines"></div>
-                                                        </label>
-                                                        <!-- Layout 4 -->
-                                                        <label class="layout-option">
-                                                            <input type="radio" name="layoutName"
-                                                                class="form-check-input" value="Layout 4"
-                                                                {{ $layout->layoutName == 'Layout 4' || old('layoutName') == 'Layout 4' ? 'checked' : '' }}>
-                                                            <span>Layout 4</span>
-                                                            <div class="layout-box bottom-line"></div>
-                                                        </label>
-                                                        <!-- Layout 5 -->
-                                                        <label class="layout-option">
-                                                            <input type="radio" name="layoutName"
-                                                                class="form-check-input" value="Layout 5"
-                                                                {{ $layout->layoutName == 'Layout 5' || old('layoutName') == 'Layout 5' ? 'checked' : '' }}>
-                                                            <span>Layout 5</span>
-                                                            <div class="layout-box tall horizontal-line"></div>
-                                                        </label>
-                                                    </div>
-                                                    @error('layoutName')
-                                                        <span style="color: red"> {{ $message }} </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="row mt-5 ">
-                                                    <div class="mb-3 col-md-4">
-                                                        <label for="display-type" class="form-label">Select
-                                                            Store</label>
-                                                        <select id="storeSelect" name="store_id" class="form-control"
-                                                            required>
-                                                            <option class="text-muted" disabled selected>Select Store
-                                                            </option>
-                                                            @foreach ($stores as $store)
-                                                                <option value="{{ $store->store_id }}"
-                                                                    {{ $layout->store_id == $store->store_id || old('store_id') == $store->store_id ? 'selected' : '' }}>
-                                                                    {{ $store->store_id }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('store_id')
-                                                            <span style="color: red"> {{ $message }} </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="mb-3 col-md-4 text-center ">
-                                                        <p for="display-type" class="form-label fw-semibold">Display
-                                                            Type</p>
-                                                        <label class="form-check-label">
-                                                            <input type="radio" name="displayMode"
-                                                                class="form-check-input" required value="Portrait"
-                                                                {{ $layout->displayMode == 'Portrait' || old('displayMode') == 'Portrait' ? 'checked' : '' }}>
-                                                            Portrait</label>
-                                                        <label class="form-check-label">
-                                                            <input type="radio" name="displayMode"
-                                                                class="form-check-input" required value="Landscape"
-                                                                {{ $layout->displayMode == 'Landscape' || old('displayMode') == 'Landscape' ? 'checked' : '' }}>
-                                                            Landscape
-                                                        </label>
-                                                        @error('displayMode')
-                                                            <span style="color: red"> {{ $message }} </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="mb-3 col-md-4">
-                                                        <label for="layout-name">Playlist Name</label>
-                                                            <input type="text" class="form-control"
-                                                                name="playlistName" id="layout-name"
-                                                                value="{{ old('playlistName', $layout->playlistName) }}"
-                                                                required>
-                                                            @error('playlistName')
-                                                                <span class="text-danger">{{ $message }}</span>
-                                                            @enderror
-                                                        
-                                                    </div>
-                                                </div>
-                                                <div class="selection-container">
-                                                    <div class="selection-header text-center">Select Display</div>
-                                                    <hr>
-                                                    <div class="selection-status fw-semibold">Selected Display: 0</div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="selection-box">
-                                                                <span class="numBox" id="displayCount">0</span>
-                                                                <label for="">: Item Available</label>
-                                                                <hr>
-                                                                <select id="displaySelect" class="form-control"
-                                                                    size="6" multiple>
-                                                                    <option value={{ $layout->display_id }}
-                                                                        class="text-muted" disabled>Select Display
-                                                                    </option>
-                                                                </select>
-                                                                <button id="addBtn" class="btn btn-success mt-2"
-                                                                    disabled>Add Selected</button>
-                                                                <div class="no-data mt-2" id="noAvailableData">No Data
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="selection-box">
-                                                                <span class="numBox" id="selectedCount">0</span>
-                                                                <label for="">: Item Selected</label>
-                                                                <hr>
-                                                                <p id="selectedDisplays"
-                                                                    class="d-flex flex-wrap gap-2"></p>
-                                                                <div class="no-data" id="noSelectedData">No Data</div>
-                                                                <input type="hidden" name="selectedDisplays"
-                                                                    id="selectedDisplaysInput">
-                                                            </div>
-                                                        </div>
-                                                        @error('selectedDisplays')
-                                                            <span style="color: red"> {{ $message }} </span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-start gap-3 mt-4">
-                                                <button type="button"
-                                                    class="btn btn-success btn-label right ms-auto nexttab"
-                                                    id="next-to-step2">
-                                                    <i
-                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Continue
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <!-- Step 2 -->
-                                        <div class="tab-pane fade" id="step-description-info" role="tabpanel"
-                                            aria-labelledby="step-description-info-tab">
-                                            <div class="container">
-                                                <div class="row gy-4 justify-content-between">
-                                                    <!-- Left Column -->
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <label for="" class="form-label">Address</label>
-                                                        <textarea name="address" class="form-control">{{ $layout->address || old('address') }}</textarea>
-                                                        @error('address')
-                                                            <span style="color: red"> {{ $message }} </span>
-                                                        @enderror
-                                                        <div class="mt-3">
-                                                            <label>Logo</label>
-                                                            <div class="logoBOX">
-                                                                <input type="file" name="logo" id="logoInput"
-                                                                    accept="image/*" style="display: none;"
-                                                                    onchange="previewLogo(event)">
-                                                                <!-- Label acts as clickable image -->
-                                                                <label for="logoInput" style="cursor: pointer;">
-                                                                    <img id="logoPreview"
-                                                                        src="{{ asset('assets/images/small/blank-img.webp') }}"
-                                                                        class="img-fluid" alt="Click to upload logo">
-                                                                </label>
-                                                            </div>
-                                                            @error('logo')
-                                                                <span style="color: red"> {{ $message }} </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <!-- Table Column -->
-                                                    <div class="col-12 col-md-6 col-lg-4">
-                                                        <table class="table table-bordered">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Static Address</th>
-                                                                    <th>Logo</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>Zone1</td>
-                                                                    <td>Sliding Image</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!-- Bottom Two Columns -->
-                                                    <div class="col-12 col-md-6 col-lg-7 selection-box mt-3 gap-3">
-                                                        <!-- Zone Tabs -->
-                                                        <div class="zone-tabs mb-2 mx-auto">
-                                                            <a href="#"
-                                                                class="zone-tab fw-bold text-primary active"
-                                                                data-zone="zone1">Zone1</a>
-                                                            <a href="#" class="zone-tab fw-bold text-primary"
-                                                                data-zone="zone2">Zone2</a>
-                                                            <a href="#" class="zone-tab fw-bold text-primary"
-                                                                data-zone="zone3">Zone3</a>
-                                                            <a href="#" class="zone-tab fw-bold text-primary"
-                                                                data-zone="zone4">Zone4</a>
-                                                        </div>
-                                                        <hr>
-                                                        <!-- Zone-wise Tables -->
-                                                        <div class="zone-tables">
-                                                            <!-- Zone1 -->
-                                                            <div class="zone-table" id="table-zone1">
-                                                                <p class="text-danger">Zone:1</p>
-                                                                <table class="table table-bordered">
-                                                                    <thead class="bg-light">
-                                                                        <tr>
-                                                                            <th>Media</th>
-                                                                            <th>Type</th>
-                                                                            <th>Duration</th>
-                                                                            <th>Action</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody class="media-table-body" data-zone="zone1">
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <!-- Zone2 -->
-                                                            <div class="zone-table d-none" id="table-zone2">
-                                                                <p class="text-danger">Zone:2</p>
-                                                                <table class="table table-bordered">
-                                                                    <thead class="bg-light">
-                                                                        <tr>
-                                                                            <th>Media</th>
-                                                                            <th>Type</th>
-                                                                            <th>Duration</th>
-                                                                            <th>Action</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody class="media-table-body" data-zone="zone2">
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <!-- Zone3 -->
-                                                            <div class="zone-table d-none" id="table-zone3">
-                                                                <p class="text-danger">Zone:3</p>
-                                                                <table class="table table-bordered">
-                                                                    <thead class="bg-light">
-                                                                        <tr>
-                                                                            <th>Media</th>
-                                                                            <th>Type</th>
-                                                                            <th>Duration</th>
-                                                                            <th>Action</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody class="media-table-body" data-zone="zone3">
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <!-- Zone4 -->
-                                                            <div class="zone-table d-none" id="table-zone4">
-                                                                <p class="text-danger">Zone:4</p>
-                                                                <table class="table table-bordered">
-                                                                    <thead class="bg-light">
-                                                                        <tr>
-                                                                            <th>Media</th>
-                                                                            <th>Type</th>
-                                                                            <th>Duration</th>
-                                                                            <th>Action</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody class="media-table-body" data-zone="zone4">
-                                                                    </tbody>
-                                                                </table>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="password-input">New
+                                                                Password</label>
+                                                            <div class="position-relative auth-pass-inputgroup mb-3">
+                                                                <input type="password" name="new_password"
+                                                                    value="{{ old('new_password') }}"
+                                                                    class="form-control pe-5"
+                                                                    placeholder="New password" id="password-input">
+                                                                <button
+                                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                                    type="button"
+                                                                    onclick="togglePasswordVisibility()">
+                                                                    <i class="ri-eye-fill align-middle"
+                                                                        id="password-icon"></i>
+                                                                </button>
+                                                                <span class="text-danger">
+                                                                    @error('new_password')
+                                                                        {{ $message }}
+                                                                    @enderror
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" name="media" id="mediaInput">
-                                                    <div class="col-12 col-md-6 col-lg-4 selection-box mt-3">
-                                                        <div class="col-xxl-6">
-                                                            <div class="card">
-                                                                <div class="card-body">
-                                                                    <ul class="nav nav-pills arrow-navtabs nav-success bg-light mb-3 justify-content-between"
-                                                                        role="tablist">
-                                                                        <li class="nav-item">
-                                                                            <a class="nav-link active"
-                                                                                data-bs-toggle="tab"
-                                                                                href="#arrow-overview"
-                                                                                role="tab">
-                                                                                <span class="d-block d-sm-none"><i
-                                                                                        class="bi bi-card-image"></i></span>
-                                                                                <span
-                                                                                    class="d-none d-sm-block">Image</span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li class="nav-item">
-                                                                            <a class="nav-link" data-bs-toggle="tab"
-                                                                                href="#arrow-profile"
-                                                                                role="tab">
-                                                                                <span class="d-block d-sm-none"><i
-                                                                                        class="bi bi-file-earmark-play"></i></span>
-                                                                                <span
-                                                                                    class="d-none d-sm-block">Video</span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li class="nav-item">
-                                                                            <a class="nav-link" data-bs-toggle="tab"
-                                                                                href="#arrow-contact"
-                                                                                role="tab">
-                                                                                <span class="d-block d-sm-none"><i
-                                                                                        class="bi bi-file-earmark"></i></span>
-                                                                                <span
-                                                                                    class="d-none d-sm-block">Template</span>
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
-                                                                    <!-- Tab panes -->
-                                                                    <div class="tab-content text-muted">
-                                                                        <div class="tab-pane active"
-                                                                            id="arrow-overview" role="tabpanel">
-                                                                            <h4 class="text-center">Image</h4>
-                                                                            <hr>
-                                                                            <div class="row justify-content-between">
-                                                                                @foreach ($graphics as $image)
-                                                                                    @php
-                                                                                        $ext = pathinfo(
-                                                                                            $image->media_id,
-                                                                                            PATHINFO_EXTENSION,
-                                                                                        );
-                                                                                    @endphp
-                                                                                    @if (in_array(strtolower($ext), ['jpg', 'png', 'jpeg', 'svg']))
-                                                                                        <div class="col-6 mb-3 ">
-                                                                                            <a href="javascript:void(0);"
-                                                                                                class="card text-center select-media bg-light"
-                                                                                                data-name="{{ $image->media_id }}"
-                                                                                                data-type="Image"
-                                                                                                data-duration="N/A">
-                                                                                                <img src="{{ asset('uploads/media/' . $image->media_id) }}"
-                                                                                                    alt=""
-                                                                                                    class="img-fluid card-img-top">
-                                                                                                <div
-                                                                                                    class="card-body">
-                                                                                                    <strong>{{ $image->media_id }}</strong>
-                                                                                                </div>
-                                                                                            </a>
-                                                                                        </div>
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="tab-pane" id="arrow-profile"
-                                                                            role="tabpanel">
-                                                                            <h4 class="text-center">Videos</h4>
-                                                                            <hr>
-                                                                            <div class="row justify-content-between">
-                                                                                @foreach ($graphics as $item)
-                                                                                    @php
-                                                                                        $ext = pathinfo(
-                                                                                            $item->media_id,
-                                                                                            PATHINFO_EXTENSION,
-                                                                                        );
-                                                                                    @endphp
-                                                                                    @if (strtolower($ext) === 'mp4')
-                                                                                        <div class="col-6 mb-3">
-                                                                                            <a class="card bg-light select-media text-decoration-none border-0"
-                                                                                                style="display: block;"
-                                                                                                data-name="{{ $item->media_id }}"
-                                                                                                data-type="Video"
-                                                                                                data-duration="00:00">
-                                                                                                <video controls
-                                                                                                    width="100%"
-                                                                                                    poster="{{ asset('assets/images/small/blank-img.webp') }}"
-                                                                                                    class="card-img-top">
-                                                                                                    <source
-                                                                                                        src="{{ asset('uploads/media/' . $item->media_id) }}"
-                                                                                                        type="video/mp4">
-                                                                                                    Your browser does
-                                                                                                    not support the
-                                                                                                    video tag.
-                                                                                                </video>
-                                                                                            </a>
-                                                                                        </div>
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="tab-pane" id="arrow-contact"
-                                                                            role="tabpanel">
-                                                                            <h4 class="text-center">Template</h4>
-                                                                            <hr>
-                                                                            <div class="row justify-content-between">
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div><!-- end card-body -->
-                                                            </div><!-- end card -->
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="password-input2">Confirm
+                                                                New Password</label>
+                                                            <div class="position-relative auth-pass-inputgroup mb-3">
+                                                                <input type="password"
+                                                                    name="new_password_confirmation"
+                                                                    class="form-control pe-5"
+                                                                    value="{{ old('new_password_confirmation') }}"
+                                                                    placeholder="Confirm New password"
+                                                                    id="password-input2">
+                                                                <button
+                                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                                    type="button"
+                                                                    onclick="togglePasswordVisibility2()">
+                                                                    <i class="ri-eye-fill align-middle"
+                                                                        id="password-icon"></i>
+                                                                </button>
+                                                                <span class="text-danger">
+                                                                    @error('new_password_confirmation')
+                                                                        {{ $message }}
+                                                                    @enderror
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12">
+                                                        <div class="text-end">
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Submit</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="d-flex align-items-start gap-3 mt-4">
-                                                <button type="button" class="btn btn-light btn-label previestab"
-                                                    data-previous="steparrow-gen-info-tab"><i
-                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
-                                                    Back to General</button>
-                                                <button type="submit"
-                                                    class="btn btn-success btn-label right ms-auto nexttab nexttab"
-                                                    data-nexttab="pills-experience-tab"><i
-                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit
-                                                </button>
-                                            </div>
-                                        </div>
-                                </form>
+
+                                            <script>
+                                                document.getElementById('toggle-password-section').addEventListener('click', function() {
+                                                    const section = document.getElementById('password-section');
+                                                    section.style.display = section.style.display === 'none' ? 'block' : 'none';
+                                                });
+
+                                                function togglePasswordVisibility() {
+                                                    const input = document.getElementById('password-input');
+                                                    input.type = input.type === 'password' ? 'text' : 'password';
+                                                }
+
+                                                function togglePasswordVisibility2() {
+                                                    const input = document.getElementById('password-input2');
+                                                    input.type = input.type === 'password' ? 'text' : 'password';
+                                                }
+                                            </script>
+                                        </form>
+
+                                    </div>
+                                </div>
                             </div>
-                            <!-- end card body -->
-                        </div>
-                        <!-- end card -->
+                        </div> <!-- end col -->
                     </div>
-                </div><!--end col-->
+                    <!--end row-->
+
+                </div> <!-- container-fluid -->
             </div>
+            <!-- End Page-content -->
+
+
+            <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">&copy;
+                                 Kareliya. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
         </div>
         <!-- end main content-->
+
     </div>
     <!-- END layout-wrapper -->
+
+
+
     <!--start back-to-top-->
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
     </button>
     <!--end back-to-top-->
+
     <!-- JAVASCRIPT -->
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
-    <!-- form wizard init -->
-    <script src="assets/js/pages/form-wizard.init.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!--datatable js-->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+    <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-    <!-- Include SweetAlert and Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    {{-- add layout js --}}
-    <script>
-        window.displayData = {!! json_encode($displays) !!};
-    </script>
-    {{-- <script src="assets/js/addlayout.js"></script> --}}
 </body>
 
 </html>

@@ -26,6 +26,7 @@
     {{-- Leaflet Css --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
+    <link rel="stylesheet" href="assets/css/editDisplay.css">
 </head>
 
 <body>
@@ -63,7 +64,8 @@
                                     <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Small">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large" height="50">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large"
+                                        height="50">
                                 </span>
                             </a>
                         </div>
@@ -840,7 +842,8 @@
                                     <img class="rounded-circle header-profile-user"
                                         src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
+                                        <span
+                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
                                         <span
                                             class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
                                     </span>
@@ -849,7 +852,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <h6 class="dropdown-header">{{ session('user_name') }}</h6>
-                                <a class="dropdown-item" href="{{route('profile')}}"><i
+                                <a class="dropdown-item" href="{{ route('profile') }}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="apps-chat.html"><i
@@ -872,7 +875,7 @@
                                 <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
                                         class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Lock screen</span></a>
-                                <form action="{{route('logout')}}" method="post">
+                                <form action="{{ route('logout') }}" method="post">
                                     @csrf
                                     <button type="submit" class="dropdown-item">
                                         <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
@@ -935,23 +938,7 @@
                             <a class="nav-link menu-link" href="{{ route('store') }}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarLayouts">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="" target="_blank" class="nav-link"
-                                            data-key="t-horizontal">Demo1</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" target="_blank" class="nav-link"
-                                            data-key="t-horizontal">Demo2</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" target="_blank" class="nav-link"
-                                            data-key="t-horizontal">Demo3</a>
-                                    </li>
 
-                                </ul>
-                            </div>
                         </li> <!-- end Dashboard Menu -->
 
 
@@ -962,30 +949,7 @@
                             <a class="nav-link menu-link" href="{{ route('display') }}">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">Display</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarPages">
-                                <ul class="nav nav-sm flex-column">
 
-                                    <li class="nav-item">
-                                        <a href="#sidebarProfile" class="nav-link" data-bs-toggle="collapse"
-                                            role="button" aria-expanded="false" aria-controls="sidebarProfile"
-                                            data-key="t-profile"> Profile
-                                        </a>
-                                        <div class="collapse menu-dropdown" id="sidebarProfile">
-                                            <ul class="nav nav-sm flex-column">
-                                                <li class="nav-item">
-                                                    <a href="pages-profile.html" class="nav-link"
-                                                        data-key="t-simple-page">
-                                                        Simple Page </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages-profile-settings.html" class="nav-link"
-                                                        data-key="t-settings"> Settings </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
 
                         <li class="nav-item">
@@ -997,12 +961,11 @@
 
 
 
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('template') }}">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
-
-                        </li>
+                        </li> --}}
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('layout') }}">
@@ -1010,6 +973,31 @@
                             </a>
                         </li>
 
+                        @php
+                            use App\Models\User;
+                            $pendingCount = User::where('status', false)->count();
+                        @endphp
+
+                        @if (session('role') === 'admin')
+                            <li class="nav-item">
+                            <a class="nav-link menu-link">
+                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">User Management</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarLayouts">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('approval') }}"  class="nav-link"
+                                            data-key="t-horizontal">Approve Request: {{ $pendingCount }}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('userlist') }}"  class="nav-link"
+                                            data-key="t-horizontal">User List</a>
+                                    </li>
+                                
+                                </ul>
+                            </div>
+                        </li>
+                        @endif
                     </ul>
                 </div>
                 <!-- Sidebar -->
@@ -1034,7 +1022,7 @@
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
                                 <h2 class="card-title mb-0 flex-grow-1">
-                                    <a href="{{ route('store') }}" class="text-decoration-none me-2">
+                                    <a href="{{ route('display') }}" class="text-decoration-none me-2">
                                         <i class="ri-arrow-left-line"></i>
                                     </a>
                                     Add Display
@@ -1110,7 +1098,7 @@
                                                         @foreach ($stores as $store)
                                                             <option value="{{ $store->store_id }}"
                                                                 {{ (string) old('store', $display->store ?? '') === (string) $store->store_id ? 'selected' : '' }}>
-                                                                {{ $store->storeId }}
+                                                                {{ $store->storeId }} ({{ $store->name }})
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -1156,22 +1144,39 @@
                                                 <div class="mb-5 mt-2">
                                                     <label class="form-label d-block"><span
                                                             class="text-danger fs-4">*</span> Display Type</label>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio"
-                                                            id="display_landscape" value="landscape"
-                                                            name="display_mode"
-                                                            {{ old('display_mode', $display->display_mode ?? '') == 'landscape' ? 'checked' : '' }}>
-                                                        <label class="form-check-label"
-                                                            for="display_landscape">Landscape</label>
+
+                                                    <div class="row justify-content-center text-center gap-3 mt-4">
+                                                        <div class="col-auto">
+                                                            <label
+                                                                class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm"
+                                                                for="display_landscape">
+                                                                <input class="form-check-input d-none" type="radio"
+                                                                    id="display_landscape" value="landscape"
+                                                                    name="display_mode"
+                                                                    {{ old('display_mode', $display->display_mode ?? '') == 'landscape' ? 'checked' : '' }}>
+                                                                <img src="assets/images/landscape.png"
+                                                                    alt="Landscape Preview" class="img-fluid mb-2"
+                                                                    style="max-height: 180px;">
+                                                                <div>Landscape</div>
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="col-auto">
+                                                            <label
+                                                                class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm"
+                                                                for="display_portrait">
+                                                                <input class="form-check-input d-none" type="radio"
+                                                                    id="display_portrait" value="portrait"
+                                                                    name="display_mode"
+                                                                    {{ old('display_mode', $display->display_mode ?? '') == 'portrait' ? 'checked' : '' }}>
+                                                                <img src="assets/images/portrait.png"
+                                                                    alt="Portrait Preview" class="img-fluid mb-2"
+                                                                    style="max-height: 180px;">
+                                                                <div>Portrait</div>
+                                                            </label>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio"
-                                                            id="display_portrait" value="portrait"
-                                                            name="display_mode"
-                                                            {{ old('display_mode', $display->display_mode ?? '') == 'portrait' ? 'checked' : '' }}>
-                                                        <label class="form-check-label"
-                                                            for="display_portrait">Portrait</label>
-                                                    </div>
+
                                                     <span class="text-danger d-block">
                                                         @error('display_mode')
                                                             {{ $message }}
@@ -1183,7 +1188,7 @@
                                             <!-- Right Form Section -->
                                             <div class="col-md-5 shadow-lg p-3 mb-5 rounded">
                                                 <div class="mb-5 mt-2 d-flex justify-content-center">
-                                                    <div style="width:100%;height:500px;" id="map"></div>
+                                                    <div style="width:100%;height:500px;z-index:0;" id="map"></div>
                                                 </div>
 
                                                 <!-- Country -->
@@ -1206,7 +1211,8 @@
                                                             {{ old('country', $display->country ?? '') == 'Germany' ? 'selected' : '' }}>
                                                             Germany</option>
                                                     </select>
-                                                    <input type="hidden" name="country" value="{{ old('country', $display->country ?? '') }}">
+                                                    <input type="hidden" name="country"
+                                                        value="{{ old('country', $display->country ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('country')
                                                             {{ $message }}
@@ -1234,7 +1240,8 @@
                                                             {{ old('state', $display->state ?? '') == 'Hesse' ? 'selected' : '' }}>
                                                             Hesse</option>
                                                     </select>
-                                                    <input type="hidden" name="state" value="{{ old('state', $display->state ?? '') }}">
+                                                    <input type="hidden" name="state"
+                                                        value="{{ old('state', $display->state ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('state')
                                                             {{ $message }}
@@ -1262,7 +1269,8 @@
                                                             {{ old('city', $display->city ?? '') == 'Berlin' ? 'selected' : '' }}>
                                                             Berlin</option>
                                                     </select>
-                                                    <input type="hidden" name="city" value="{{ old('city', $display->city ?? '') }}">
+                                                    <input type="hidden" name="city"
+                                                        value="{{ old('city', $display->city ?? '') }}">
                                                     <span class="text-danger">
                                                         @error('city')
                                                             {{ $message }}

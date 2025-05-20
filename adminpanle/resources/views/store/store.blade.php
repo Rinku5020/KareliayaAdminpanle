@@ -943,23 +943,6 @@
                             <a class="nav-link menu-link" href="{{ route('store') }}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarLayouts">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="" target="_blank" class="nav-link"
-                                            data-key="t-horizontal">Demo1</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" target="_blank" class="nav-link"
-                                            data-key="t-horizontal">Demo2</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" target="_blank" class="nav-link"
-                                            data-key="t-horizontal">Demo3</a>
-                                    </li>
-
-                                </ul>
-                            </div>
                         </li> <!-- end Dashboard Menu -->
 
 
@@ -970,30 +953,6 @@
                             <a class="nav-link menu-link" href="{{ route('display') }}">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">Display</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarPages">
-                                <ul class="nav nav-sm flex-column">
-
-                                    <li class="nav-item">
-                                        <a href="#sidebarProfile" class="nav-link" data-bs-toggle="collapse"
-                                            role="button" aria-expanded="false" aria-controls="sidebarProfile"
-                                            data-key="t-profile"> Profile
-                                        </a>
-                                        <div class="collapse menu-dropdown" id="sidebarProfile">
-                                            <ul class="nav nav-sm flex-column">
-                                                <li class="nav-item">
-                                                    <a href="pages-profile.html" class="nav-link"
-                                                        data-key="t-simple-page">
-                                                        Simple Page </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages-profile-settings.html" class="nav-link"
-                                                        data-key="t-settings"> Settings </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
 
                         <li class="nav-item">
@@ -1002,15 +961,11 @@
                             </a>
 
                         </li>
-
-
-
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('template') }}">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
-
-                        </li>
+                        </li> --}}
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('layout') }}">

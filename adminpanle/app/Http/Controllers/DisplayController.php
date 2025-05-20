@@ -119,7 +119,7 @@ class DisplayController extends Controller
         $display->state = $request->state;
         $display->city = $request->city;
         $display->address = $request->address;
-        $display->account_id= $request->session('account_id'); // Set status based on checkbox value
+        $display->account_id = $request->session()->get('account_id');
         $display->save();   
 
         return redirect('display')->with('success','Display updated successfully');

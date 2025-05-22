@@ -1026,6 +1026,7 @@
                                                     <div class="mb-3 col-md-4 text-center ">
                                                         <p for="display-type" class="form-label fw-semibold">Display
                                                             Type</p>
+                                                       
                                                         <label class="form-check-label">
                                                             <input type="radio" name="displayMode"
                                                                 class="form-check-input" required value="portrait"
@@ -1292,10 +1293,7 @@
                                                                                                 <img src="{{ asset('uploads/media/' . $image->media_id) }}"
                                                                                                     alt=""
                                                                                                     class="img-fluid card-img-top">
-                                                                                                <div
-                                                                                                    class="card-body">
-                                                                                                    <strong>{{ $image->media_id }}</strong>
-                                                                                                </div>
+                                                                                                
                                                                                             </a>
                                                                                         </div>
                                                                                     @endif
@@ -1332,6 +1330,13 @@
                                                                                                     not support the
                                                                                                     video tag.
                                                                                                 </video>
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-primary btn-sm position-absolute"
+                                                                                                    style="bottom: 55px; right: 50px; z-index: 2;"
+                                                                                                    data-id="{{ $item->media_id }}">
+                                                                                                    <i class="bi bi-plus fs-16"></i>
+                                                                                               
+                                                                                            </button>
                                                                                             </a>
                                                                                         </div>
                                                                                     @endif

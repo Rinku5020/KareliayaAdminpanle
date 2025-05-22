@@ -1003,12 +1003,12 @@
 
 
 
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('template') }}">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
 
-                        </li>
+                        </li> --}}
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('layout') }}">
@@ -1063,7 +1063,7 @@
 
 
                     <div class="row">
-                        <div class="col-xl-12 mx-auto">
+                        <div class="col-xl-6 mx-auto">
                             <div class="card">
                                 <div class="card-header align-items-center d-flex">
                                     <h4 class="card-title mb-0 flex-grow-1">User Profile</h4>

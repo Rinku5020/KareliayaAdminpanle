@@ -13,3 +13,4 @@ Route::get('/user', function (Request $request) {
 Route::get('playlists/{id}', [ApiController::class, 'getAllData'])->name('getAllData');
 Route::post('devices', [ApiController::class, 'devices'])->name('devices');
 Route::post('verify-codes', [ApiController::class, 'verifyCode'])->name('verifyCode');
+Route::get('/get_logs', [ApiController::class, 'getLogs']);

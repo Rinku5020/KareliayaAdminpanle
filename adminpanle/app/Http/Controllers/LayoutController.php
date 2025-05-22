@@ -3,9 +3,13 @@ namespace App\Http\Controllers;
 use App\Models\Display;
 use App\Models\Graphic;
 use App\Models\layout;
+use App\Models\Logs;
 use App\Models\Media;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
+
 class LayoutController extends Controller
 {
     use ValidatesRequests;
@@ -16,9 +20,11 @@ class LayoutController extends Controller
         if ($role === 'admin') {
             $layouts = layout::all();
         } else {
-            $layouts = layout::where('account_id', $userId)->get();
+            $layouts = layout::where('account_id', $userId)->get();    
         }
         $status = [true, false];
+
+
         return view('layout.layout', compact('layouts'));
     }
     public function AddLayout(Request $request)
@@ -114,78 +120,37 @@ class LayoutController extends Controller
         $layout->save();
         return redirect()->route('layout')->with('success', 'Layout status updated successfully!');
     }
-    public function editLayout($id)
+    public function mediaLogs(request $request)
     {
-        $layout = layout::findOrFail($id);
-        $graphics = Graphic::all();
-        $stores = Display::all()->unique('store_id');
-        $displays = Display::all();
-        return view('layout.editlayout', compact('layout', 'graphics', 'stores', 'displays'));
-    }
-    public function updateLayout(Request $request, $id)
-    {
-        $layout = layout::findOrFail($id);
-        $rules = [
-            'layoutName' => 'required',
-            'store_id' => 'required',
-            'displayMode' => 'required',
-            'playlistName' => 'required',
-            'address' => 'required',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'media' => 'required|json',
-            'selectedDisplays' => 'required|json',
-        ];
-        $messages = [
-            'layoutName.required' => 'Layout Name is required',
-            'store_id.required' => 'Store ID is required',
-            'displayMode.required' => 'Display Mode is required',
-            'playlistName.required' => 'Playlist Name is required',
-            'address.required' => 'Address is required',
-            'logo.image' => 'Logo must be an image file.',
-            'logo.mimes' => 'Logo must be a file of type: jpeg, png, jpg, gif.',
-            'logo.max' => 'Logo may not be greater than 2MB.',
-            'media.required' => 'Media selection is required',
-            'selectedDisplays.required' => 'Selected Displays are required',
-        ];
-        $this->validate($request, $rules, $messages);
-        if ($request->hasFile('logo')) {
-            // Handle logo upload
-            $file = $request->file('logo');
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/layout'), $fileName);
-            $layout->logo = $fileName;
+       
+        $logs = Logs::orderBy('created_at', 'desc')->paginate(50);
+
+        $logFilePath = public_path('logs/media_log.txt');
+        $logFileUrl = null;
+
+
+        if (File::exists($logFilePath)) {
+            $logFileUrl = url('logs/media_log.txt');
         }
-        // Update layout details
-        $layout->layoutName = $request->input('layoutName');
-        $layout->store_id = $request->input('store_id');
-        $layout->displayMode = $request->input('displayMode');
-        $layout->playlistName = $request->input('playlistName');
-        $layout->address = $request->input('address');
-        // Handle selected displays
-        $displayIds = json_decode($request->input('selectedDisplays'), true);
-        // Handle media JSON input
-        // Get zone-wise media data from the form submission
-        $flatMediaList = json_decode($request->input('media'), true);
-        //
-        // Group media by zone
-        $zonesData = [
-            'zone1' => [],
-            'zone2' => [],
-            'zone3' => [],
-            'zone4' => [],
-        ];
-        foreach ($flatMediaList as $media) {
-            if (isset($media['zone']) && isset($zonesData[$media['zone']])) {
-                $zonesData[$media['zone']][] = $media;
-            }
-        }
-        // Save media data to respective zones
-        $layout->zone1 = json_encode($zonesData['zone1'] ?? []);
-        $layout->zone2 = json_encode($zonesData['zone2'] ?? []);
-        $layout->zone3 = json_encode($zonesData['zone3'] ?? []);
-        $layout->zone4 = json_encode($zonesData['zone4'] ?? []);
-        $layout->selectedDisplays = $request->input('selectedDisplays');
-        $layout->save();
-        return redirect()->route('layout')->with('success', 'Layout updated successfully.');
+
+
+       
+       return view('layout.medialogs', compact('logs'));
     }
+
+
+public function downloadDeviceLog($date, $deviceToken)
+{
+    $sanitizedToken =  $deviceToken;
+    $fileName = "media_log_{$date}_{$sanitizedToken}.txt";
+    $file = public_path("logs/$fileName");
+
+    if (file_exists($file)) {
+        return response()->download($file, $fileName, [
+            'Content-Type' => 'text/plain',
+        ]);
+    }
+
+    return redirect()->back()->with('error', "Log file for device {$deviceToken} on {$date} not found.");
+}
 }

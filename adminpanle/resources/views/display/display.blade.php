@@ -1036,7 +1036,7 @@
                                                 <tr>
                                                     <th>Display Name</th>
                                                     <th>Store</th>
-                                                    <th>Device Id</th>
+                                        
                                                     <th>Location</th>
                                                     <th>City</th>
                                                     <th>Status</th>
@@ -1054,7 +1054,7 @@
                                                     <tr>
                                                         <td class="fw-medium">{{ $displayCollection->name }}</td>
                                                         <td>{{ $matchedStore->name ?? 'N/A' }}</td>
-                                                        <td>{{ $displayCollection->deviceId }}</td>
+                                                        
                                                         <td>{{ $displayCollection->country }}</td>
                                                         <td>{{ $displayCollection->city }}</td>
                                                         <td>

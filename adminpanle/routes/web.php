@@ -28,8 +28,13 @@ Route::middleware('check.login')->group(function () {
     Route::get('/addlayout', [LayoutController::class, 'AddLayout'])->name('addlayout');
     Route::post('/layoutStore', [LayoutController::class, 'layoutStore'])->name('layoutStore');
     Route::post('/layout/status/{id}', [LayoutController::class, 'status'])->name('layoutstatus');
-    Route::get('/edit_layout/{id}', [LayoutController::class, 'editLayout'])->name('editLayout');
-    Route::put('/update_layout/{id}', [LayoutController::class, 'updateLayout'])->name('updateLayout');
+    Route::get('/layout/mediaLogs/{id}', [LayoutController::class, 'mediaLogs'])->name('mediaLogs');
+    Route::get('/log-table', [LayoutController::class, 'showSimpleLogTable'])->name('log.table');
+Route::get('/download/media-log/{date}/{deviceToken}', [LayoutController::class, 'downloadDeviceLog'])->name('downloadDeviceLog');
+
+   
+
+   
 
     // Graphics and Videos Controller
     Route::get('/graphics', [GraphicsController::class, 'showGraphicsAndVideos'])->name('graphics');

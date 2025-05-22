@@ -1,0 +1,6 @@
+[2025-05-22 13:01:12] Device: 645f045f771a5430 | currenttime: 22/5/2025, 18:30:58, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918398.png
+currenttime: 22/5/2025, 18:31:08, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918407.mp4
+[2025-05-22 13:02:12] Device: 645f045f771a5430 | currenttime: 22/5/2025, 18:32:09, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918398.png
+[2025-05-22 13:03:12] Device: 645f045f771a5430 | currenttime: 22/5/2025, 18:32:19, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918407.mp4
+[2025-05-22 13:04:12] Device: 645f045f771a5430 | currenttime: 22/5/2025, 18:33:20, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918398.png
+currenttime: 22/5/2025, 18:33:30, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918407.mp4

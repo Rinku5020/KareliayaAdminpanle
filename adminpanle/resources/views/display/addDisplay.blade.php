@@ -1158,7 +1158,7 @@
                                                                     {{ old('display_mode') == 'portrait' ? 'checked' : '' }}>
                                                                 <img src="assets/images/portrait.png"
                                                                     alt="Portrait Preview" class="img-fluid mb-2"
-                                                                    style="max-height: 180px;">
+                                                                    style="max-height: 150px;">
                                                                 <div>Portrait</div>
                                                             </label>
                                                         </div>

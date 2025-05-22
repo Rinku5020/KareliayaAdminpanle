@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
+
 <head>
-    <base href="{{asset('/public')}}">
+    <base href="{{ asset('/public') }}">
     <meta charset="utf-8" />
     <title>Kareliya Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,6 +33,7 @@
     .swal-toast-popup {
         align-items: center;
     }
+
     .swal-toast-title {
         margin: 0;
         flex-grow: 1;
@@ -39,11 +41,13 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
     .swal-toast-close {
         position: static;
         margin-left: 10px;
     }
 </style>
+
 <body>
     @if (Session::has('success'))
         <script>
@@ -98,7 +102,8 @@
                                     <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Small">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large" height="50">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large"
+                                        height="50">
                                 </span>
                             </a>
                         </div>
@@ -826,7 +831,8 @@
                                     <img class="rounded-circle header-profile-user"
                                         src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
+                                        <span
+                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
                                         <span
                                             class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
                                     </span>
@@ -835,7 +841,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <h6 class="dropdown-header">{{ session('user_name') }}</h6>
-                                <a class="dropdown-item" href="{{route('profile')}}"><i
+                                <a class="dropdown-item" href="{{ route('profile') }}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="apps-chat.html"><i
@@ -858,7 +864,7 @@
                                 <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
                                         class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Lock screen</span></a>
-                                <form action="{{route('logout')}}" method="post">
+                                <form action="{{ route('logout') }}" method="post">
                                     @csrf
                                     <button type="submit" class="dropdown-item">
                                         <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
@@ -913,7 +919,7 @@
                             <a class="nav-link menu-link" href="{{ route('store') }}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
-                            
+
                         </li> <!-- end Dashboard Menu -->
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('display') }}">
@@ -943,23 +949,23 @@
 
                         @if (session('role') === 'admin')
                             <li class="nav-item">
-                            <a class="nav-link menu-link">
-                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">User Management</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarLayouts">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="{{ route('approval') }}"  class="nav-link"
-                                            data-key="t-horizontal">Approve Request: {{ $pendingCount }}</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('userlist') }}"  class="nav-link"
-                                            data-key="t-horizontal">User List</a>
-                                    </li>
-                                
-                                </ul>
-                            </div>
-                        </li>
+                                <a class="nav-link menu-link">
+                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">User Management</span>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarLayouts">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('approval') }}" class="nav-link"
+                                                data-key="t-horizontal">Approve Request: {{ $pendingCount }}</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('userlist') }}" class="nav-link"
+                                                data-key="t-horizontal">User List</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </li>
                         @endif
                     </ul>
                 </div>
@@ -982,49 +988,37 @@
                                 <div class="card-header d-flex align-items-center">
                                     <h5 class="card-title mb-0 flex-grow-1">Layout</h5>
                                     <div>
-                                        <a href="{{ route('addlayout') }}" class="btn btn-primary">Add Layout</a>
+                                        <a href="{{ route('layout') }}" class="btn btn-primary">Back</a>
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive">
-                                    <table id="add-rows" class="table table-striped table-bordered nowrap display"
+                                    <table id="add-rows" class="display table table-bordered"
                                         style="width:100%">
-                                        <thead class="bg-light">
+                                        <thead>
                                             <tr>
-                                                <th>SL. No.</th>
-                                                <th>Unique Code</th>
-                                                <th>Playlist</th>
-                                                <th>Assigned Display</th>
+                                                <th>Index</th>
+                                                <th>Device_Token</th>
                                                 <th>Action</th>
+
+                                                <th>created_at</th>
+                                                <th>updated_at</th>
+                                                <th>Download</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($layouts as $layout)
+                                            @foreach ($logs as $log)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $layout->unique_id }}</td>
-                                                    <td>{{ $layout->playlistName }}</td>
+                                                    <td>{{ $log->device_token }}</td>
+                                                    <td>{{ $log->action }}</td>
+                                                    <td>{{ $log->created_at }}</td>
+                                                    <td>{{ $log->updated_at }}</td>
                                                     <td>
-                                                        {{ is_array(json_decode($layout->selectedDisplays))
-                                                            ? implode(', ', json_decode($layout->selectedDisplays))
-                                                            : $layout->selectedDisplays }}
+                                                     <a href="{{ route('downloadDeviceLog', ['date' => \Carbon\Carbon::parse($log->created_at)->format('Y-m-d'), 'deviceToken' => $log->device_token]) }}"
+                                                        class="btn btn-sm btn-primary">
+                                                            <i class="fas fa-download"></i> Download Log
+                                                        </a>
                                                     </td>
-                                                    <td class="d-flex gap-3" >
-                                                        <a href="" class="btn btn-sm btn-primary">
-                                                            <i class="bi bi-pencil-square fs-6"></i>
-                                                        </a>
-                                                        <form action="{{ route('layoutstatus', $layout->id) }}"
-                                                            method="POST" class="status-form d-inline">
-                                                            @csrf
-                                                            <button type="button"
-                                                                class="btn btn-sm {{ $layout->status == 0 ? 'btn-danger' : 'btn-success' }} change-status-btn"
-                                                                data-layout-id="{{ $layout->id }}">
-                                                                <i class="bi bi-ban fs-6"></i>
-                                                            </button>
-                                                        </form>
-                                                       <a href="{{ route('mediaLogs', $layout->id) }}" class="btn btn-sm btn-info">
-                                                          <i class="bi bi-card-checklist fs-6"></i>
-                                                        </a>
-                                                        </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -1066,28 +1060,7 @@
     <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.change-status-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const form = this.closest('form');
-                    const layoutId = this.getAttribute('data-layout-id');
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You are about to change the status!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, change it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+
 </body>
+
 </html>

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\layout;
+use App\Models\Logs;
 use App\Models\Verifycode;
 use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -100,6 +102,7 @@ class ApiController extends Controller
                 'stores' => [$layout->store_id],
                 'displayMode' => $layout->displayMode,
                 'displaysize' => $layout->layoutName,
+                'displayStatus' => (bool) $layout->status,
                 'selectedDisplays' => json_decode($layout->selectedDisplays, true),
                 'logo' => $logo,
                 'scheduleType' => 'fixed',
@@ -176,7 +179,9 @@ class ApiController extends Controller
             'display' => 'required|array',
             'display.width' => 'required|numeric',
             'display.height' => 'required|numeric',
+            'logFileContents' => 'sometimes|string',
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'error' => true,
@@ -185,8 +190,9 @@ class ApiController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
+
         $data = $validator->validated();
-        // ✅ Sirf existing device find karo
+
         $device = Verifycode::where('device_token', $data['deviceToken'])->first();
         if (!$device) {
             return response()->json([
@@ -194,14 +200,52 @@ class ApiController extends Controller
                 'playListStatus' => false,
                 'message' => 'Device not found',
                 'data' => [],
-                'playlist' => (object)[]
+                'playlist' => (object)[],
             ]);
         }
-        // ✅ Uske unique_code se layout dhundo
+
+if (!empty($data['logFileContents'])) {
+    $logContent = $data['logFileContents'];
+    $logLines = explode("\n", $logContent);
+    $timestamp = now()->toDateTimeString();
+
+    $combinedMessage = '';
+    foreach ($logLines as $line) {
+        if (trim($line)) {
+            $combinedMessage .= "$line\n";
+        }
+    }
+    $combinedMessage = trim($combinedMessage);
+
+    // Update or create DB log entry
+    $log = Logs::updateOrCreate(
+        ['device_token' => $data['deviceToken']],
+        [
+            'action' => 'isOnlineCheck',
+            'message' => $combinedMessage,
+            'updated_at' => now()
+        ]
+    );
+
+    // File log creation
+    $date = now()->format('Y-m-d');
+    $deviceToken = $data['deviceToken']; 
+    $logFolder = public_path('logs');
+    $logFilePath = "$logFolder/media_log_{$date}_{$deviceToken}.txt";
+
+    if (!File::exists($logFolder)) {
+        File::makeDirectory($logFolder, 0755, true);
+    }
+
+    $formattedLogs = "[$timestamp] Device: {$data['deviceToken']} | $combinedMessage" . PHP_EOL;
+    File::append($logFilePath, $formattedLogs);
+}
+
+        // ✅ Layout / Playlist logic
         $layout = layout::where('unique_id', $device->unique_code)->first();
-        // ✅ Playlist response structure parse karo
-         $playlistResponse = $layout ? $this->getAllData($layout->id) : null;
+        $playlistResponse = $layout ? $this->getAllData($layout->id) : null;
         $playlistData = $playlistResponse ? $playlistResponse->getData(true) : [];
+
         return response()->json([
             'status' => true,
             'playListStatus' => (bool)$layout,
@@ -218,6 +262,33 @@ class ApiController extends Controller
                 '__v' => 0
             ],
             'playlist' => $playlistData['data'] ?? (object)[]
+        ]);
+    }
+
+
+
+    // log api
+
+
+    public function getLogs(Request $request)
+    {
+
+        $logs = Logs::orderBy('created_at', 'desc')->paginate(50);
+
+        $logFilePath = public_path('logs/media_log.txt');
+        $logFileUrl = null;
+
+
+        if (File::exists($logFilePath)) {
+            $logFileUrl = url('logs/media_log.txt');
+        }
+
+        
+        return response()->json([
+            'error' => false,
+            'status' => true,
+            'log_file' => $logFileUrl,
+            'data' => $logs
         ]);
     }
 }

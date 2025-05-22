@@ -196,14 +196,18 @@ class Controller
 
         return redirect()->back()->with('success', 'User declined');
     }
-    public function userlist(User $user)
-    {
-        if (session('role') !== 'admin') {
-            abort(403, 'Unauthorized action.');
-        }
-        $users = User::all();
-        return view('auth.userlist', compact('users'));
+public function userlist(User $user)
+{
+    if (session('role') !== 'admin') {
+        abort(403, 'Unauthorized action.');
     }
+
+    // Exclude users with the 'admin' role
+    $users = User::where('role', '!=', 'admin')->get();
+
+    return view('auth.userlist', compact('users'));
+}
+
 
     public function DeleteUser(User $user)
     {

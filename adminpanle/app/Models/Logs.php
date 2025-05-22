@@ -9,16 +9,13 @@ class Logs extends Model
 {
     use HasFactory;
 
-    protected $table = 'device_status_logs';
+
 
     protected $fillable = [
-        'device_token',
+        'device_token', 
         'action',
         'message'
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime'
-    ];
+  
 }

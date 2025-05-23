@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Display;
 use App\Models\Graphic;
 use App\Models\layout;
@@ -13,37 +15,40 @@ use Illuminate\Support\Facades\Response;
 class LayoutController extends Controller
 {
     use ValidatesRequests;
+    
     public function showLayout()
     {
         $role = session('role');
         $userId = session('account_id');
         if ($role === 'admin') {
             $layouts = layout::all();
+            $displays = Display::all();
         } else {
-            $layouts = layout::where('account_id', $userId)->get();    
+            $layouts = layout::where('account_id', $userId)->get();
+            $displays = Display::where('account_id', $userId)->get();
         }
         $status = [true, false];
 
 
-        return view('layout.layout', compact('layouts'));
+        return view('layout.layout', compact('layouts', 'displays'));
     }
+    
     public function AddLayout(Request $request)
     {
         $role = session('role');
         $userId = session('account_id');
         if ($role === 'admin') {
             $graphics = Graphic::all();
-            $stores = Display::all()->unique('store_id');
             $displays = Display::all();
         } else {
             $graphics = Graphic::where('account_id', $userId)->get();
-            $stores = Display::where('account_id', $userId)->get()->unique('store_id');
             $displays = Display::where('account_id', $userId)->get();
         }
-        return view('layout.addlayout', compact('graphics', 'stores', 'displays'));
+        return view('layout.addlayout', compact('graphics', 'displays'));
     }
     public function layoutStore(Request $request)
     {
+
         try {
             $rules = [
                 'layoutName' => 'required',
@@ -53,7 +58,7 @@ class LayoutController extends Controller
                 'address' => 'required',
                 'logo' => 'required',
                 'media' => 'required|json',
-                'selectedDisplays' => 'required|json',
+                'selectedDisplays' => 'required',
             ];
             $messages = [
                 'layoutName.required' => 'Layout Name is required',
@@ -85,8 +90,9 @@ class LayoutController extends Controller
             $layout->displayMode = $request->input('displayMode');
             $layout->playlistName = $request->input('playlistName');
             $layout->address = $request->input('address');
-            // Handle selected displays
-            $layout->selectedDisplays = $request->input('selectedDisplays'); // saves as real JSON array
+            $layout->selectedDisplays = $request->input('selectedDisplays');
+
+
             // Handle media JSON input
             // Get zone-wise media data from the form submission
             $flatMediaList = json_decode($request->input('media'), true);
@@ -111,6 +117,7 @@ class LayoutController extends Controller
             return redirect()->route('layout')->with('success', 'Layout added successfully.');
         } catch (\Exception $e) {
             return redirect()->route('layout')->with('error', 'Layout added failed.');
+            //   return ($e->getMessage());
         }
     }
     public function status($id)
@@ -122,7 +129,7 @@ class LayoutController extends Controller
     }
     public function mediaLogs(request $request)
     {
-       
+
         $logs = Logs::orderBy('created_at', 'desc')->paginate(50);
 
         $logFilePath = public_path('logs/media_log.txt');
@@ -134,23 +141,23 @@ class LayoutController extends Controller
         }
 
 
-       
-       return view('layout.medialogs', compact('logs'));
+
+        return view('layout.medialogs', compact('logs'));
     }
 
 
-public function downloadDeviceLog($date, $deviceToken)
-{
-    $sanitizedToken =  $deviceToken;
-    $fileName = "media_log_{$date}_{$sanitizedToken}.txt";
-    $file = public_path("logs/$fileName");
+    public function downloadDeviceLog($date, $deviceToken)
+    {
+        $sanitizedToken =  $deviceToken;
+        $fileName = "media_log_{$date}_{$sanitizedToken}.txt";
+        $file = public_path("logs/$fileName");
 
-    if (file_exists($file)) {
-        return response()->download($file, $fileName, [
-            'Content-Type' => 'text/plain',
-        ]);
+        if (file_exists($file)) {
+            return response()->download($file, $fileName, [
+                'Content-Type' => 'text/plain',
+            ]);
+        }
+
+        return redirect()->back()->with('error', "Log file for device {$deviceToken} on {$date} not found.");
     }
-
-    return redirect()->back()->with('error', "Log file for device {$deviceToken} on {$date} not found.");
-}
 }

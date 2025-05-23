@@ -103,7 +103,7 @@ class ApiController extends Controller
                 'displayMode' => $layout->displayMode,
                 'displaysize' => $layout->layoutName,
                 'displayStatus' => (bool) $layout->status,
-                'selectedDisplays' => json_decode($layout->selectedDisplays, true),
+                'selectedDisplays' => $layout->selectedDisplays,
                 'logo' => $logo,
                 'scheduleType' => 'fixed',
                 'recurring' => [

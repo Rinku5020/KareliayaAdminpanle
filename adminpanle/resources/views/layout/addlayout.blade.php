@@ -27,6 +27,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/css/layout.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/display.css">
 </head>
 
 <body>
@@ -43,7 +44,8 @@
                                     <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Small">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large" height="50">
+                                    <img src="{{ asset('uploads/logo/kareliya_logo.png') }}" alt="Kareliya Logo Large"
+                                        height="50">
                                 </span>
                             </a>
                         </div>
@@ -771,7 +773,8 @@
                                     <img class="rounded-circle header-profile-user"
                                         src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
+                                        <span
+                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ session('user_name') }}</span>
                                         <span
                                             class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
                                     </span>
@@ -780,7 +783,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <h6 class="dropdown-header">{{ session('user_name') }}</h6>
-                                <a class="dropdown-item" href="{{route('profile')}}"><i
+                                <a class="dropdown-item" href="{{ route('profile') }}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="apps-chat.html"><i
@@ -803,7 +806,7 @@
                                 <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
                                         class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Lock screen</span></a>
-                                <form action="{{route('logout')}}" method="post">
+                                <form action="{{ route('logout') }}" method="post">
                                     @csrf
                                     <button type="submit" class="dropdown-item">
                                         <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
@@ -887,23 +890,23 @@
 
                         @if (session('role') === 'admin')
                             <li class="nav-item">
-                            <a class="nav-link menu-link">
-                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">User Management</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarLayouts">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="{{ route('approval') }}"  class="nav-link"
-                                            data-key="t-horizontal">Approve Request: {{ $pendingCount }}</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('userlist') }}"  class="nav-link"
-                                            data-key="t-horizontal">User List</a>
-                                    </li>
-                                
-                                </ul>
-                            </div>
-                        </li>
+                                <a class="nav-link menu-link">
+                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">User Management</span>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarLayouts">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('approval') }}" class="nav-link"
+                                                data-key="t-horizontal">Approve Request: {{ $pendingCount }}</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('userlist') }}" class="nav-link"
+                                                data-key="t-horizontal">User List</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </li>
                         @endif
                     </ul>
                 </div>
@@ -1004,15 +1007,15 @@
                                                         <span style="color: red"> {{ $message }} </span>
                                                     @enderror
                                                 </div>
-                                                <div class="row mt-5 ">
-                                                    <div class="mb-3 col-md-4">
+                                                <div class="row mt-5 justify-content-around ">
+                                                    <div class="mb-3 col-md-5">
                                                         <label for="display-type" class="form-label">Select
                                                             Store</label>
-                                                        <select id="storeSelect" name="store_id" class="form-control"
-                                                            required>
+                                                        <select name="store_id" class="form-control" required
+                                                            id="storeSelect">
                                                             <option class="text-muted" disabled selected>Select Store
                                                             </option>
-                                                            @foreach ($stores as $store)
+                                                            @foreach ($displays->unique('store_id') as $store)
                                                                 <option value="{{ $store->store_id }}"
                                                                     {{ old('store_id') == $store->store_id ? 'selected' : '' }}>
                                                                     {{ $store->store_id }}
@@ -1023,26 +1026,73 @@
                                                             <span style="color: red"> {{ $message }} </span>
                                                         @enderror
                                                     </div>
-                                                    <div class="mb-3 col-md-4 text-center ">
-                                                        <p for="display-type" class="form-label fw-semibold">Display
-                                                            Type</p>
-                                                       
-                                                        <label class="form-check-label">
-                                                            <input type="radio" name="displayMode"
-                                                                class="form-check-input" required value="portrait"
-                                                                {{ old('displayMode') == 'portrait' ? 'checked' : '' }}>
-                                                            Portrait</label>
-                                                        <label class="form-check-label">
-                                                            <input type="radio" name="displayMode"
-                                                                class="form-check-input" required value="landscape"
-                                                                {{ old('displayMode') == 'landscape' ? 'checked' : '' }}>
-                                                            Landscape
-                                                        </label>
-                                                        @error('displayMode')
+                                                    <div class="mb-3 col-md-5">
+                                                        <label for="display-type" class="form-label">Select
+                                                            Display</label>
+                                                        <select name="selectedDisplays" class="form-control" required
+                                                            id="displaySelect">
+                                                            <option class="text-muted" disabled selected>Select Display
+                                                            </option>
+                                                            @foreach ($displays as $display)
+                                                                <option value="{{ $display->display_id }}"
+                                                                    data-store="{{ $display->store_id }}"
+                                                                    {{ old('selectedDisplays') == $display->display_id ? 'selected' : '' }}>
+                                                                    {{ $display->name }}
+                                                                    
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('selectedDisplays')
                                                             <span style="color: red"> {{ $message }} </span>
                                                         @enderror
                                                     </div>
-                                                    <div class="mb-3 col-md-4">
+
+                                                    @error('selectedDisplays')
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="row mt-5 justify-content-around ">
+                                                    <div class="mb-3 col-md-5 text-center">
+    <p class="form-label fw-semibold">Display Type</p>
+    <div class="row justify-content-center text-center gap-3">
+        <div class="col-auto">
+            <label
+                class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm p-2"
+                for="display_mode_landscape">
+                <input class="form-check-input d-none" type="radio"
+                    id="display_mode_landscape" value="landscape"
+                    name="displayMode" required
+                    {{ old('displayMode') == 'landscape' ? 'checked' : '' }}>
+                <img src="{{ asset('assets/images/landscape.png') }}"
+                    alt="Landscape Preview" class="img-fluid mb-2"
+                    style="max-height: 150px;">
+                <div>Landscape</div>
+            </label>
+        </div>
+
+        <div class="col-auto">
+            <label
+                class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm p-2"
+                for="display_mode_portrait">
+                <input class="form-check-input d-none" type="radio"
+                    id="display_mode_portrait" value="portrait"
+                    name="displayMode" required
+                    {{ old('displayMode') == 'portrait' ? 'checked' : '' }}>
+                <img src="{{ asset('assets/images/portrait.png') }}"
+                    alt="Portrait Preview" class="img-fluid mb-2"
+                    style="max-height: 150px;">
+                <div>Portrait</div>
+            </label>
+        </div>
+    </div>
+
+    @error('displayMode')
+        <span style="color: red"> {{ $message }} </span>
+    @enderror
+</div>
+
+                                                    <div class="mb-3 col-md-5">
                                                         <label for="">Playlist Name</label>
                                                         <input type="text" class="form-control"
                                                             name="playlistName" id="layout-name" required
@@ -1052,44 +1102,8 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div class="selection-container">
-                                                    <div class="selection-header text-center">Select Display</div>
-                                                    <hr>
-                                                    <div class="selection-status fw-semibold">Selected Display: 0</div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="selection-box">
-                                                                <span class="numBox" id="displayCount">0</span>
-                                                                <label for="">: Item Available</label>
-                                                                <hr>
-                                                                <select id="displaySelect" class="form-control"
-                                                                    size="6" multiple>
-                                                                    <option class="text-muted" disabled>Select Display
-                                                                    </option>
-                                                                </select>
-                                                                <button id="addBtn" class="btn btn-success mt-2"
-                                                                    disabled>Add Selected</button>
-                                                                <div class="no-data mt-2" id="noAvailableData">No Data
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="selection-box">
-                                                                <span class="numBox" id="selectedCount">0</span>
-                                                                <label for="">: Item Selected</label>
-                                                                <hr>
-                                                                <p id="selectedDisplays"
-                                                                    class="d-flex flex-wrap gap-2"></p>
-                                                                <div class="no-data" id="noSelectedData">No Data</div>
-                                                                <input type="hidden" name="selectedDisplays"
-                                                                    id="selectedDisplaysInput">
-                                                            </div>
-                                                        </div>
-                                                        @error('selectedDisplays')
-                                                            <span style="color: red"> {{ $message }} </span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
+
+
                                             </div>
                                             <div class="d-flex align-items-start gap-3 mt-4">
                                                 <button type="button"
@@ -1240,8 +1254,7 @@
                                                                         <li class="nav-item">
                                                                             <a class="nav-link active"
                                                                                 data-bs-toggle="tab"
-                                                                                href="#arrow-overview"
-                                                                                role="tab">
+                                                                                href="#arrow-overview" role="tab">
                                                                                 <span class="d-block d-sm-none"><i
                                                                                         class="bi bi-card-image"></i></span>
                                                                                 <span
@@ -1250,8 +1263,7 @@
                                                                         </li>
                                                                         <li class="nav-item">
                                                                             <a class="nav-link" data-bs-toggle="tab"
-                                                                                href="#arrow-profile"
-                                                                                role="tab">
+                                                                                href="#arrow-profile" role="tab">
                                                                                 <span class="d-block d-sm-none"><i
                                                                                         class="bi bi-file-earmark-play"></i></span>
                                                                                 <span
@@ -1260,8 +1272,7 @@
                                                                         </li>
                                                                         <li class="nav-item">
                                                                             <a class="nav-link" data-bs-toggle="tab"
-                                                                                href="#arrow-contact"
-                                                                                role="tab">
+                                                                                href="#arrow-contact" role="tab">
                                                                                 <span class="d-block d-sm-none"><i
                                                                                         class="bi bi-file-earmark"></i></span>
                                                                                 <span
@@ -1293,7 +1304,7 @@
                                                                                                 <img src="{{ asset('uploads/media/' . $image->media_id) }}"
                                                                                                     alt=""
                                                                                                     class="img-fluid card-img-top">
-                                                                                                
+
                                                                                             </a>
                                                                                         </div>
                                                                                     @endif
@@ -1334,9 +1345,10 @@
                                                                                                     class="btn btn-primary btn-sm position-absolute"
                                                                                                     style="bottom: 55px; right: 50px; z-index: 2;"
                                                                                                     data-id="{{ $item->media_id }}">
-                                                                                                    <i class="bi bi-plus fs-16"></i>
-                                                                                               
-                                                                                            </button>
+                                                                                                    <i
+                                                                                                        class="bi bi-plus fs-16"></i>
+
+                                                                                                </button>
                                                                                             </a>
                                                                                         </div>
                                                                                     @endif
@@ -1420,10 +1432,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {{-- add layout js --}}
-    <script>
-        window.displayData = {!! json_encode($displays) !!};
-    </script>
+
     <script src="assets/js/addlayout.js"></script>
+ 
+
 </body>
 
 </html>

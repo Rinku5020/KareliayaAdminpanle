@@ -1,0 +1,4 @@
+[2025-05-23 08:48:11] Device: 645f045f771a5430 | currenttime: 23/5/2025, 14:17:45, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918398.png
+currenttime: 23/5/2025, 14:17:55, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918407.mp4
+[2025-05-23 08:49:11] Device: 645f045f771a5430 | currenttime: 23/5/2025, 14:18:56, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918398.png
+currenttime: 23/5/2025, 14:19:06, currenturl: file:///storage/emulated/0/Download/digital_signage/1747918407.mp4

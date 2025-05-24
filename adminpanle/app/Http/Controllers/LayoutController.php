@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Response;
 class LayoutController extends Controller
 {
     use ValidatesRequests;
-    
+
     public function showLayout()
     {
         $role = session('role');
@@ -32,7 +32,7 @@ class LayoutController extends Controller
 
         return view('layout.layout', compact('layouts', 'displays'));
     }
-    
+
     public function AddLayout(Request $request)
     {
         $role = session('role');
@@ -127,6 +127,130 @@ class LayoutController extends Controller
         $layout->save();
         return redirect()->route('layout')->with('success', 'Layout status updated successfully!');
     }
+
+    public function updateLayout($id)
+    {
+        $layout = layout::findOrFail($id);
+        $role = session('role');
+        $userId = session('account_id');
+        if ($role === 'admin') {
+            $graphics = Graphic::all();
+            $displays = Display::all();
+        } else {
+            $graphics = Graphic::where('account_id', $userId)->get();
+            $displays = Display::where('account_id', $userId)->get();
+        }
+        return view('layout.editlayout', compact('layout', 'graphics', 'displays'));
+    }
+    public function updateLayoutStore(Request $request, $id)
+    {
+        $layout = layout::findOrFail($id);
+        $layout->layoutName = $request->input('layoutName');
+        $layout->store_id = $request->input('store_id');
+        $layout->displayMode = $request->input('displayMode');
+        $layout->playlistName = $request->input('playlistName');
+        $layout->address = $request->input('address');
+        $layout->selectedDisplays = $request->input('selectedDisplays');
+
+        // Handle logo upload
+        if ($request->hasFile('logo')) {
+            // Delete the old logo file if it exists
+            if ($layout->logo && File::exists(public_path('uploads/layout/' . $layout->logo))) {
+                File::delete(public_path('uploads/layout/' . $layout->logo));
+            }
+            // Upload the new logo
+            $file = $request->file('logo');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/layout'), $fileName);
+            $layout->logo = $fileName;
+        }
+
+        // Handle media JSON input
+        // Get zone-wise media data from the form submission
+        $flatMediaList = json_decode($request->input('media'), true);
+        // Group media by zone
+        $zonesData = [
+            'zone1' => [],
+            'zone2' => [],
+            'zone3' => [],
+            'zone4' => [],
+        ];
+        foreach ($flatMediaList as $media) {
+            if (isset($media['zone']) && isset($zonesData[$media['zone']])) {
+                $zonesData[$media['zone']][] = $media;
+            }
+        }
+        // Save media data to respective zones
+        $layout->zone1 = json_encode($zonesData['zone1'] ?? []);
+        $layout->zone2 = json_encode($zonesData['zone2'] ?? []);
+        $layout->zone3 = json_encode($zonesData['zone3'] ?? []);
+        $layout->zone4 = json_encode($zonesData['zone4'] ?? []);
+
+        // Save the updated layout
+        if ($layout->save()) {
+            return redirect()->route('layout')->with('success', 'Layout updated successfully.');
+        } else {
+            return redirect()->route('layout')->with('error', 'Layout update failed.');
+                                        
+        }
+    }
+public function deleteLayout(Request $request,$id)
+    {
+        $layout = layout::findOrFail($id);
+        // Delete the logo file if it exists
+        if ($layout->logo && File::exists(public_path('uploads/layout/' . $layout->logo))) {
+            File::delete(public_path('uploads/layout/' . $layout->logo));
+        }
+        // Delete the layout record
+        $layout->delete();
+        return redirect()->route('layout')->with('success', 'Layout deleted successfully.');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function mediaLogs(request $request)
     {
 

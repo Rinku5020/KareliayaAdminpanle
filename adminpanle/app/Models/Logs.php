@@ -12,9 +12,11 @@ class Logs extends Model
 
 
     protected $fillable = [
-        'device_token', 
-        'action',
-        'message'
+    'device_token',
+    'log_date',
+    'action',
+    'message',
+    'updated_at'
     ];
 
   

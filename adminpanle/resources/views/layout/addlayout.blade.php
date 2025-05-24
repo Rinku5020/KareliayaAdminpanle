@@ -2,6 +2,7 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
+    <base href="{{ url('assets') }}">
     <meta charset="utf-8" />
     <title>Kareliya Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,8 +27,11 @@
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/css/layout.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="assets/css/display.css">
+    <link href="assets/css/layout.css" rel="stylesheet" />
+    <link href="assets/css/addlayout.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -882,12 +886,10 @@
                                 <i class="ri-honour-line"></i> <span data-key="t-widgets">Layout</span>
                             </a>
                         </li>
-
                         @php
                             use App\Models\User;
                             $pendingCount = User::where('status', false)->count();
                         @endphp
-
                         @if (session('role') === 'admin')
                             <li class="nav-item">
                                 <a class="nav-link menu-link">
@@ -903,7 +905,6 @@
                                             <a href="{{ route('userlist') }}" class="nav-link"
                                                 data-key="t-horizontal">User List</a>
                                         </li>
-
                                     </ul>
                                 </div>
                             </li>
@@ -1038,7 +1039,6 @@
                                                                     data-store="{{ $display->store_id }}"
                                                                     {{ old('selectedDisplays') == $display->display_id ? 'selected' : '' }}>
                                                                     {{ $display->name }}
-                                                                    
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -1046,52 +1046,47 @@
                                                             <span style="color: red"> {{ $message }} </span>
                                                         @enderror
                                                     </div>
-
                                                     @error('selectedDisplays')
                                                         <span style="color: red"> {{ $message }} </span>
                                                     @enderror
                                                 </div>
-
                                                 <div class="row mt-5 justify-content-around ">
                                                     <div class="mb-3 col-md-5 text-center">
-    <p class="form-label fw-semibold">Display Type</p>
-    <div class="row justify-content-center text-center gap-3">
-        <div class="col-auto">
-            <label
-                class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm p-2"
-                for="display_mode_landscape">
-                <input class="form-check-input d-none" type="radio"
-                    id="display_mode_landscape" value="landscape"
-                    name="displayMode" required
-                    {{ old('displayMode') == 'landscape' ? 'checked' : '' }}>
-                <img src="{{ asset('assets/images/landscape.png') }}"
-                    alt="Landscape Preview" class="img-fluid mb-2"
-                    style="max-height: 150px;">
-                <div>Landscape</div>
-            </label>
-        </div>
-
-        <div class="col-auto">
-            <label
-                class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm p-2"
-                for="display_mode_portrait">
-                <input class="form-check-input d-none" type="radio"
-                    id="display_mode_portrait" value="portrait"
-                    name="displayMode" required
-                    {{ old('displayMode') == 'portrait' ? 'checked' : '' }}>
-                <img src="{{ asset('assets/images/portrait.png') }}"
-                    alt="Portrait Preview" class="img-fluid mb-2"
-                    style="max-height: 150px;">
-                <div>Portrait</div>
-            </label>
-        </div>
-    </div>
-
-    @error('displayMode')
-        <span style="color: red"> {{ $message }} </span>
-    @enderror
-</div>
-
+                                                        <p class="form-label fw-semibold">Display Type</p>
+                                                        <div class="row justify-content-center text-center gap-3">
+                                                            <div class="col-auto">
+                                                                <label
+                                                                    class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm p-2"
+                                                                    for="display_mode_landscape">
+                                                                    <input class="form-check-input d-none"
+                                                                        type="radio" id="display_mode_landscape"
+                                                                        value="landscape" name="displayMode" required
+                                                                        {{ old('displayMode') == 'landscape' ? 'checked' : '' }}>
+                                                                    <img src="{{ asset('assets/images/landscape.png') }}"
+                                                                        alt="Landscape Preview" class="img-fluid mb-2"
+                                                                        style="max-height: 150px;">
+                                                                    <div>Landscape</div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <label
+                                                                    class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm p-2"
+                                                                    for="display_mode_portrait">
+                                                                    <input class="form-check-input d-none"
+                                                                        type="radio" id="display_mode_portrait"
+                                                                        value="portrait" name="displayMode" required
+                                                                        {{ old('displayMode') == 'portrait' ? 'checked' : '' }}>
+                                                                    <img src="{{ asset('assets/images/portrait.png') }}"
+                                                                        alt="Portrait Preview" class="img-fluid mb-2"
+                                                                        style="max-height: 150px;">
+                                                                    <div>Portrait</div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        @error('displayMode')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                    </div>
                                                     <div class="mb-3 col-md-5">
                                                         <label for="">Playlist Name</label>
                                                         <input type="text" class="form-control"
@@ -1102,8 +1097,6 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                             <div class="d-flex align-items-start gap-3 mt-4">
                                                 <button type="button"
@@ -1126,61 +1119,54 @@
                                                         @error('address')
                                                             <span style="color: red"> {{ $message }} </span>
                                                         @enderror
-                                                        <div class="mt-3">
-                                                            <label>Logo</label>
-                                                            <div class="logoBOX">
-                                                                <input type="file" name="logo" id="logoInput"
-                                                                    accept="image/*" style="display: none;"
-                                                                    onchange="previewLogo(event)">
-                                                                <!-- Label acts as clickable image -->
-                                                                <label for="logoInput" style="cursor: pointer;">
-                                                                    <img id="logoPreview"
-                                                                        src="{{ asset('assets/images/small/blank-img.webp') }}"
-                                                                        class="img-fluid" alt="Click to upload logo">
-                                                                </label>
-                                                            </div>
-                                                            @error('logo')
-                                                                <span style="color: red"> {{ $message }} </span>
-                                                            @enderror
-                                                        </div>
+
                                                     </div>
                                                     <!-- Table Column -->
                                                     <div class="col-12 col-md-6 col-lg-4">
-                                                        <table class="table table-bordered">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Static Address</th>
-                                                                    <th>Logo</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>Zone1</td>
-                                                                    <td>Sliding Image</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
+                                                        <div>
+                                                            <label class="form-label">Logo</label>
+                                                            <!-- File Input -->
+                                                            <div class="col mb-3">
+                                                                <input type="file" name="logo" id="logoInput"
+                                                                    accept="image/*" class="form-control"
+                                                                    onchange="previewLogo(event)">
+                                                                @error('logo')
+                                                                    <span style="color: red"> {{ $message }} </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="row align-items-center">
+                                                                <!-- Logo Preview -->
+                                                                <div class="col-auto">
+                                                                    <label for="logoInput" style="cursor: pointer;">
+                                                                        <img id="logoPreview"
+                                                                            src="{{ asset('assets/images/small/blank-img.webp') }}"
+                                                                            class="img-thumbnail"
+                                                                            alt="Click to upload logo"
+                                                                            style="max-height: 100px;">
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <!-- Bottom Two Columns -->
                                                     <div class="col-12 col-md-6 col-lg-7 selection-box mt-3 gap-3">
                                                         <!-- Zone Tabs -->
                                                         <div class="zone-tabs mb-2 mx-auto">
-                                                            <a href="#"
-                                                                class="zone-tab fw-bold text-primary active"
-                                                                data-zone="zone1">Zone1</a>
-                                                            <a href="#" class="zone-tab fw-bold text-primary"
-                                                                data-zone="zone2">Zone2</a>
-                                                            <a href="#" class="zone-tab fw-bold text-primary"
-                                                                data-zone="zone3">Zone3</a>
-                                                            <a href="#" class="zone-tab fw-bold text-primary"
-                                                                data-zone="zone4">Zone4</a>
+                                                            <a href="#" class="zone-tab fw-semibold  active"
+                                                                data-zone="zone1">Zone 1</a>
+                                                            <a href="#" class="zone-tab fw-semibold"
+                                                                data-zone="zone2">Zone 2</a>
+                                                            <a href="#" class="zone-tab fw-semibold"
+                                                                data-zone="zone3">Zone 3</a>
+                                                            <a href="#" class="zone-tab fw-semibold"
+                                                                data-zone="zone4">Zone 4</a>
                                                         </div>
                                                         <hr>
                                                         <!-- Zone-wise Tables -->
                                                         <div class="zone-tables">
                                                             <!-- Zone1 -->
                                                             <div class="zone-table" id="table-zone1">
-                                                                <p class="text-danger">Zone:1</p>
+                                                                <h5>Selected Zone 1</h5>
                                                                 <table class="table table-bordered">
                                                                     <thead class="bg-light">
                                                                         <tr>
@@ -1196,7 +1182,7 @@
                                                             </div>
                                                             <!-- Zone2 -->
                                                             <div class="zone-table d-none" id="table-zone2">
-                                                                <p class="text-danger">Zone:2</p>
+                                                                <h5>Selected Zone 2</h5>
                                                                 <table class="table table-bordered">
                                                                     <thead class="bg-light">
                                                                         <tr>
@@ -1212,7 +1198,7 @@
                                                             </div>
                                                             <!-- Zone3 -->
                                                             <div class="zone-table d-none" id="table-zone3">
-                                                                <p class="text-danger">Zone:3</p>
+                                                                <h5>Selected Zone 3</h5>
                                                                 <table class="table table-bordered">
                                                                     <thead class="bg-light">
                                                                         <tr>
@@ -1228,7 +1214,7 @@
                                                             </div>
                                                             <!-- Zone4 -->
                                                             <div class="zone-table d-none" id="table-zone4">
-                                                                <p class="text-danger">Zone:4</p>
+                                                                <h5>Selected Zone 4</h5>
                                                                 <table class="table table-bordered">
                                                                     <thead class="bg-light">
                                                                         <tr>
@@ -1245,8 +1231,9 @@
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="media" id="mediaInput">
+
                                                     <div class="col-12 col-md-6 col-lg-4 selection-box mt-3">
-                                                        <div class="col-xxl-6">
+                                                        <div class="col-xxl-12">
                                                             <div class="card">
                                                                 <div class="card-body">
                                                                     <ul class="nav nav-pills arrow-navtabs nav-success bg-light mb-3 justify-content-between"
@@ -1280,13 +1267,15 @@
                                                                             </a>
                                                                         </li>
                                                                     </ul>
-                                                                    <!-- Tab panes -->
+
+                                                                    <!-- Tab Content -->
                                                                     <div class="tab-content text-muted">
+                                                                        <!-- Images Tab -->
                                                                         <div class="tab-pane active"
                                                                             id="arrow-overview" role="tabpanel">
                                                                             <h4 class="text-center">Image</h4>
                                                                             <hr>
-                                                                            <div class="row justify-content-between">
+                                                                            <div class="row">
                                                                                 @foreach ($graphics as $image)
                                                                                     @php
                                                                                         $ext = pathinfo(
@@ -1295,27 +1284,30 @@
                                                                                         );
                                                                                     @endphp
                                                                                     @if (in_array(strtolower($ext), ['jpg', 'png', 'jpeg', 'svg']))
-                                                                                        <div class="col-6 mb-3 ">
+                                                                                        <div class="col-6 mb-3">
                                                                                             <a href="javascript:void(0);"
                                                                                                 class="card text-center select-media bg-light"
                                                                                                 data-name="{{ $image->media_id }}"
                                                                                                 data-type="Image"
-                                                                                                data-duration="10:00">
-                                                                                                <img src="{{ asset('uploads/media/' . $image->media_id) }}"
-                                                                                                    alt=""
-                                                                                                    class="img-fluid card-img-top">
-
+                                                                                                data-duration={{ $image->duration }}>
+                                                                                                <div
+                                                                                                    class="media-box">
+                                                                                                    <img src="{{ asset('uploads/media/' . $image->media_id) }}"
+                                                                                                        alt="">
+                                                                                                </div>
                                                                                             </a>
                                                                                         </div>
                                                                                     @endif
                                                                                 @endforeach
                                                                             </div>
                                                                         </div>
+
+                                                                        <!-- Videos Tab -->
                                                                         <div class="tab-pane" id="arrow-profile"
                                                                             role="tabpanel">
                                                                             <h4 class="text-center">Videos</h4>
                                                                             <hr>
-                                                                            <div class="row justify-content-between">
+                                                                            <div class="row">
                                                                                 @foreach ($graphics as $item)
                                                                                     @php
                                                                                         $ext = pathinfo(
@@ -1324,30 +1316,31 @@
                                                                                         );
                                                                                     @endphp
                                                                                     @if (strtolower($ext) === 'mp4')
-                                                                                        <div class="col-6 mb-3">
-                                                                                            <a class="card bg-light select-media text-decoration-none border-0"
-                                                                                                style="display: block;"
+                                                                                        <div
+                                                                                            class="col-6 mb-3 position-relative">
+                                                                                            <a href="javascript:void(0);"
+                                                                                                class="card bg-light select-media text-decoration-none border-0"
                                                                                                 data-name="{{ $item->media_id }}"
                                                                                                 data-type="Video"
-                                                                                                data-duration="10:00">
-                                                                                                <video controls
-                                                                                                    width="100%"
-                                                                                                    poster="{{ asset('assets/images/small/blank-img.webp') }}"
-                                                                                                    class="card-img-top">
-                                                                                                    <source
-                                                                                                        src="{{ asset('uploads/media/' . $item->media_id) }}"
-                                                                                                        type="video/mp4">
-                                                                                                    Your browser does
-                                                                                                    not support the
-                                                                                                    video tag.
-                                                                                                </video>
+                                                                                                data-duration={{ $item->duration }}>
+                                                                                                <div
+                                                                                                    class="media-box">
+                                                                                                    <video controls
+                                                                                                        poster="{{ asset('assets/images/small/blank-img.webp') }}">
+                                                                                                        <source
+                                                                                                            src="{{ asset('uploads/media/' . $item->media_id) }}"
+                                                                                                            type="video/mp4">
+                                                                                                        Your browser
+                                                                                                        does not support
+                                                                                                        the video tag.
+                                                                                                    </video>
+                                                                                                </div>
                                                                                                 <button type="button"
                                                                                                     class="btn btn-primary btn-sm position-absolute"
-                                                                                                    style="bottom: 55px; right: 50px; z-index: 2;"
+                                                                                                    style="bottom: 10px; right: 10px; z-index: 2;"
                                                                                                     data-id="{{ $item->media_id }}">
                                                                                                     <i
                                                                                                         class="bi bi-plus fs-16"></i>
-
                                                                                                 </button>
                                                                                             </a>
                                                                                         </div>
@@ -1355,32 +1348,34 @@
                                                                                 @endforeach
                                                                             </div>
                                                                         </div>
+
+                                                                        <!-- Templates Tab -->
                                                                         <div class="tab-pane" id="arrow-contact"
                                                                             role="tabpanel">
                                                                             <h4 class="text-center">Template</h4>
                                                                             <hr>
-                                                                            <div class="row justify-content-between">
+                                                                            <div class="row">
                                                                                 <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
+                                                                                    <div class="card media-box">
+                                                                                        <img src="{{ asset('assets/images/small/blank-img.webp') }}"
                                                                                             alt="">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
+                                                                                    <div class="card media-box">
+                                                                                        <img src="{{ asset('assets/images/small/blank-img.webp') }}"
                                                                                             alt="">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-3">
-                                                                                    <div class="card">
-                                                                                        <img src="assets/images/small/blank-img.webp"
+                                                                                    <div class="card media-box">
+                                                                                        <img src="{{ asset('assets/images/small/blank-img.webp') }}"
                                                                                             alt="">
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    </div><!-- end tab content -->
                                                                 </div><!-- end card-body -->
                                                             </div><!-- end card -->
                                                         </div>
@@ -1432,10 +1427,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {{-- add layout js --}}
-
     <script src="assets/js/addlayout.js"></script>
- 
-
 </body>
 
 </html>

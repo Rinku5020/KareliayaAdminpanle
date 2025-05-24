@@ -2,18 +2,19 @@
 <html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
 
 <head>
-
+    <base href="{{ url('assets') }}">
     <meta charset="utf-8" />
     <title>Kareliya Admin Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-    <!-- plugin css -->
-    <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
-
+    <link rel="shortcut icon" href="uploads/logo/kareliya_logo.png">
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <!--datatable responsive css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
     <!-- Bootstrap Css -->
@@ -24,66 +25,18 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-    {{-- sweet alert --}}
-    <!-- SweetAlert CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-        integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/display.css">
+    <link href="assets/css/layout.css" rel="stylesheet" />
+    <link href="assets/css/addlayout.css" rel="stylesheet" />
 
 </head>
 
 <body>
-
-    @if (Session::has('success'))
-        <script>
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                text: '{{ Session::get('success') }}',
-                showConfirmButton: false,
-                timer: 2000,
-                width: '400px',
-                padding: '0.5em 1em',
-                customClass: {
-                    container: 'swal-toast-container',
-                    popup: 'swal-toast-popup',
-                    title: 'swal-toast-title',
-                    closeButton: 'swal-toast-close'
-                }
-            });
-        </script>
-    @endif
-    @if (Session::has('error'))
-        <script>
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'error',
-                text: '{{ Session::get('error') }}',
-                showConfirmButton: false,
-                timer: 2000,
-                width: '400px',
-                padding: '0.5em 1em',
-                customClass: {
-                    container: 'swal-toast-container',
-                    popup: 'swal-toast-popup',
-                    title: 'swal-toast-title',
-                    closeButton: 'swal-toast-close'
-                }
-            });
-        </script>
-    @endif
-
     <!-- Begin page -->
     <div id="layout-wrapper">
-
         <header id="page-topbar">
             <div class="layout-width">
                 <div class="navbar-header">
@@ -100,7 +53,6 @@
                                 </span>
                             </a>
                         </div>
-
                         <button type="button"
                             class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
                             id="topnav-hamburger-icon">
@@ -110,7 +62,6 @@
                                 <span></span>
                             </span>
                         </button>
-
                         <!-- App Search-->
                         <form class="app-search d-none d-md-block">
                             <div class="position-relative">
@@ -126,7 +77,6 @@
                                     <div class="dropdown-header">
                                         <h6 class="text-overflow text-muted mb-0 text-uppercase">Recent Searches</h6>
                                     </div>
-
                                     <div class="dropdown-item bg-transparent text-wrap">
                                         <a href="index.html" class="btn btn-soft-secondary btn-sm btn-rounded">how to
                                             setup <i class="mdi mdi-magnify ms-1"></i></a>
@@ -137,30 +87,25 @@
                                     <div class="dropdown-header mt-2">
                                         <h6 class="text-overflow text-muted mb-1 text-uppercase">Pages</h6>
                                     </div>
-
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="ri-bubble-chart-line align-middle fs-18 text-muted me-2"></i>
                                         <span>Analytics Dashboard</span>
                                     </a>
-
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="ri-lifebuoy-line align-middle fs-18 text-muted me-2"></i>
                                         <span>Help Center</span>
                                     </a>
-
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="ri-user-settings-line align-middle fs-18 text-muted me-2"></i>
                                         <span>My account settings</span>
                                     </a>
-
                                     <!-- item-->
                                     <div class="dropdown-header mt-2">
                                         <h6 class="text-overflow text-muted mb-2 text-uppercase">Members</h6>
                                     </div>
-
                                     <div class="notification-list">
                                         <!-- item -->
                                         <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
@@ -197,7 +142,6 @@
                                         </a>
                                     </div>
                                 </div>
-
                                 <div class="text-center pt-3 pb-1">
                                     <a href="pages-search-results.html" class="btn btn-primary btn-sm">View All
                                         Results <i class="ri-arrow-right-line ms-1"></i></a>
@@ -205,9 +149,7 @@
                             </div>
                         </form>
                     </div>
-
                     <div class="d-flex align-items-center">
-
                         <div class="dropdown d-md-none topbar-head-dropdown header-item">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -228,11 +170,8 @@
                                 </form>
                             </div>
                         </div>
-
                         <div class="dropdown ms-1 topbar-head-dropdown header-item">
-
                             <div class="dropdown-menu dropdown-menu-end">
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language py-2"
                                     data-lang="en" title="English">
@@ -240,7 +179,6 @@
                                         height="18">
                                     <span class="align-middle">English</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="sp" title="Spanish">
@@ -248,14 +186,12 @@
                                         height="18">
                                     <span class="align-middle">Española</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="gr" title="German">
                                     <img src="assets/images/flags/germany.svg" alt="user-image" class="me-2 rounded"
                                         height="18"> <span class="align-middle">Deutsche</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="it" title="Italian">
@@ -263,7 +199,6 @@
                                         height="18">
                                     <span class="align-middle">Italiana</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="ru" title="Russian">
@@ -271,7 +206,6 @@
                                         height="18">
                                     <span class="align-middle">русский</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="ch" title="Chinese">
@@ -279,7 +213,6 @@
                                         height="18">
                                     <span class="align-middle">中国人</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language"
                                     data-lang="fr" title="French">
@@ -289,9 +222,7 @@
                                 </a>
                             </div>
                         </div>
-
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
-
                             <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
                                 <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
                                     <div class="row align-items-center">
@@ -304,7 +235,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="p-2">
                                     <div class="row g-0">
                                         <div class="col">
@@ -326,7 +256,6 @@
                                             </a>
                                         </div>
                                     </div>
-
                                     <div class="row g-0">
                                         <div class="col">
                                             <a class="dropdown-icon-item" href="#!">
@@ -350,9 +279,7 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
-
                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 dropdown-menu-cart"
                                 aria-labelledby="page-header-cart-dropdown">
                                 <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -404,7 +331,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-2.png"
@@ -429,7 +355,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-3.png"
@@ -455,7 +380,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-6.png"
@@ -481,7 +405,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
                                                 <img src="assets/images/products/img-5.png"
@@ -516,28 +439,24 @@
                                             <h5 class="m-0" id="cart-item-total">$1258.58</h5>
                                         </div>
                                     </div>
-
                                     <a href="apps-ecommerce-checkout.html" class="btn btn-success text-center w-100">
                                         Checkout
                                     </a>
                                 </div>
                             </div>
                         </div>
-
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 data-toggle="fullscreen">
                                 <i class='bx bx-fullscreen fs-22'></i>
                             </button>
                         </div>
-
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
                                 <i class='bx bx-moon fs-22'></i>
                             </button>
                         </div>
-
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
@@ -549,7 +468,6 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                                 aria-labelledby="page-header-notifications-dropdown">
-
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
                                     <div class="p-3">
                                         <div class="row align-items-center">
@@ -561,7 +479,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="px-2 pt-2">
                                         <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom"
                                             data-dropdown-tabs="true" id="notificationItemsTab" role="tablist">
@@ -585,9 +502,7 @@
                                             </li>
                                         </ul>
                                     </div>
-
                                 </div>
-
                                 <div class="tab-content" id="notificationItemsTabContent">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab"
                                         role="tabpanel">
@@ -625,7 +540,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative active">
                                                 <div class="d-flex">
@@ -655,7 +569,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative">
                                                 <div class="d-flex">
@@ -687,7 +600,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative">
                                                 <div class="d-flex">
@@ -716,7 +628,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="my-3 text-center">
                                                 <button type="button"
                                                     class="btn btn-soft-success waves-effect waves-light">View
@@ -724,9 +635,7 @@
                                                         class="ri-arrow-right-line align-middle"></i></button>
                                             </div>
                                         </div>
-
                                     </div>
-
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
                                         aria-labelledby="messages-tab">
                                         <div data-simplebar style="max-height: 300px;" class="pe-2">
@@ -757,7 +666,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="assets/images/users/avatar-2.jpg"
@@ -786,7 +694,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="assets/images/users/avatar-6.jpg"
@@ -815,7 +722,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <img src="assets/images/users/avatar-8.jpg"
@@ -843,7 +749,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="my-3 text-center">
                                                 <button type="button"
                                                     class="btn btn-soft-success waves-effect waves-light">View
@@ -865,7 +770,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="dropdown ms-sm-3 header-item topbar-user">
                             <button type="button" class="btn" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -946,213 +850,582 @@
                     <i class="ri-record-circle-line"></i>
                 </button>
             </div>
-
             <div id="scrollbar">
                 <div class="container-fluid">
-
                     <div id="two-column-menu">
                     </div>
                     <ul class="navbar-nav " id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{ route('dashboard') }}" data-bs-toggle=""
-                                role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link" href="{{ route('dashboard') }}">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
-
-
-
-
-
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('store') }}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
-
-
-
-
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('display') }}">
                                 <i class="ri-pages-line"></i> <span data-key="t-pages">Display</span>
                             </a>
-
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('graphics') }}">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Graphics And Video</span>
                             </a>
                         </li>
-
-
-
                         {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('template') }}">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui"> Template</span>
                             </a>
-
                         </li> --}}
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('layout') }}">
                                 <i class="ri-honour-line"></i> <span data-key="t-widgets">Layout</span>
                             </a>
                         </li>
-
                         @php
                             use App\Models\User;
                             $pendingCount = User::where('status', false)->count();
                         @endphp
-
                         @if (session('role') === 'admin')
                             <li class="nav-item">
-                            <a class="nav-link menu-link">
-                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">User Management</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarLayouts">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="{{ route('approval') }}"  class="nav-link"
-                                            data-key="t-horizontal">Approve Request: {{ $pendingCount }}</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('userlist') }}"  class="nav-link"
-                                            data-key="t-horizontal">User List</a>
-                                    </li>
-                                
-                                </ul>
-                            </div>
-                        </li>
+                                <a class="nav-link menu-link">
+                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">User Management</span>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarLayouts">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('approval') }}" class="nav-link"
+                                                data-key="t-horizontal">Approve Request: {{ $pendingCount }}</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('userlist') }}" class="nav-link"
+                                                data-key="t-horizontal">User List</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         @endif
                     </ul>
                 </div>
                 <!-- Sidebar -->
             </div>
-
             <div class="sidebar-background"></div>
         </div>
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->
         <div class="vertical-overlay"></div>
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
-
             <div class="page-content">
                 <div class="container-fluid">
-
-
-
-                    <div class="row">
-                        <div class="col-xl-12 mx-auto">
-                            <div class="card">
-                                <div class="card-header d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1">Userlist</h5>
-                                    <div>
-                                        <a href="{{ route('dashboard') }}" class="btn btn-primary">
-                                            <x-codicon-arrow-small-left style="width: 20px;" />
-                                            Back
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="live-preview">
-                                        <table id="add-rows" class="table table-striped table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Number</th>
-                                                    <th>Status</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($users as $user)
-                                                    <tr>
-                                                        <td class="text-capitalize">{{ $user->name }}</td>
-                                                        <td>{{ $user->email }}</td>
-                                                        <td>{{ $user->number }}</td>
-                                                        <td>
-                                                            @if ($user->status == 1)
-                                                                <span class="badge bg-success">Approved</span>
-                                                            @elseif ($user->status == 2)
-                                                                <span class="badge bg-danger">Declined</span>
-                                                            @else
-                                                                <span class="badge bg-warning">Pending</span>
-                                                            @endif
-
-                                                        </td>
-                                                        <td>
-                                                            <!-- Approve Form -->
-
-
-                                                            <!-- Decline Button triggers SweetAlert -->
-                                                            <a href="{{ route('editUser', $user->id) }}" type="button"
-                                                                class="btn btn-outline-primary btn-sm">
-                                                                <i class="bi bi-pencil-square fs-13"></i>
-                                                            </a>
-                                                            <button type="button"
-                                                                class="btn btn-outline-danger btn-sm"
-                                                                onclick="confirmDecline({{ $user->id }})">
-                                                                <i class="bi bi-trash fs-13"></i>
-                                                            </button>
-
-                                                           
-                                                            <form id="decline-form-{{ $user->id }}" method="POST" action="{{ route('DeleteUser', $user->id) }}" style="display: none;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                
-                                                                
-                                                               
-                                                           
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                </div>
+                    <div class="col-xl-12 mx-auto">
+                        <div class="card container">
+                            <div class="card-header  d-flex justify-content-between ">
+                                <a href="{{ route('layout') }}" class="bi bi-arrow-left-circle-fill "
+                                    style="font-size: 25px"></a>
+                                <h4 class="card-title mb-0 fw-semibold">Add Playlist</h4>
                             </div>
-                        </div> <!-- end col -->
-                    </div>
-                    <!--end row-->
+                            <!-- end card header -->
+                            <div class="card-body form-steps">
+                                <form id="layoutForm" action="{{ route('updateLayoutStore', $layout->id) }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    @method('PUT')
+                                    @csrf
+                                    <div class="step-arrow-nav mb-4">
+                                        <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="steparrow-gen-info-tab"
+                                                    data-bs-toggle="pill" data-bs-target="#steparrow-gen-info"
+                                                    type="button" role="tab" aria-controls="steparrow-gen-info"
+                                                    aria-selected="true">Select Display</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link done disabled"
+                                                    id="steparrow-description-info-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#steparrow-description-info" type="button"
+                                                    role="tab" aria-controls="steparrow-description-info"
+                                                    aria-selected="false" disabled>Select Zone</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Step 1 -->
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="steparrow-gen-info"
+                                            role="tabpanel" aria-labelledby="steparrow-gen-info-tab">
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3">
+                                                        <h4 for="" class="form-label">Display Type</h4>
+                                                    </div>
+                                                    <div class="layout-selector">
+                                                        <!-- Layout 1 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="layout1"
+                                                                {{ old('layoutName', $layout->layoutName) == 'layout1' ? 'checked' : '' }}>
+                                                            <span>Layout 1</span>
+                                                            <div class="layout-box"></div>
+                                                        </label>
+                                                        <!-- Layout 2 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="layout2"
+                                                                {{ old('layoutName', $layout->layoutName) == 'layout2' ? 'checked' : '' }}>
+                                                            <span>Layout 2</span>
+                                                            <div class="layout-box vertical-line"></div>
+                                                        </label>
+                                                        <!-- Layout 3 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="layout3"
+                                                                {{ old('layoutName', $layout->layoutName) == 'layout3' ? 'checked' : '' }}>
+                                                            <span>Layout 3</span>
+                                                            <div class="layout-box cross-lines"></div>
+                                                        </label>
+                                                        <!-- Layout 4 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="layout4"
+                                                                {{ old('layoutName', $layout->layoutName) == 'layout4' ? 'checked' : '' }}>
+                                                            <span>Layout 4</span>
+                                                            <div class="layout-box bottom-line"></div>
+                                                        </label>
+                                                        <!-- Layout 5 -->
+                                                        <label class="layout-option">
+                                                            <input type="radio" name="layoutName"
+                                                                class="form-check-input" value="layout5"
+                                                                {{ old('layoutName', $layout->layoutName) == 'layout5' ? 'checked' : '' }}>
+                                                            <span>Layout 5</span>
+                                                            <div class="layout-box tall horizontal-line"></div>
+                                                        </label>
+                                                    </div>
+                                                    @error('layoutName')
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="row mt-5 justify-content-around ">
+                                                    <div class="mb-3 col-md-5">
+                                                        <label for="display-type" class="form-label">Select
+                                                            Store</label>
+                                                        <select name="store_id" class="form-control" required
+                                                            id="storeSelect">
+                                                            <option class="text-muted" disabled selected>Select Store
+                                                            </option>
+                                                            @foreach ($displays->unique('store_id') as $store)
+                                                                <option value="{{ $store->store_id }}"
+                                                                    {{ old('store_id', $layout->store_id) == $store->store_id ? 'selected' : '' }}>
+                                                                    {{ $store->store_id }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('store_id')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3 col-md-5">
+                                                        <label for="display-type" class="form-label">Select
+                                                            Display</label>
+                                                        <select name="selectedDisplays" class="form-control" required
+                                                            id="displaySelect">
+                                                            <option class="text-muted" disabled selected>Select Display
+                                                            </option>
+                                                            @foreach ($displays as $display)
+                                                                <option value="{{ $display->display_id }}"
+                                                                    data-store="{{ $display->store_id }}"
+                                                                    {{ old('selectedDisplays', $layout->selectedDisplays) == $display->display_id ? 'selected' : '' }}>
+                                                                    {{ $display->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('selectedDisplays')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                    </div>
+                                                    @error('selectedDisplays')
+                                                        <span style="color: red"> {{ $message }} </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="row mt-5 justify-content-around ">
+                                                    <div class="mb-3 col-md-5 text-center">
+                                                        <p class="form-label fw-semibold">Display Type</p>
+                                                        <div class="row justify-content-center text-center gap-3">
+                                                            <div class="col-auto">
+                                                                <label
+                                                                    class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm p-2"
+                                                                    for="display_mode_landscape">
+                                                                    <input class="form-check-input d-none"
+                                                                        type="radio" id="display_mode_landscape"
+                                                                        value="landscape" name="displayMode" required
+                                                                        {{ old('displayMode', $layout->displayMode) == 'landscape' ? 'checked' : '' }}>
+                                                                    <img src="{{ asset('assets/images/landscape.png') }}"
+                                                                        alt="Landscape Preview" class="img-fluid mb-2"
+                                                                        style="max-height: 150px;">
+                                                                    <div>Landscape</div>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <label
+                                                                    class="display-option border rounded d-flex flex-column align-items-center justify-content-center shadow-sm p-2"
+                                                                    for="display_mode_portrait">
+                                                                    <input class="form-check-input d-none"
+                                                                        type="radio" id="display_mode_portrait"
+                                                                        value="portrait" name="displayMode" required
+                                                                        {{ old('displayMode', $layout->displayMode) == 'portrait' ? 'checked' : '' }}>
+                                                                    <img src="{{ asset('assets/images/portrait.png') }}"
+                                                                        alt="Portrait Preview" class="img-fluid mb-2"
+                                                                        style="max-height: 150px;">
+                                                                    <div>Portrait</div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        @error('displayMode')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3 col-md-5">
+                                                        <label for="">Playlist Name</label>
+                                                        <input type="text" class="form-control"
+                                                            name="playlistName" id="layout-name" required
+                                                            value={{ old('playlistName', $layout->playlistName) }}>
+                                                        @error('playlistName')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-start gap-3 mt-4">
+                                                <button type="button"
+                                                    class="btn btn-success btn-label right ms-auto nexttab"
+                                                    id="next-to-step2">
+                                                    <i
+                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Continue
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- Step 2 -->
+                                        <div class="tab-pane fade" id="steparrow-description-info" role="tabpanel"
+                                            aria-labelledby="steparrow-description-info-tab">
+                                            <div class="container">
+                                                <div class="row gy-4 justify-content-between">
+                                                    <!-- Left Column -->
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <label for="" class="form-label">Address</label>
+                                                        <textarea name="address" class="form-control">{{ old('address', $layout->address) }}</textarea>
+                                                        @error('address')
+                                                            <span style="color: red"> {{ $message }} </span>
+                                                        @enderror
 
-                </div> <!-- container-fluid -->
-            </div>
-            <!-- End Page-content -->
+                                                    </div>
+                                                    <!-- Table Column -->
+                                                    <div class="col-12 col-md-6 col-lg-4">
+                                                        <div>
+                                                            <label class="form-label">Logo</label>
+                                                            <!-- File Input -->
+                                                            <div class="col mb-3">
+                                                                <input type="file" name="logo" id="logoInput"
+                                                                    accept="image/*" class="form-control"
+                                                                    onchange="previewLogo(event)">
+                                                                @error('logo')
+                                                                    <span style="color: red"> {{ $message }} </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="row align-items-center">
+                                                                <!-- Logo Preview -->
+                                                                <div class="col-auto">
+                                                                    <label for="logoInput" style="cursor: pointer;">
+                                                                        <img id="logoPreview"
+                                                                            src="{{ old('logo') ? asset('uploads/layout/' . old('logo')) : ($layout->logo ? asset('uploads/layout/' . $layout->logo) : asset('assets/images/small/blank-img.webp')) }}"
+                                                                            class="img-thumbnail"
+                                                                            alt="Click to upload logo"
+                                                                            style="max-height: 100px;">
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Bottom Two Columns -->
+                                                    <div class="col-12 col-md-6 col-lg-7 selection-box mt-3 gap-3">
+                                                        <!-- Zone Tabs -->
+                                                        <div class="zone-tabs mb-2 mx-auto">
+                                                            <a href="#" class="zone-tab fw-semibold  active"
+                                                                data-zone="zone1">Zone 1</a>
+                                                            <a href="#" class="zone-tab fw-semibold"
+                                                                data-zone="zone2">Zone 2</a>
+                                                            <a href="#" class="zone-tab fw-semibold"
+                                                                data-zone="zone3">Zone 3</a>
+                                                            <a href="#" class="zone-tab fw-semibold"
+                                                                data-zone="zone4">Zone 4</a>
+                                                        </div>
+                                                        <hr>
+                                                        <!-- Zone-wise Tables -->
+                                                        <div class="zone-tables">
+                                                            <!-- Zone1 -->
+                                                            <div class="zone-table" id="table-zone1">
+                                                                <h5>Selected Zone 1</h5>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone1">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <!-- Zone2 -->
+                                                            <div class="zone-table d-none" id="table-zone2">
+                                                                <h5>Selected Zone 2</h5>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone2">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <!-- Zone3 -->
+                                                            <div class="zone-table d-none" id="table-zone3">
+                                                                <h5>Selected Zone 3</h5>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone3">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <!-- Zone4 -->
+                                                            <div class="zone-table d-none" id="table-zone4">
+                                                                <h5>Selected Zone 4</h5>
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg-light">
+                                                                        <tr>
+                                                                            <th>Media</th>
+                                                                            <th>Type</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="media-table-body" data-zone="zone4">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @php
+                                                        $mediaList = [];
+                                                        foreach (['zone1', 'zone2', 'zone3', 'zone4'] as $zoneKey) {
+                                                            $items = json_decode($layout->$zoneKey ?? '[]', true);
+                                                            foreach ($items as $item) {
+                                                                $item['zone'] = $zoneKey;
+                                                                // Ensure duration is always set and numeric (default to 1 if missing/empty)
+                                                                $item['duration'] =
+                                                                    isset($item['duration']) &&
+                                                                    is_numeric($item['duration']) &&
+                                                                    $item['duration'] > 0
+                                                                        ? $item['duration']
+                                                                        : 1;
+                                                                $mediaList[] = $item;
+                                                            }
+                                                        }
+                                                    @endphp
+                                                    <input type="hidden" id="mediaInput" name="media"
+                                                        value='@json($mediaList)'>
 
 
-            <footer class="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="text-center">
-                                <p class="mb-0 text-muted">&copy;
-                                    Kareliya. All rights reserved.
-                                </p>
+                                                    <div class="col-12 col-md-6 col-lg-4 selection-box mt-3">
+                                                        <div class="col-xxl-12">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <ul class="nav nav-pills arrow-navtabs nav-success bg-light mb-3 justify-content-between"
+                                                                        role="tablist">
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link active"
+                                                                                data-bs-toggle="tab"
+                                                                                href="#arrow-overview" role="tab">
+                                                                                <span class="d-block d-sm-none"><i
+                                                                                        class="bi bi-card-image"></i></span>
+                                                                                <span
+                                                                                    class="d-none d-sm-block">Image</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" data-bs-toggle="tab"
+                                                                                href="#arrow-profile" role="tab">
+                                                                                <span class="d-block d-sm-none"><i
+                                                                                        class="bi bi-file-earmark-play"></i></span>
+                                                                                <span
+                                                                                    class="d-none d-sm-block">Video</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" data-bs-toggle="tab"
+                                                                                href="#arrow-contact" role="tab">
+                                                                                <span class="d-block d-sm-none"><i
+                                                                                        class="bi bi-file-earmark"></i></span>
+                                                                                <span
+                                                                                    class="d-none d-sm-block">Template</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+
+                                                                    <!-- Tab Content -->
+                                                                    <div class="tab-content text-muted">
+                                                                        <!-- Images Tab -->
+                                                                        <div class="tab-pane active"
+                                                                            id="arrow-overview" role="tabpanel">
+                                                                            <h4 class="text-center">Image</h4>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                                @foreach ($graphics as $image)
+                                                                                    @php
+                                                                                        $ext = pathinfo(
+                                                                                            $image->media_id,
+                                                                                            PATHINFO_EXTENSION,
+                                                                                        );
+                                                                                    @endphp
+                                                                                    @if (in_array(strtolower($ext), ['jpg', 'png', 'jpeg', 'svg']))
+                                                                                        <div class="col-6 mb-3">
+                                                                                            <a href="javascript:void(0);"
+                                                                                                class="card text-center select-media bg-light"
+                                                                                                data-name="{{ $image->media_id }}"
+                                                                                                data-type="Image"
+                                                                                                data-duration={{ $image->duration }}}>
+                                                                                                <div
+                                                                                                    class="media-box">
+                                                                                                    <img src="{{ asset('uploads/media/' . $image->media_id) }}"
+                                                                                                        alt="">
+                                                                                                </div>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Videos Tab -->
+                                                                        <div class="tab-pane" id="arrow-profile"
+                                                                            role="tabpanel">
+                                                                            <h4 class="text-center">Videos</h4>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                                @foreach ($graphics as $item)
+                                                                                    @php
+                                                                                        $ext = pathinfo(
+                                                                                            $item->media_id,
+                                                                                            PATHINFO_EXTENSION,
+                                                                                        );
+                                                                                    @endphp
+                                                                                    @if (strtolower($ext) === 'mp4')
+                                                                                        <div
+                                                                                            class="col-6 mb-3 position-relative">
+                                                                                            <a href="javascript:void(0);"
+                                                                                                class="card bg-light select-media text-decoration-none border-0"
+                                                                                                data-name="{{ $item->media_id }}"
+                                                                                                data-type="Video"
+                                                                                                data-duration={{ $item->duration }}>
+                                                                                                <div
+                                                                                                    class="media-box">
+                                                                                                    <video controls
+                                                                                                        poster="{{ asset('assets/images/small/blank-img.webp') }}">
+                                                                                                        <source
+                                                                                                            src="{{ asset('uploads/media/' . $item->media_id) }}"
+                                                                                                            type="video/mp4">
+                                                                                                        Your browser
+                                                                                                        does not support
+                                                                                                        the video tag.
+                                                                                                    </video>
+                                                                                                </div>
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-primary btn-sm position-absolute"
+                                                                                                    style="bottom: 10px; right: 10px; z-index: 2;"
+                                                                                                    data-id="{{ $item->media_id }}">
+                                                                                                    <i
+                                                                                                        class="bi bi-plus fs-16"></i>
+                                                                                                </button>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Templates Tab -->
+                                                                        <div class="tab-pane" id="arrow-contact"
+                                                                            role="tabpanel">
+                                                                            <h4 class="text-center">Template</h4>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                                <div class="col-3">
+                                                                                    <div class="card media-box">
+                                                                                        <img src="{{ asset('assets/images/small/blank-img.webp') }}"
+                                                                                            alt="">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-3">
+                                                                                    <div class="card media-box">
+                                                                                        <img src="{{ asset('assets/images/small/blank-img.webp') }}"
+                                                                                            alt="">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-3">
+                                                                                    <div class="card media-box">
+                                                                                        <img src="{{ asset('assets/images/small/blank-img.webp') }}"
+                                                                                            alt="">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div><!-- end tab content -->
+                                                                </div><!-- end card-body -->
+                                                            </div><!-- end card -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-start gap-3 mt-4">
+                                                <button type="button" class="btn btn-light btn-label previestab"
+                                                    data-previous="steparrow-gen-info-tab"><i
+                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                                    Back to General</button>
+                                                <button type="submit"
+                                                    class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                                    data-nexttab="pills-experience-tab"><i
+                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit
+                                                </button>
+                                            </div>
+                                        </div>
+                                </form>
                             </div>
+                            <!-- end card body -->
                         </div>
+                        <!-- end card -->
                     </div>
-                </div>
-            </footer>
+                </div><!--end col-->
+            </div>
         </div>
         <!-- end main content-->
-
     </div>
     <!-- END layout-wrapper -->
-
-
-
     <!--start back-to-top-->
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
@@ -1160,50 +1433,95 @@
     <!--end back-to-top-->
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-    <script src="assets/js/pages/datatables.init.js"></script>
+    <!-- form wizard init -->
+    <script src="assets/js/pages/form-wizard.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-    {{-- sweet alert --}}
+    <!-- Include SweetAlert and Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- add layout js --}}
+    <script src="assets/js/addlayout.js"></script>
     <script>
-        function confirmDecline(userId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you really want to Delete this user?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, Delete user!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('decline-form-' + userId).submit();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load existing media into zone tables with editable Bar Time
+            const oldMedia = document.getElementById('mediaInput').value;
+            if (oldMedia) {
+                try {
+                    const mediaArray = JSON.parse(oldMedia);
+                    mediaArray.forEach(item => {
+                        const {
+                            name,
+                            type,
+                            duration,
+                            zone
+                        } = item;
+                        const row = `
+                    <tr>
+                        <td>${name}</td>
+                        <td>${type}</td>
+                        <td>
+                            <input type="number" class="form-control form-control-sm bar-time-input" min="1" max="15" value="${duration || 1}" style="width:70px;display:inline-block;">
+                            <span class="bar-time-label">min</span>
+                        </td>
+                        <td><button class="btn btn-sm btn-danger remove-row">Remove</button></td>
+                    </tr>
+                `;
+                        const tbody = document.querySelector(`.media-table-body[data-zone="${zone}"]`);
+                        if (tbody) {
+                            tbody.insertAdjacentHTML('beforeend', row);
+                        }
+                    });
+                } catch (err) {
+                    console.error('Failed to parse old media JSON:', err);
+                }
+            }
+
+            // Remove row
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-row')) {
+                    e.target.closest('tr').remove();
                 }
             });
-        }
+
+            // Bar Time input validation (min 1, max 15)
+            document.addEventListener('input', function(e) {
+                if (e.target.classList.contains('bar-time-input')) {
+                    let val = parseInt(e.target.value, 10);
+                    if (isNaN(val) || val < 1) e.target.value = 1;
+                    if (val > 15) e.target.value = 15;
+                }
+            });
+
+            // On form submit, serialize zone data with bar time as duration
+            document.getElementById('layoutForm').addEventListener('submit', function(e) {
+                const mediaList = [];
+                document.querySelectorAll('.media-table-body').forEach(tbody => {
+                    const zone = tbody.getAttribute('data-zone');
+                    tbody.querySelectorAll('tr').forEach(row => {
+                        const cells = row.querySelectorAll('td');
+                        if (cells.length >= 3) {
+                            const barTimeInput = cells[2].querySelector('.bar-time-input');
+                            let duration = barTimeInput ? barTimeInput.value : '';
+                            mediaList.push({
+                                name: cells[0].textContent.trim(),
+                                type: cells[1].textContent.trim(),
+                                duration: duration,
+                                zone: zone
+                            });
+                        }
+                    });
+                });
+                document.getElementById('mediaInput').value = JSON.stringify(mediaList);
+            });
+        });
     </script>
-
-
 </body>
 
 </html>

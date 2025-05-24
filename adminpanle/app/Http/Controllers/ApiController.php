@@ -12,11 +12,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
-
 class ApiController extends Controller
 {
     use ValidatesRequests;
-
     public function getAllData($id)
     {
         $layout = layout::where('id', $id)->first();
@@ -28,7 +26,6 @@ class ApiController extends Controller
                 'message' => 'Layout not found',
             ]);
         }
-
         // Decode all zones
         $zones = [
             'zone1' => json_decode($layout->zone1, true),
@@ -36,22 +33,17 @@ class ApiController extends Controller
             'zone3' => json_decode($layout->zone3, true),
             'zone4' => json_decode($layout->zone4, true),
         ];
-
         // Get account ID for media items
         $accountId = $layout->account_id;
-
         // Prepare all zones
         $formattedZones = [];
-
         foreach ($zones as $zoneKey => $zoneItems) {
             $formattedZones[$zoneKey] = [];
-
             foreach ($zoneItems as $item) {
                 $filename = $item['name'];
                 $path = 'uploads/media/' . $filename;
                 $fullPath = public_path($path);
                 $mediaId = $layout->id;
-
                 // Format differently for zone1 (media = string), others = object
                 $media = [
                     'account' => $accountId,
@@ -65,7 +57,6 @@ class ApiController extends Controller
                     'createdAt' => $item['createdAt'] ?? now()->toISOString(),
                     'updatedAt' => $item['updatedAt'] ?? now()->toISOString(),
                 ];
-
                 $formattedZones[$zoneKey][] = [
                     'media' => $media,
                     '_id' => $mediaId,
@@ -73,7 +64,6 @@ class ApiController extends Controller
                 ];
             }
         }
-
         // Format logo
         $logoPath = 'uploads/layout/' . $layout->logo;
         $logo = [
@@ -88,7 +78,6 @@ class ApiController extends Controller
             'createdAt' => now()->toISOString(),
             'updatedAt' => now()->toISOString(),
         ];
-
         // Final response
         return response()->json([
             'error' => false,
@@ -116,11 +105,6 @@ class ApiController extends Controller
             ]
         ]);
     }
-
-
-
-
-
     public function verifyCode(Request $request)
     {
         // ✅ Extract device data
@@ -130,7 +114,6 @@ class ApiController extends Controller
         $deviceBrand = $request->input('deviceBrand');
         $display = $request->input('display');
         $code = $request->input('code');
-
         // ✅ Insert/update device record
         $device = Verifycode::updateOrCreate(
             ['device_token' => $deviceToken],
@@ -142,10 +125,8 @@ class ApiController extends Controller
                 'unique_code' => $code,
             ]
         );
-
         // ✅ Find layout
         $layout = layout::where('unique_id', $code)->first();
-
         // ✅ If layout not found
         if (!$layout) {
             return response()->json([
@@ -156,19 +137,9 @@ class ApiController extends Controller
                 'data' => (object)[]
             ]);
         }
-
         // ✅ Return the formatted playlist response directly
         return $this->getAllData($layout->id);
     }
-
-
-
-
-
-
-
-
-
     public function devices(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -181,7 +152,6 @@ class ApiController extends Controller
             'display.height' => 'required|numeric',
             'logFileContents' => 'sometimes|string',
         ]);
-
         if ($validator->fails()) {
             return response()->json([
                 'error' => true,
@@ -190,9 +160,7 @@ class ApiController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-
         $data = $validator->validated();
-
         $device = Verifycode::where('device_token', $data['deviceToken'])->first();
         if (!$device) {
             return response()->json([
@@ -203,49 +171,46 @@ class ApiController extends Controller
                 'playlist' => (object)[],
             ]);
         }
-
-if (!empty($data['logFileContents'])) {
-    $logContent = $data['logFileContents'];
-    $logLines = explode("\n", $logContent);
-    $timestamp = now()->toDateTimeString();
-
-    $combinedMessage = '';
-    foreach ($logLines as $line) {
-        if (trim($line)) {
-            $combinedMessage .= "$line\n";
+        if (!empty($data['logFileContents'])) {
+            $logContent = $data['logFileContents'];
+            $logLines = explode("\n", $logContent);
+            $timestamp = now()->toDateTimeString();
+            $combinedMessage = '';
+            foreach ($logLines as $line) {
+                if (trim($line)) {
+                    $combinedMessage .= "$line\n";
+                }
+            }
+            $combinedMessage = trim($combinedMessage);
+            // Update or create DB log entry
+            $today = now()->toDateString();
+            $log = Logs::updateOrCreate(
+                [
+                    'device_token' => $data['deviceToken'],
+                    'log_date' => $today
+                ],
+                [
+                    'action' => 'isOnlineCheck',
+                    'message' => $combinedMessage,
+                    'updated_at' => now(),
+                    'log_date' => $today
+                ]
+            );
+            // File log creation
+            $date = now()->format('Y-m-d');
+            $deviceToken = $data['deviceToken'];
+            $logFolder = public_path('logs');
+            $logFilePath = "$logFolder/media_log_{$date}_{$deviceToken}.txt";
+            if (!File::exists($logFolder)) {
+                File::makeDirectory($logFolder, 0755, true);
+            }
+            $formattedLogs = "[$timestamp] Device: {$data['deviceToken']} | $combinedMessage" . PHP_EOL;
+            File::append($logFilePath, $formattedLogs);
         }
-    }
-    $combinedMessage = trim($combinedMessage);
-
-    // Update or create DB log entry
-    $log = Logs::updateOrCreate(
-        ['device_token' => $data['deviceToken']],
-        [
-            'action' => 'isOnlineCheck',
-            'message' => $combinedMessage,
-            'updated_at' => now()
-        ]
-    );
-
-    // File log creation
-    $date = now()->format('Y-m-d');
-    $deviceToken = $data['deviceToken']; 
-    $logFolder = public_path('logs');
-    $logFilePath = "$logFolder/media_log_{$date}_{$deviceToken}.txt";
-
-    if (!File::exists($logFolder)) {
-        File::makeDirectory($logFolder, 0755, true);
-    }
-
-    $formattedLogs = "[$timestamp] Device: {$data['deviceToken']} | $combinedMessage" . PHP_EOL;
-    File::append($logFilePath, $formattedLogs);
-}
-
         // ✅ Layout / Playlist logic
         $layout = layout::where('unique_id', $device->unique_code)->first();
         $playlistResponse = $layout ? $this->getAllData($layout->id) : null;
         $playlistData = $playlistResponse ? $playlistResponse->getData(true) : [];
-
         return response()->json([
             'status' => true,
             'playListStatus' => (bool)$layout,
@@ -264,26 +229,15 @@ if (!empty($data['logFileContents'])) {
             'playlist' => $playlistData['data'] ?? (object)[]
         ]);
     }
-
-
-
     // log api
-
-
     public function getLogs(Request $request)
     {
-
         $logs = Logs::orderBy('created_at', 'desc')->paginate(50);
-
         $logFilePath = public_path('logs/media_log.txt');
         $logFileUrl = null;
-
-
         if (File::exists($logFilePath)) {
             $logFileUrl = url('logs/media_log.txt');
         }
-
-        
         return response()->json([
             'error' => false,
             'status' => true,

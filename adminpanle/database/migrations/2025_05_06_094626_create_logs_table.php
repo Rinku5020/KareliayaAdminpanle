@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id(); 
+            $table->date('log_date');
             $table->string('device_token', 64); 
             $table->string('action', 50); 
             $table->string('message', 255); 

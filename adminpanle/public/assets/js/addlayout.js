@@ -25,11 +25,11 @@ const validateForm = () => {
         invalidFields.push('layoutName');
     }
     // 5. Validate Display selection (check if any displays are selected)
-     const displaySelect = document.getElementById('displaySelect');
+    const displaySelect = document.getElementById('displaySelect');
     if (!displaySelect.value || displaySelect.options[displaySelect.selectedIndex].disabled) {
         invalidFields.push('selectedDisplays');
     }
-    
+
     // Add this if you have display selection logic
     return invalidFields;
 };
@@ -52,7 +52,7 @@ nextButton.addEventListener('click', function (e) {
                 document.querySelector('input[name="display-type"]').focus();
             } else if (invalidFields.includes('layoutName')) {
                 document.querySelector('input[name="layoutName"]').focus();
-            }else if (invalidFields.includes('selectedDisplays')) {
+            } else if (invalidFields.includes('selectedDisplays')) {
                 document.querySelector('input[name="selectedDisplays"]').focus();
             }
         });
@@ -75,7 +75,7 @@ function previewLogo(event) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-//   show items in table
+//  Zone media 
 let currentZone = 'zone1'; // Default
 document.addEventListener('DOMContentLoaded', function () {
     // Zone tab click
@@ -109,12 +109,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire('Already Selected', 'This media is already in the table.', 'info');
                 return;
             }
-            // Add new row
+            // Add new row with Bar Time input (default 1 min)
             const newRow = `
                 <tr>
                     <td>${name}</td>
                     <td>${type}</td>
-                    <td>${duration}</td>
+                    <td>
+                        <input type="number" class="form-control form-control-sm bar-time-input" min="1" max="15" value="1" style="width:70px;display:inline-block;">
+                        <span class="bar-time-label">min</span>
+                    </td>
                     <td><button class="btn btn-sm btn-danger remove-row">Remove</button></td>
                 </tr>
             `;
@@ -127,7 +130,15 @@ document.addEventListener('DOMContentLoaded', function () {
             e.target.closest('tr').remove();
         }
     });
-    // On form submit, serialize zone data
+    // Bar Time input validation (min 1, max 15)
+    document.addEventListener('input', function (e) {
+        if (e.target.classList.contains('bar-time-input')) {
+            let val = parseInt(e.target.value, 10);
+            if (isNaN(val) || val < 1) e.target.value = 1;
+            if (val > 15) e.target.value = 15;
+        }
+    });
+    // On form submit, serialize zone data with bar time as duration
     document.getElementById('layoutForm').addEventListener('submit', function (e) {
         const mediaList = [];
         document.querySelectorAll('.media-table-body').forEach(tbody => {
@@ -135,10 +146,12 @@ document.addEventListener('DOMContentLoaded', function () {
             tbody.querySelectorAll('tr').forEach(row => {
                 const cells = row.querySelectorAll('td');
                 if (cells.length >= 3) {
+                    const barTimeInput = cells[2].querySelector('.bar-time-input');
+                    let duration = barTimeInput ? barTimeInput.value : '';
                     mediaList.push({
                         name: cells[0].textContent.trim(),
                         type: cells[1].textContent.trim(),
-                        duration: cells[2].textContent.trim(),
+                        duration: duration,
                         zone: zone
                     });
                 }
@@ -147,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('mediaInput').value = JSON.stringify(mediaList);
     });
 });
+// display and store
 document.addEventListener('DOMContentLoaded', function () {
     const storeSelect = document.getElementById('storeSelect');
     const displaySelect = document.getElementById('displaySelect');

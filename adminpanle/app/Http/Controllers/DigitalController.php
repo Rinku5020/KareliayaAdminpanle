@@ -62,7 +62,7 @@ class DigitalController extends Controller
             'storeId' => 'required|unique:stores,storeId',
             'name'    => 'required',
             'phone'   => 'required',
-            'email'   => 'required|email|unique:stores,email',
+            'email'   => 'required|email',
             'country' => 'required',
             'state'   => 'required',
             'city'    => 'required',

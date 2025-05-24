@@ -31,7 +31,11 @@ Route::middleware('check.login')->group(function () {
     Route::get('/layout/mediaLogs/{id}', [LayoutController::class, 'mediaLogs'])->name('mediaLogs');
     Route::get('/log-table', [LayoutController::class, 'showSimpleLogTable'])->name('log.table');
     Route::get('/download/media-log/{date}/{deviceToken}', [LayoutController::class, 'downloadDeviceLog'])->name('downloadDeviceLog');
-
+    Route::get('/update_layout/{id}', [LayoutController::class, 'updateLayout'])->name('updateLayout');
+    Route::put('/update_layout/{id}', [LayoutController::class, 'updateLayoutStore'])->name('updateLayoutStore');
+    Route::delete('/delete_layout/{id}',[LayoutController::class, 'deleteLayout'] )->name('deleteLayout');
+        
+    
    
 
    

@@ -170,11 +170,13 @@
     text-decoration: none;
     border-radius: 0.25rem;
     transition: all 0.3s ease;
+    color: #000;
 }
 
 .zone-tab.active {
-    background-color: #e9f5ff;
-    border-bottom: 2px solid #0d6efd;
+    background-color:#0AB39C ;
+    border-bottom: 2px solid #0AB39C;
+    color: #fff;
 }
 
 .zone-tables {
@@ -239,3 +241,20 @@
         flex: 0 0 100%;
     }
 }
+
+
+.media-box {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        position: relative;
+        background: #f0f0f0;
+        border-radius: 8px;
+    }
+    .media-box img,
+    .media-box video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }

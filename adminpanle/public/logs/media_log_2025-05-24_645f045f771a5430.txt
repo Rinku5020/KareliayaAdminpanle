@@ -1,0 +1,31 @@
+[2025-05-24 07:18:31] Device: 645f045f771a5430 | currenttime: 23/5/2025, 18:38:54, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 23/5/2025, 18:39:04, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:25:45] Device: 645f045f771a5430 | currenttime: 24/5/2025, 12:54:57, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 12:55:27, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:26:45] Device: 645f045f771a5430 | currenttime: 24/5/2025, 12:56:28, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 12:56:38, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:27:45] Device: 645f045f771a5430 | currenttime: 24/5/2025, 12:57:39, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+[2025-05-24 07:28:45] Device: 645f045f771a5430 | currenttime: 24/5/2025, 12:57:49, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:29:45] Device: 645f045f771a5430 | currenttime: 24/5/2025, 12:58:50, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 12:59:00, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:30:45] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:00:01, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 13:00:11, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:31:45] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:01:12, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 13:01:22, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:33:21] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:02:34, currenturl: file:///storage/emulated/0/Download/digital_signage/1748071796.mp4
+[2025-05-24 07:35:14] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:04:24, currenturl: file:///storage/emulated/0/Download/digital_signage/1748071796.mp4
+[2025-05-24 07:37:45] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:07:36, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+[2025-05-24 07:52:54] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:07:46, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:53:14] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:23:05, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+[2025-05-24 07:54:14] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:23:20, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 13:23:30, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:55:14] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:24:31, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 13:24:41, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:56:14] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:25:42, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 13:25:52, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:57:14] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:26:53, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 13:27:03, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 07:58:14] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:28:04, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+[2025-05-24 07:59:07] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:28:14, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4
+[2025-05-24 08:00:06] Device: 645f045f771a5430 | currenttime: 24/5/2025, 13:29:18, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004853.png
+currenttime: 24/5/2025, 13:29:29, currenturl: file:///storage/emulated/0/Download/digital_signage/1748004861.mp4

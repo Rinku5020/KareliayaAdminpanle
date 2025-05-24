@@ -13,6 +13,7 @@ class Logs extends Model
 
     protected $fillable = [
     'device_token',
+    'unique_code',
     'log_date',
     'action',
     'message',

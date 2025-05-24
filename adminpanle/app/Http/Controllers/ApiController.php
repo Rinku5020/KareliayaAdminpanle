@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
@@ -184,12 +183,14 @@ class ApiController extends Controller
             $combinedMessage = trim($combinedMessage);
             // Update or create DB log entry
             $today = now()->toDateString();
+            $uniqueCode = $device->unique_code;
             $log = Logs::updateOrCreate(
                 [
                     'device_token' => $data['deviceToken'],
                     'log_date' => $today
                 ],
                 [
+                    'unique_code' => $uniqueCode,
                     'action' => 'isOnlineCheck',
                     'message' => $combinedMessage,
                     'updated_at' => now(),

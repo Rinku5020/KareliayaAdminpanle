@@ -1012,7 +1012,8 @@
                                                     <td>{{ $displays->firstWhere('display_id', $layout->selectedDisplays)->name ?? 'N/A' }}
                                                     </td>
                                                     <td class="d-flex gap-3">
-                                                        <a href="{{ route('updateLayout', $layout->id) }}" class="btn btn-sm btn-primary">
+                                                        <a href="{{ route('updateLayout', $layout->id) }}"
+                                                            class="btn btn-sm btn-primary">
                                                             <i class="bi bi-pencil-square fs-6"></i>
                                                         </a>
                                                         <form action="{{ route('layoutstatus', $layout->id) }}"
@@ -1034,7 +1035,7 @@
                                                                 <i class="bi bi-trash fs-6"></i>
                                                             </button>
                                                         </form>
-                                                        <a href="{{ route('mediaLogs', $layout->id) }}"
+                                                        <a href="{{ route('mediaLogs', $layout->unique_id) }}"
                                                             class="btn btn-sm btn-info">
                                                             <i class="bi bi-card-checklist fs-6"></i>
                                                         </a>
@@ -1080,49 +1081,49 @@
     <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Status Change Confirmation
-        document.querySelectorAll('.change-status-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const form = this.closest('form');
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You are about to change the status!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, change it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Status Change Confirmation
+            document.querySelectorAll('.change-status-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const form = this.closest('form');
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You are about to change the status!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, change it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
             });
-        });
 
-        // Delete Confirmation
-        document.querySelectorAll('.delete-layout-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const form = this.closest('form');
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "This will permanently delete the layout!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
+            // Delete Confirmation
+            document.querySelectorAll('.delete-layout-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const form = this.closest('form');
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "This will permanently delete the layout!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
             });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>

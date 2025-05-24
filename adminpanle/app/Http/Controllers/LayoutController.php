@@ -9,13 +9,13 @@ use App\Models\Logs;
 use App\Models\Media;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 
 class LayoutController extends Controller
 {
     use ValidatesRequests;
-
     public function showLayout()
     {
         $role = session('role');
@@ -28,11 +28,8 @@ class LayoutController extends Controller
             $displays = Display::where('account_id', $userId)->get();
         }
         $status = [true, false];
-
-
         return view('layout.layout', compact('layouts', 'displays'));
     }
-
     public function AddLayout(Request $request)
     {
         $role = session('role');
@@ -48,7 +45,6 @@ class LayoutController extends Controller
     }
     public function layoutStore(Request $request)
     {
-
         try {
             $rules = [
                 'layoutName' => 'required',
@@ -91,8 +87,6 @@ class LayoutController extends Controller
             $layout->playlistName = $request->input('playlistName');
             $layout->address = $request->input('address');
             $layout->selectedDisplays = $request->input('selectedDisplays');
-
-
             // Handle media JSON input
             // Get zone-wise media data from the form submission
             $flatMediaList = json_decode($request->input('media'), true);
@@ -127,7 +121,6 @@ class LayoutController extends Controller
         $layout->save();
         return redirect()->route('layout')->with('success', 'Layout status updated successfully!');
     }
-
     public function updateLayout($id)
     {
         $layout = layout::findOrFail($id);
@@ -151,7 +144,6 @@ class LayoutController extends Controller
         $layout->playlistName = $request->input('playlistName');
         $layout->address = $request->input('address');
         $layout->selectedDisplays = $request->input('selectedDisplays');
-
         // Handle logo upload
         if ($request->hasFile('logo')) {
             // Delete the old logo file if it exists
@@ -164,7 +156,6 @@ class LayoutController extends Controller
             $file->move(public_path('uploads/layout'), $fileName);
             $layout->logo = $fileName;
         }
-
         // Handle media JSON input
         // Get zone-wise media data from the form submission
         $flatMediaList = json_decode($request->input('media'), true);
@@ -185,16 +176,14 @@ class LayoutController extends Controller
         $layout->zone2 = json_encode($zonesData['zone2'] ?? []);
         $layout->zone3 = json_encode($zonesData['zone3'] ?? []);
         $layout->zone4 = json_encode($zonesData['zone4'] ?? []);
-
         // Save the updated layout
         if ($layout->save()) {
             return redirect()->route('layout')->with('success', 'Layout updated successfully.');
         } else {
             return redirect()->route('layout')->with('error', 'Layout update failed.');
-                                        
         }
     }
-public function deleteLayout(Request $request,$id)
+    public function deleteLayout(Request $request, $id)
     {
         $layout = layout::findOrFail($id);
         // Delete the logo file if it exists
@@ -205,83 +194,28 @@ public function deleteLayout(Request $request,$id)
         $layout->delete();
         return redirect()->route('layout')->with('success', 'Layout deleted successfully.');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function mediaLogs(request $request)
+    public function mediaLogs($id)
     {
-
-        $logs = Logs::orderBy('created_at', 'desc')->paginate(50);
-
+        $logs = DB::table('logs')
+            ->join('layouts', 'logs.unique_code', '=', 'layouts.unique_id')
+            ->where('layouts.unique_id', $id)
+            ->orderBy('logs.created_at', 'desc')
+            ->select('logs.*', 'layouts.layoutName') // optional layout info
+            ->get();
         $logFilePath = public_path('logs/media_log.txt');
-        $logFileUrl = null;
-
-
-        if (File::exists($logFilePath)) {
-            $logFileUrl = url('logs/media_log.txt');
-        }
-
-
-
-        return view('layout.medialogs', compact('logs'));
+        $logFileUrl = File::exists($logFilePath) ? url('logs/media_log.txt') : null;
+        return view('layout.medialogs', compact('logs', 'logFileUrl'));
     }
-
-
     public function downloadDeviceLog($date, $deviceToken)
     {
         $sanitizedToken =  $deviceToken;
         $fileName = "media_log_{$date}_{$sanitizedToken}.txt";
         $file = public_path("logs/$fileName");
-
         if (file_exists($file)) {
             return response()->download($file, $fileName, [
                 'Content-Type' => 'text/plain',
             ]);
         }
-
         return redirect()->back()->with('error', "Log file for device {$deviceToken} on {$date} not found.");
     }
 }

@@ -919,7 +919,6 @@
                             <a class="nav-link menu-link" href="{{ route('store') }}">
                                 <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Store</span>
                             </a>
-
                         </li> <!-- end Dashboard Menu -->
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('display') }}">
@@ -941,12 +940,10 @@
                                 <i class="ri-honour-line"></i> <span data-key="t-widgets">Layout</span>
                             </a>
                         </li>
-
                         @php
                             use App\Models\User;
                             $pendingCount = User::where('status', false)->count();
                         @endphp
-
                         @if (session('role') === 'admin')
                             <li class="nav-item">
                                 <a class="nav-link menu-link">
@@ -962,7 +959,6 @@
                                             <a href="{{ route('userlist') }}" class="nav-link"
                                                 data-key="t-horizontal">User List</a>
                                         </li>
-
                                     </ul>
                                 </div>
                             </li>
@@ -992,14 +988,13 @@
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive">
-                                    <table id="add-rows" class="display table table-bordered"
-                                        style="width:100%">
+                                    <table id="add-rows" class="display table table-bordered" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Index</th>
+                                                <th>Unique Code</th>
                                                 <th>Device_Token</th>
                                                 <th>Action</th>
-
                                                 <th>created_at</th>
                                                 <th>updated_at</th>
                                                 <th>Download</th>
@@ -1009,13 +1004,14 @@
                                             @foreach ($logs as $log)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $log->unique_code }}</td>
                                                     <td>{{ $log->device_token }}</td>
                                                     <td>{{ $log->action }}</td>
                                                     <td>{{ $log->created_at }}</td>
                                                     <td>{{ $log->updated_at }}</td>
                                                     <td>
-                                                     <a href="{{ route('downloadDeviceLog', ['date' => \Carbon\Carbon::parse($log->created_at)->format('Y-m-d'), 'deviceToken' => $log->device_token]) }}"
-                                                        class="btn btn-sm btn-primary">
+                                                        <a href="{{ route('downloadDeviceLog', ['date' => \Carbon\Carbon::parse($log->created_at)->format('Y-m-d'), 'deviceToken' => $log->device_token]) }}"
+                                                            class="btn btn-sm btn-primary">
                                                             <i class="fas fa-download"></i> Download Log
                                                         </a>
                                                     </td>
@@ -1060,7 +1056,6 @@
     <script src="assets/js/pages/datatables.init.js"></script>
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-
 </body>
 
 </html>
